@@ -112,10 +112,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T034 [US3] Verify `.github/workflows/ci.yml` runs all required jobs: Go build, test with coverage (85% gate), lint (golangci-lint), ast-grep scan, govulncheck. Confirm CI parity with Makefile (same `-p 1` flag, same `ENCRYPTION_KEY` env var). If any job is missing or misconfigured, fix it. (FR-014, quickstart.md Scenario 4)
-- [ ] T035 [US3] Verify CI handles the empty-migrations case: the migrate step runs on a dir with only `.gitkeep`. If golang-migrate errors on a dir with no `.sql` files, add a guard. (FR-014, research.md)
-- [ ] T036 [US3] Verify CI handles the empty-sqlc-queries case: `sqlc generate` with `sqlc.yaml` pointing to `internal/db/queries/` (which contains only `.gitkeep` from T004). Confirm `sqlc generate` exits 0 (no-op on empty queries). (FR-014, research.md)
-- [ ] T037 [US3] Commit all SPEC-01 files, push to a branch, open a PR via `gh pr create`, and verify all CI checks pass on GitHub using `gh pr checks --watch`. If any check fails, fix the underlying issue and re-push. (FR-014, quickstart.md Scenario 4)
+- [X] T034 [US3] Verify `.github/workflows/ci.yml` runs all required jobs: Go build, test with coverage (85% gate), lint (golangci-lint), ast-grep scan, govulncheck. Confirm CI parity with Makefile (same `-p 1` flag, same `ENCRYPTION_KEY` env var). If any job is missing or misconfigured, fix it. (FR-014, quickstart.md Scenario 4)
+- [X] T035 [US3] Verify CI handles the empty-migrations case: the migrate step runs on a dir with only `.gitkeep`. If golang-migrate errors on a dir with no `.sql` files, add a guard. (FR-014, research.md)
+- [X] T036 [US3] Verify CI handles the empty-sqlc-queries case: `sqlc generate` with `sqlc.yaml` pointing to `internal/db/queries/` (which contains only `.gitkeep` from T004). Confirm `sqlc generate` exits 0 (no-op on empty queries). (FR-014, research.md)
+- [X] T037 [US3] Commit all SPEC-01 files, push to a branch, open a PR via `gh pr create`, and verify all CI checks pass on GitHub using `gh pr checks --watch`. If any check fails, fix the underlying issue and re-push. (FR-014, quickstart.md Scenario 4)
 
 **Checkpoint**: CI is green. User Story 3 is fully functional.
 
@@ -161,12 +161,12 @@
 
 **Purpose**: Final verification that all 18 acceptance criteria pass and the spec is ready for `/speckit-analyze`.
 
-- [ ] T048 Run all 15 quickstart.md validation scenarios and verify each passes. Document any failures and fix them. (quickstart.md, all FRs)
-- [ ] T049 [P] Verify `go build ./...` completes without errors (FR-001). Run `go build ./...` and confirm exit 0.
-- [ ] T050 [P] Verify `make check` runs all gates (golangci-lint + go test + build-css + go build + ast-grep) and exits 0 (FR-002). Run `make check` and confirm exit 0.
-- [ ] T051 [P] Verify 85% coverage: run `go test -coverprofile=coverage.out ./... && go tool cover -func=coverage.out | grep total` and confirm the total is >= 85% (FR-002, Constitution principle IV).
-- [ ] T052 Run the Definition of Done verification table from spec.md -- execute each of the 18 verification commands and confirm all pass. (spec.md Definition of Done)
-- [ ] T053 Commit all SPEC-01 work and push. Verify CI is green on the final commit. (FR-014, FR-017)
+- [X] T048 Run all 15 quickstart.md validation scenarios and verify each passes. Document any failures and fix them. (quickstart.md, all FRs)
+- [X] T049 [P] Verify `go build ./...` completes without errors (FR-001). Run `go build ./...` and confirm exit 0.
+- [X] T050 [P] Verify `make check` runs all gates (golangci-lint + go test + build-css + go build + ast-grep) and exits 0 (FR-002). Run `make check` and confirm exit 0.
+- [X] T051 [P] Verify 85% coverage: run `go test -coverprofile=coverage.out ./... && go tool cover -func=coverage.out | grep total` and confirm the total is >= 85% (FR-002, Constitution principle IV).
+- [X] T052 Run the Definition of Done verification table from spec.md -- execute each of the 18 verification commands and confirm all pass. (spec.md Definition of Done)
+- [X] T053 Commit all SPEC-01 work and push. Verify CI is green on the final commit. (FR-014, FR-017)
 
 ---
 
