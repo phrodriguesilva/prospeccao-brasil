@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -142,48 +143,31 @@ func main() {
 	contactHandler := handler.NewContactHandler(queries, tmpl, log, limiter)
 	newsletterHandler := handler.NewNewsletterHandler(queries, tmpl, log, limiter)
 
-	// Build router
-	r := chi.NewRouter()
+	// Build host-based router dispatcher.
+	// sistema.prospeccaobrasil.com -> internal system only
+	// prospeccaobrasil.com / .com.br -> public institutional site only
+	// localhost / unknown -> dev mode (serves everything, for local dev + tests)
+	publicRouter := buildPublicRouter(institutionalHandler, contactHandler, newsletterHandler)
+	internalRouter := buildInternalRouter(authHandler, queries, log)
+	devRouter := buildDevRouter(institutionalHandler, contactHandler, newsletterHandler, authHandler, queries, log)
 
-	// Static files (self-hosted JS/CSS)
-	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-
-	// Public group (no auth) -- institutional site
-	r.Group(func(r chi.Router) {
-		r.Get("/", institutionalHandler.Home)
-		r.Get("/quem-somos", institutionalHandler.QuemSomos)
-		r.Get("/servicos", institutionalHandler.Servicos)
-		r.Get("/nossos-clientes", institutionalHandler.NossosClientes)
-		r.Get("/fale-conosco", institutionalHandler.FaleConosco)
-		r.Post("/fale-conosco", contactHandler.Submit)
-		r.Post("/newsletter", newsletterHandler.Subscribe)
-
-		r.Get("/healthz", healthHandler)
-		r.Get("/login", authHandler.LoginGET)
-		r.Post("/login", authHandler.LoginPOST)
-		r.Get("/2fa/setup", authHandler.TotpSetupGET)
-		r.Post("/2fa/setup", authHandler.TotpSetupPOST)
-		r.Get("/2fa/verify", authHandler.TotpVerifyGET)
-		r.Post("/2fa/verify", authHandler.TotpVerifyPOST)
-	})
-
-	// 404 handler (uses institutional layout)
-	r.NotFound(institutionalHandler.NotFound)
-
-	// Protected group (auth required)
-	r.Group(func(r chi.Router) {
-		r.Use(handler.SessionValidation(queries, log))
-		r.Post("/logout", authHandler.LogoutPOST)
-		r.Group(func(r chi.Router) {
-			r.Use(auth.RequireRole(auth.RoleAdmin))
-			r.Get("/admin", authHandler.AdminGET)
-		})
+	topHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		host := strings.ToLower(strings.SplitN(r.Host, ":", 2)[0])
+		switch {
+		case strings.HasPrefix(host, "sistema."):
+			internalRouter.ServeHTTP(w, r)
+		case isPublicDomain(host):
+			publicRouter.ServeHTTP(w, r)
+		default:
+			// localhost, 127.0.0.1, empty host (tests), unknown -- dev mode
+			devRouter.ServeHTTP(w, r)
+		}
 	})
 
 	// HTTP server with graceful shutdown
 	server := &http.Server{
 		Addr:              addr,
-		Handler:           r,
+		Handler:           topHandler,
 		ReadHeaderTimeout: 10 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      30 * time.Second,
@@ -211,4 +195,125 @@ func main() {
 		log.Error("server shutdown", "error", err)
 	}
 	log.Info("server stopped")
+}
+
+// isPublicDomain returns true for domains that should serve the institutional site.
+func isPublicDomain(host string) bool {
+	publicDomains := []string{
+		"prospeccaobrasil.com",
+		"www.prospeccaobrasil.com",
+		"prospeccaobrasil.com.br",
+		"www.prospeccaobrasil.com.br",
+	}
+	for _, d := range publicDomains {
+		if host == d {
+			return true
+		}
+	}
+	return false
+}
+
+// staticFileServer returns a handler that serves static files from the static/ directory.
+func staticFileServer() http.Handler {
+	return http.StripPrefix("/static/", http.FileServer(http.Dir("static")))
+}
+
+// buildPublicRouter builds the router for the public institutional site.
+// Only institutional pages, contact form, newsletter, and healthz are served.
+func buildPublicRouter(
+	instHandler *handler.InstitutionalHandler,
+	contactHandler *handler.ContactHandler,
+	newsletterHandler *handler.NewsletterHandler,
+) *chi.Mux {
+	r := chi.NewRouter()
+	r.Handle("/static/*", staticFileServer())
+	r.Get("/healthz", healthHandler)
+	r.Get("/", instHandler.Home)
+	r.Get("/quem-somos", instHandler.QuemSomos)
+	r.Get("/servicos", instHandler.Servicos)
+	r.Get("/nossos-clientes", instHandler.NossosClientes)
+	r.Get("/fale-conosco", instHandler.FaleConosco)
+	r.Post("/fale-conosco", contactHandler.Submit)
+	r.Post("/newsletter", newsletterHandler.Subscribe)
+	r.NotFound(instHandler.NotFound)
+	return r
+}
+
+// buildInternalRouter builds the router for the internal system (sistema.* subdomain).
+// Only auth, admin, and healthz are served. Institutional pages return 404.
+func buildInternalRouter(
+	authHandler *handler.AuthHandler,
+	queries *db.Queries,
+	log *slog.Logger,
+) *chi.Mux {
+	r := chi.NewRouter()
+	r.Handle("/static/*", staticFileServer())
+	r.Get("/healthz", healthHandler)
+	// Auth routes (public, no session required)
+	r.Get("/login", authHandler.LoginGET)
+	r.Post("/login", authHandler.LoginPOST)
+	r.Get("/2fa/setup", authHandler.TotpSetupGET)
+	r.Post("/2fa/setup", authHandler.TotpSetupPOST)
+	r.Get("/2fa/verify", authHandler.TotpVerifyGET)
+	r.Post("/2fa/verify", authHandler.TotpVerifyPOST)
+	// Protected routes (session required)
+	r.Group(func(r chi.Router) {
+		r.Use(handler.SessionValidation(queries, log))
+		r.Post("/logout", authHandler.LogoutPOST)
+		r.Group(func(r chi.Router) {
+			r.Use(auth.RequireRole(auth.RoleAdmin))
+			r.Get("/admin", authHandler.AdminGET)
+		})
+	})
+	// 404 for any non-internal route (e.g., institutional pages on sistema.*)
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Not Found", http.StatusNotFound)
+	})
+	return r
+}
+
+// buildDevRouter builds a router that serves everything (public + internal).
+// Used for localhost development and tests.
+func buildDevRouter(
+	instHandler *handler.InstitutionalHandler,
+	contactHandler *handler.ContactHandler,
+	newsletterHandler *handler.NewsletterHandler,
+	authHandler *handler.AuthHandler,
+	queries *db.Queries,
+	log *slog.Logger,
+) *chi.Mux {
+	r := chi.NewRouter()
+	r.Handle("/static/*", staticFileServer())
+
+	// Public group (no auth) -- institutional site + auth
+	r.Group(func(r chi.Router) {
+		r.Get("/healthz", healthHandler)
+		r.Get("/", instHandler.Home)
+		r.Get("/quem-somos", instHandler.QuemSomos)
+		r.Get("/servicos", instHandler.Servicos)
+		r.Get("/nossos-clientes", instHandler.NossosClientes)
+		r.Get("/fale-conosco", instHandler.FaleConosco)
+		r.Post("/fale-conosco", contactHandler.Submit)
+		r.Post("/newsletter", newsletterHandler.Subscribe)
+
+		r.Get("/login", authHandler.LoginGET)
+		r.Post("/login", authHandler.LoginPOST)
+		r.Get("/2fa/setup", authHandler.TotpSetupGET)
+		r.Post("/2fa/setup", authHandler.TotpSetupPOST)
+		r.Get("/2fa/verify", authHandler.TotpVerifyGET)
+		r.Post("/2fa/verify", authHandler.TotpVerifyPOST)
+	})
+
+	r.NotFound(instHandler.NotFound)
+
+	// Protected group (auth required)
+	r.Group(func(r chi.Router) {
+		r.Use(handler.SessionValidation(queries, log))
+		r.Post("/logout", authHandler.LogoutPOST)
+		r.Group(func(r chi.Router) {
+			r.Use(auth.RequireRole(auth.RoleAdmin))
+			r.Get("/admin", authHandler.AdminGET)
+		})
+	})
+	return r
 }
