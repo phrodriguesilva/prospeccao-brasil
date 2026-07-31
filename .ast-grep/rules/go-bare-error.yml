@@ -1,0 +1,14 @@
+id: go-bare-error
+language: go
+rule:
+  pattern: |
+    if $ERR != nil {
+      return $ERR
+    }
+  not:
+    pattern: |
+      if $ERR != nil {
+        return fmt.Errorf($$$ARGS, $ERR)
+      }
+message: "Bare error return without wrapping. Use fmt.Errorf(\"...: %w\", err) for traceability."
+severity: warning

@@ -1,0 +1,13 @@
+{
+  "name": "prospeccaobrasil",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prospeccao Brasil -- Tailwind CSS build (build-time only, not a runtime dependency)",
+  "scripts": {
+    "build-css": "tailwindcss -i input.css -o static/css/app.css --minify",
+    "watch-css": "tailwindcss -i input.css -o static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

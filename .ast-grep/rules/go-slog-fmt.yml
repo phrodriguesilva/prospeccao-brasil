@@ -1,0 +1,13 @@
+id: go-slog-fmt
+language: go
+rule:
+  pattern: |
+    fmt.Println($$$ARGS)
+  not:
+    inside:
+      pattern: |
+        func main() {
+          $$$BODY
+        }
+message: "Use structured slog logging instead of fmt.Println in non-main code."
+severity: warning

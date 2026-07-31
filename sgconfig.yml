@@ -1,0 +1,5 @@
+ruleDirs:
+  - .ast-grep/rules
+fileTypes:
+  - go: ["go"]
+  - html: ["html", "tmpl", "templ"]

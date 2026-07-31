@@ -1,0 +1,95 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: prospeccaobrasil_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache: true
+      - name: Install ast-grep
+        run: |
+          curl -L -o /tmp/sg.zip https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-unknown-linux-gnu.zip
+          unzip -o /tmp/sg.zip -d /tmp/sg
+          mv /tmp/sg/sg /usr/local/bin/sg
+          mv /tmp/sg/ast-grep /usr/local/bin/ast-grep
+      - name: Install sqlc
+        run: |
+          curl -L -o /tmp/sqlc.tar.gz https://github.com/sqlc-dev/sqlc/releases/download/v1.31.1/sqlc_1.31.1_linux_amd64.tar.gz
+          tar -xzf /tmp/sqlc.tar.gz -C /tmp
+          mv /tmp/sqlc /usr/local/bin/sqlc
+      - name: Generate sqlc
+        run: |
+          if [ -n "$(ls -A internal/db/queries/*.sql 2>/dev/null)" ]; then
+            sqlc generate
+          else
+            echo "no sqlc queries, skipping"
+          fi
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Build CSS
+        run: make build-css
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.12.2
+      - name: Migrate (test DB)
+        env:
+          DATABASE_URL: postgres://postgres:test@localhost:5432/prospeccaobrasil_test?sslmode=disable
+        run: |
+          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+          if [ -n "$(ls -A migrations/*.sql 2>/dev/null)" ]; then
+            migrate -path migrations -database "$DATABASE_URL" up
+          else
+            echo "no migrations, skipping"
+          fi
+      - name: Vet
+        run: go vet ./...
+      - name: Test (with coverage)
+        env:
+          DATABASE_URL: postgres://postgres:test@localhost:5432/prospeccaobrasil_test?sslmode=disable
+          ENCRYPTION_KEY: fPRXCiXGjaKfOG1j5MdrSvvXk5W3HSzJIQhjoz9u+a4=
+        run: go test -race -p 1 -timeout 20m -coverprofile=coverage.out -covermode=atomic ./...
+      - name: Coverage gate (85%, excluding generated/untestable code)
+        run: |
+          # internal/db is sqlc-generated (DO NOT EDIT) -- exclude from coverage gate.
+          # cmd/prospeccao is the server entry point (main) -- not unit-testable.
+          grep -v "internal/db/" coverage.out | grep -v "cmd/prospeccao/" > coverage-nogen.out
+          echo "mode: atomic" > coverage-nogen.out.tmp
+          grep -v "^mode:" coverage-nogen.out >> coverage-nogen.out.tmp
+          mv coverage-nogen.out.tmp coverage-nogen.out
+          COV=$(go tool cover -func=coverage-nogen.out | grep total | awk '{print $3}' | tr -d '%')
+          echo "Coverage (excluding internal/db, cmd/prospeccao): $COV%"
+          awk "BEGIN { exit !($COV >= 85) }" || (echo "Coverage below 85%" && exit 1)
+      - name: Build
+        run: go build -o bin/prospeccao ./cmd/prospeccao
+      - name: ast-grep scan
+        run: ast-grep scan
+      - name: govulncheck
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...

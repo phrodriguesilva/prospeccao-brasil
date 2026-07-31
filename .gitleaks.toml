@@ -1,0 +1,16 @@
+# Gitleaks configuration for Prospecção Brasil.
+# Extends the default ruleset with an allowlist for known test-only secrets
+# that are safe to commit (CI test fixtures, not production credentials.
+
+title = "Prospecção Brasil gitleaks config"
+
+[allowlist]
+description = "Allowlist for CI test fixtures and example files"
+paths = [
+    '''\.env\.example$''',
+    '''\.github/workflows/ci\.yml$''',
+]
+regexes = [
+    # CI test ENCRYPTION_KEY (32-byte base64, used only in CI test runs)
+    '''fPRXCiXGjaKfOG1j5MdrSvvXk5W3HSzJIQhjoz9u\+a4=''',
+]

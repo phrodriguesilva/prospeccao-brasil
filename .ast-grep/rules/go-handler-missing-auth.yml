@@ -1,0 +1,17 @@
+id: go-handler-missing-auth
+language: go
+rule:
+  pattern: |
+    func $NAME(w http.ResponseWriter, r *http.Request) {
+      $$$BODY
+    }
+  not:
+    has:
+      pattern: |
+        r.Context().Value("user")
+constraints:
+  NAME:
+    not:
+      regex: (?i)(health|ready|live|ping)
+message: "HTTP handler without auth context access. Every handler must be auth-gated."
+severity: error

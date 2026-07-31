@@ -1,0 +1,40 @@
+id: go-missing-tenant-filter
+language: go
+rule:
+  pattern: |
+    func $NAME($$$ARGS) $$$RET {
+      $$$BODY
+    }
+  any:
+    - regex: \bq\.Get\w+\(
+    - regex: \bq\.List\w+\(
+    - regex: \bq\.Create\w+\(
+    - regex: \bq\.Update\w+\(
+    - regex: \bq\.SoftDelete\w+\(
+    - regex: \bqueries\.Get\w+\(
+    - regex: \bqueries\.List\w+\(
+    - regex: \bqueries\.Create\w+\(
+    - regex: \bqueries\.Update\w+\(
+    - regex: \bqueries\.SoftDelete\w+\(
+  not:
+    any:
+      - regex: TenantFromContext
+      - regex: auth\.UserFromContext
+      - regex: SessionFromContext
+      - regex: WithUser\(
+constraints:
+  NAME:
+    not:
+      regex: ^(Test|seed|setup|Benchmark|Example|Fuzz|Session|Pending|Tenant|Audit|RBAC|Slog|New|pgUUID|pgTimestamptz|strPtr|uuidFromPG|redirectToLogin|actionFromMethod|capMetadata|ParseIP|Log|validate|render|parse|match|create|do|encode|decode|status)
+  ARGS:
+    not:
+      any:
+        - regex: tenantID
+        - regex: tenant_id
+        - regex: TenantID
+paths:
+  ignore:
+    - "**/*_test.go"
+    - "**/audit.go"
+message: "DB query function without tenant_id parameter. Multi-tenant isolation requires tenant_id filter (LGPD critical)."
+severity: error

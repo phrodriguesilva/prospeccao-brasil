@@ -1,0 +1,14 @@
+id: go-missing-context
+language: go
+rule:
+  pattern: |
+    func $NAME($$$ARGS) $$$RET {
+      $$$BODY
+    }
+  regex: db\.Query
+constraints:
+  ARGS:
+    not:
+      regex: context.Context
+message: "Function doing DB work without ctx context.Context. Force context propagation for cancellation/timeout."
+severity: warning

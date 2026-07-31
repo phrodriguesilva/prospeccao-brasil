@@ -1,0 +1,19 @@
+id: tmpl-bare-button
+language: html
+rule:
+  pattern: |
+    <button>$$$INNER</button>
+  not:
+    any:
+      - pattern: |
+          <button aria-label=$$$ALABEL>$$$INNER</button>
+      - pattern: |
+          <button type="submit">$$$INNER</button>
+      - pattern: |
+          <button type="submit" $$$ATTRS>$$$INNER</button>
+      - pattern: |
+          <button $$$ATTRS type="submit">$$$INNER</button>
+      - pattern: |
+          <button $$$ATTRS type="submit" $$$ATTRS2>$$$INNER</button>
+message: "Bare button in template without ARIA label or form context. Accessibility: HTMX still needs ARIA."
+severity: error

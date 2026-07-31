@@ -1,0 +1,32 @@
+# Environment
+.env.local
+.env.*.local
+
+# Build output
+bin/
+prospeccao
+prospeccaobrasil
+
+# Go
+*.exe
+*.test
+*.out
+vendor/
+coverage.out
+coverage-nogen.out
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.tmp
+
+# Design files (binary)
+*.pen

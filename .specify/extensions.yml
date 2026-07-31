@@ -1,0 +1,62 @@
+installed:
+  - review
+  - spectest
+  - tekimax-security
+settings:
+  auto_execute_hooks: true
+hooks:
+  after_implement:
+    - extension: review
+      command: speckit.review.run
+      enabled: true
+      optional: false
+      priority: 10
+      prompt: Run PR review on implemented changes?
+      description: Comprehensive review after implementation (mandatory; AI review is advisory but must run)
+    - extension: spectest
+      command: speckit.spectest.gaps
+      enabled: true
+      optional: false
+      priority: 10
+      prompt: Check for untested spec requirements?
+      description: Scan for untested spec requirements after implementation (mandatory; 85% coverage gate)
+    - extension: tekimax-security
+      command: speckit.tekimax-security.audit
+      enabled: true
+      optional: false
+      priority: 10
+      prompt: Execute speckit.tekimax-security.audit?
+      description: Scan for inline prompts, committed secrets, missing guardrails
+    - command: ast-grep scan
+      enabled: true
+      optional: false
+      priority: 5
+      description: Deterministic structural code analysis before AI review
+  after_specify:
+    - extension: tekimax-security
+      command: speckit.tekimax-security.data-contract
+      enabled: true
+      optional: true
+      prompt: Declare the data contract now?
+      description: Declare data sources, schemas, PII handling (LGPD critical)
+  after_plan:
+    - extension: tekimax-security
+      command: speckit.tekimax-security.threat-model
+      enabled: true
+      optional: true
+      prompt: Run STRIDE threat model on the plan?
+      description: Catch security issues at design time
+  before_implement:
+    - extension: tekimax-security
+      command: speckit.tekimax-security.gate-check
+      enabled: true
+      optional: false
+      prompt: Execute security gate check?
+      description: Block implementation until security gates pass
+  before_analyze:
+    - extension: tekimax-security
+      command: speckit.tekimax-security.red-team
+      enabled: true
+      optional: true
+      prompt: Generate red team scenarios before final analysis?
+      description: Adversarial testing before shipping
