@@ -4,8 +4,8 @@
 
 # Build output
 bin/
-prospeccao
-prospeccaobrasil
+/prospeccao
+/prospeccaobrasil
 
 # Go
 *.exe

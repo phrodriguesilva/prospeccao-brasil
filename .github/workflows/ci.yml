@@ -75,13 +75,7 @@ jobs:
             echo "no migrations, skipping"
           fi
       - name: Vet
-        run: |
-          echo "=== DEBUG: pwd ===" && pwd
-          echo "=== DEBUG: ls ===" && ls -la
-          echo "=== DEBUG: go.mod ===" && cat go.mod
-          echo "=== DEBUG: find .go ===" && find . -name "*.go" -type f
-          echo "=== DEBUG: go env ===" && go env GOMOD GOFLAGS
-          echo "=== Running go vet ===" && go vet ./...
+        run: go vet ./...
       - name: Lint
         run: golangci-lint run --timeout 5m
       - name: Test (with coverage)
