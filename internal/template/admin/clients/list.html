@@ -1,0 +1,71 @@
+{{define "clients_list.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<div class="flex justify-between items-center mb-6">
+<h1 class="font-display text-headline-lg text-on-surface">Clientes</h1>
+<a href="/clients/new" class="btn btn-filled">Novo Cliente</a>
+</div>
+
+<form class="filter-bar mb-4 flex gap-2" method="GET" action="/clients">
+<select name="status" class="form-input">
+<option value="">Todos os Status</option>
+<option value="active" {{if eq .Filters.Status "active"}}selected{{end}}>Ativo</option>
+<option value="inactive" {{if eq .Filters.Status "inactive"}}selected{{end}}>Inativo</option>
+<option value="lead" {{if eq .Filters.Status "lead"}}selected{{end}}>Lead</option>
+</select>
+<input type="text" name="search" class="form-input" placeholder="Buscar por nome ou email..." value="{{.Filters.Search}}">
+<button type="submit" class="btn btn-tonal">Filtrar</button>
+</form>
+
+{{if .Clients}}
+<table class="data-table">
+<thead>
+<tr><th>Nome</th><th>Email</th><th>Telefone</th><th>Status</th><th>Orçamento</th><th>Ações</th></tr>
+</thead>
+<tbody>
+{{range .Clients}}
+<tr>
+<td><a href="/clients/{{uuidToString .ID}}" class="link">{{.Name}}</a></td>
+<td>{{pgText .Email}}</td>
+<td>{{pgText .Phone}}</td>
+<td><span class="badge badge-{{.Status}}">{{.Status}}</span></td>
+<td class="font-mono">{{formatBRLNumeric .Budget}}</td>
+<td class="actions">
+<a href="/clients/{{uuidToString .ID}}" class="btn btn-ghost btn-sm">Ver</a>
+<a href="/clients/{{uuidToString .ID}}/edit" class="btn btn-ghost btn-sm">Editar</a>
+</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+
+<div class="pagination mt-4 flex gap-2 items-center">
+{{if gt .Page 1}}
+<a href="/clients?page={{sub .Page 1}}&status={{.Filters.Status}}&search={{.Filters.Search}}" class="btn btn-ghost btn-sm">Anterior</a>
+{{end}}
+<span class="text-body-md text-on-surface-variant">Página {{.Page}} de {{.TotalPages}} ({{.Total}} clientes)</span>
+{{if lt .Page .TotalPages}}
+<a href="/clients?page={{add .Page 1}}&status={{.Filters.Status}}&search={{.Filters.Search}}" class="btn btn-ghost btn-sm">Próxima</a>
+{{end}}
+</div>
+{{else}}
+<div class="card p-8 text-center">
+<p class="text-body-lg text-on-surface-variant mb-4">Nenhum cliente cadastrado.</p>
+<a href="/clients/new" class="btn btn-filled">Cadastrar Cliente</a>
+</div>
+{{end}}
+</main>
+</div>
+</body>
+</html>{{end}}

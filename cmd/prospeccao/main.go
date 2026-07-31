@@ -66,7 +66,7 @@ func loadTemplates() (*template.Template, error) {
 	templateDir := filepath.Join("internal", "template")
 	// Parse all templates in one pass using a glob pattern that matches all HTML files
 	// in the template directory and its subdirectories.
-	tmpl, err := template.New("").ParseGlob(filepath.Join(templateDir, "*.html"))
+	tmpl, err := template.New("").Funcs(handler.TemplateFuncs()).ParseGlob(filepath.Join(templateDir, "*.html"))
 	if err != nil {
 		return nil, fmt.Errorf("parse templates: %w", err)
 	}
@@ -79,6 +79,27 @@ func loadTemplates() (*template.Template, error) {
 	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "fragments", "*.html"))
 	if err != nil {
 		return nil, fmt.Errorf("parse fragments: %w", err)
+	}
+	// Parse admin templates (recursive)
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "admin", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse admin templates: %w", err)
+	}
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "admin", "properties", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse admin/properties templates: %w", err)
+	}
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "admin", "clients", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse admin/clients templates: %w", err)
+	}
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "admin", "prospections", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse admin/prospections templates: %w", err)
+	}
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "admin", "contacts", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse admin/contacts templates: %w", err)
 	}
 	return tmpl, nil
 }
@@ -142,14 +163,19 @@ func main() {
 	institutionalHandler := handler.NewInstitutionalHandler(queries, tmpl, log)
 	contactHandler := handler.NewContactHandler(queries, tmpl, log, limiter)
 	newsletterHandler := handler.NewNewsletterHandler(queries, tmpl, log, limiter)
+	dashboardHandler := handler.NewDashboardHandler(queries, tmpl, log)
+	propertyHandler := handler.NewPropertyHandler(queries, tmpl, log)
+	clientHandler := handler.NewClientHandler(queries, tmpl, log)
+	prospectionHandler := handler.NewProspectionHandler(queries, tmpl, log)
+	pdfHandler := handler.NewPDFHandler(queries, tmpl, log)
 
 	// Build host-based router dispatcher.
 	// sistema.prospeccaobrasil.com -> internal system only
 	// prospeccaobrasil.com / .com.br -> public institutional site only
 	// localhost / unknown -> dev mode (serves everything, for local dev + tests)
 	publicRouter := buildPublicRouter(institutionalHandler, contactHandler, newsletterHandler)
-	internalRouter := buildInternalRouter(authHandler, queries, log)
-	devRouter := buildDevRouter(institutionalHandler, contactHandler, newsletterHandler, authHandler, queries, log)
+	internalRouter := buildInternalRouter(authHandler, dashboardHandler, propertyHandler, clientHandler, prospectionHandler, pdfHandler, queries, log)
+	devRouter := buildDevRouter(institutionalHandler, contactHandler, newsletterHandler, authHandler, dashboardHandler, propertyHandler, clientHandler, prospectionHandler, pdfHandler, queries, log)
 
 	topHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		host := strings.ToLower(strings.SplitN(r.Host, ":", 2)[0])
@@ -240,9 +266,14 @@ func buildPublicRouter(
 }
 
 // buildInternalRouter builds the router for the internal system (sistema.* subdomain).
-// Only auth, admin, and healthz are served. Institutional pages return 404.
+// Only auth, admin, CRUD, and healthz are served. Institutional pages return 404.
 func buildInternalRouter(
 	authHandler *handler.AuthHandler,
+	dashboardHandler *handler.DashboardHandler,
+	propertyHandler *handler.PropertyHandler,
+	clientHandler *handler.ClientHandler,
+	prospectionHandler *handler.ProspectionHandler,
+	pdfHandler *handler.PDFHandler,
 	queries *db.Queries,
 	log *slog.Logger,
 ) *chi.Mux {
@@ -256,13 +287,41 @@ func buildInternalRouter(
 	r.Post("/2fa/setup", authHandler.TotpSetupPOST)
 	r.Get("/2fa/verify", authHandler.TotpVerifyGET)
 	r.Post("/2fa/verify", authHandler.TotpVerifyPOST)
-	// Protected routes (session required)
+	// Protected routes (session required + admin role)
 	r.Group(func(r chi.Router) {
 		r.Use(handler.SessionValidation(queries, log))
 		r.Post("/logout", authHandler.LogoutPOST)
 		r.Group(func(r chi.Router) {
 			r.Use(auth.RequireRole(auth.RoleAdmin))
-			r.Get("/admin", authHandler.AdminGET)
+			// Dashboard
+			r.Get("/admin", dashboardHandler.Index)
+			// Properties CRUD
+			r.Get("/properties", propertyHandler.List)
+			r.Get("/properties/new", propertyHandler.New)
+			r.Post("/properties", propertyHandler.Create)
+			r.Get("/properties/{id}", propertyHandler.Detail)
+			r.Get("/properties/{id}/edit", propertyHandler.Edit)
+			r.Post("/properties/{id}", propertyHandler.Update)
+			r.Post("/properties/{id}/delete", propertyHandler.Delete)
+			r.Get("/properties/{id}/pdf", pdfHandler.GeneratePropertyPDF)
+			// Clients CRUD
+			r.Get("/clients", clientHandler.List)
+			r.Get("/clients/new", clientHandler.New)
+			r.Post("/clients", clientHandler.Create)
+			r.Get("/clients/{id}", clientHandler.Detail)
+			r.Get("/clients/{id}/edit", clientHandler.Edit)
+			r.Post("/clients/{id}", clientHandler.Update)
+			r.Post("/clients/{id}/delete", clientHandler.Delete)
+			r.Post("/clients/{id}/contacts", clientHandler.CreateContact)
+			// Prospections CRUD
+			r.Get("/prospections", prospectionHandler.List)
+			r.Get("/prospections/new", prospectionHandler.New)
+			r.Post("/prospections", prospectionHandler.Create)
+			r.Get("/prospections/{id}", prospectionHandler.Detail)
+			r.Get("/prospections/{id}/edit", prospectionHandler.Edit)
+			r.Post("/prospections/{id}", prospectionHandler.Update)
+			r.Post("/prospections/{id}/delete", prospectionHandler.Delete)
+			r.Post("/prospections/{id}/contacts", prospectionHandler.CreateContact)
 		})
 	})
 	// 404 for any non-internal route (e.g., institutional pages on sistema.*)
@@ -279,6 +338,11 @@ func buildDevRouter(
 	contactHandler *handler.ContactHandler,
 	newsletterHandler *handler.NewsletterHandler,
 	authHandler *handler.AuthHandler,
+	dashboardHandler *handler.DashboardHandler,
+	propertyHandler *handler.PropertyHandler,
+	clientHandler *handler.ClientHandler,
+	prospectionHandler *handler.ProspectionHandler,
+	pdfHandler *handler.PDFHandler,
 	queries *db.Queries,
 	log *slog.Logger,
 ) *chi.Mux {
@@ -306,13 +370,41 @@ func buildDevRouter(
 
 	r.NotFound(instHandler.NotFound)
 
-	// Protected group (auth required)
+	// Protected group (auth required + admin role) -- internal system
 	r.Group(func(r chi.Router) {
 		r.Use(handler.SessionValidation(queries, log))
 		r.Post("/logout", authHandler.LogoutPOST)
 		r.Group(func(r chi.Router) {
 			r.Use(auth.RequireRole(auth.RoleAdmin))
-			r.Get("/admin", authHandler.AdminGET)
+			// Dashboard
+			r.Get("/admin", dashboardHandler.Index)
+			// Properties CRUD
+			r.Get("/properties", propertyHandler.List)
+			r.Get("/properties/new", propertyHandler.New)
+			r.Post("/properties", propertyHandler.Create)
+			r.Get("/properties/{id}", propertyHandler.Detail)
+			r.Get("/properties/{id}/edit", propertyHandler.Edit)
+			r.Post("/properties/{id}", propertyHandler.Update)
+			r.Post("/properties/{id}/delete", propertyHandler.Delete)
+			r.Get("/properties/{id}/pdf", pdfHandler.GeneratePropertyPDF)
+			// Clients CRUD
+			r.Get("/clients", clientHandler.List)
+			r.Get("/clients/new", clientHandler.New)
+			r.Post("/clients", clientHandler.Create)
+			r.Get("/clients/{id}", clientHandler.Detail)
+			r.Get("/clients/{id}/edit", clientHandler.Edit)
+			r.Post("/clients/{id}", clientHandler.Update)
+			r.Post("/clients/{id}/delete", clientHandler.Delete)
+			r.Post("/clients/{id}/contacts", clientHandler.CreateContact)
+			// Prospections CRUD
+			r.Get("/prospections", prospectionHandler.List)
+			r.Get("/prospections/new", prospectionHandler.New)
+			r.Post("/prospections", prospectionHandler.Create)
+			r.Get("/prospections/{id}", prospectionHandler.Detail)
+			r.Get("/prospections/{id}/edit", prospectionHandler.Edit)
+			r.Post("/prospections/{id}", prospectionHandler.Update)
+			r.Post("/prospections/{id}/delete", prospectionHandler.Delete)
+			r.Post("/prospections/{id}/contacts", prospectionHandler.CreateContact)
 		})
 	})
 	return r

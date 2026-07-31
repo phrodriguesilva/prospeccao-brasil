@@ -1,0 +1,78 @@
+{{define "prospections_detail.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<div class="flex justify-between items-center mb-6">
+<h1 class="font-display text-headline-lg text-on-surface">Prospecção</h1>
+<div class="flex gap-2">
+<a href="/prospections/{{uuidToString .Prospect.ID}}/edit" class="btn btn-tonal">Editar</a>
+<button class="btn btn-error" @click="$dispatch('open-modal', {id: 'delete-modal'})">Excluir</button>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-6 mb-6">
+<div class="card p-4">
+<h2 class="font-display text-title-md mb-4">Cliente</h2>
+<table class="data-table">
+<tr><th>Nome</th><td><a href="/clients/{{uuidToString .Client.ID}}" class="link">{{.Client.Name}}</a></td></tr>
+<tr><th>Email</th><td>{{pgText .Client.Email}}</td></tr>
+<tr><th>Telefone</th><td>{{pgText .Client.Phone}}</td></tr>
+</table>
+</div>
+
+<div class="card p-4">
+<h2 class="font-display text-title-md mb-4">Imóvel</h2>
+<table class="data-table">
+<tr><th>Título</th><td><a href="/properties/{{uuidToString .Property.ID}}" class="link">{{.Property.Title}}</a></td></tr>
+<tr><th>Endereço</th><td>{{.Property.Address}}, {{.Property.City}} - {{.Property.State}}</td></tr>
+<tr><th>Preço</th><td class="font-mono">{{formatBRLNumeric .Property.Price}}</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card p-4 mb-6">
+<h2 class="font-display text-title-md mb-4">Detalhes da Prospecção</h2>
+<table class="data-table">
+<tr><th>Status</th><td><span class="badge badge-{{.Prospect.Status}}">{{.Prospect.Status}}</span></td></tr>
+<tr><th>Notas</th><td>{{pgText .Prospect.Notes}}</td></tr>
+<tr><th>Data de Contato</th><td>{{if .Prospect.ContactDate.Valid}}{{.Prospect.ContactDate.Time.Format "02/01/2006"}}{{else}}--{{end}}</td></tr>
+<tr><th>Próxima Ação</th><td>{{if .Prospect.NextActionDate.Valid}}{{.Prospect.NextActionDate.Time.Format "02/01/2006"}}{{else}}--{{end}}</td></tr>
+</table>
+</div>
+
+<div class="card p-4">
+<h2 class="font-display text-title-md mb-4">Registrar Contato</h2>
+{{template "contacts_form.html" .}}
+</div>
+
+<div class="card p-4 mt-4" id="contact-log">
+<h2 class="font-display text-title-md mb-4">Histórico de Contatos</h2>
+{{template "contacts_log.html" .}}
+</div>
+
+<div x-data="{ open: false }" x-show="open" class="modal-overlay" @open-modal.window="if ($event.detail.id === 'delete-modal') open = true" @click.self="open = false">
+<div class="modal">
+<h3 class="font-display text-title-md mb-4">Confirmar Exclusão</h3>
+<p class="text-body-md text-on-surface-variant mb-6">Tem certeza que deseja excluir esta prospecção?</p>
+<div class="flex gap-2 justify-end">
+<button class="btn btn-ghost" @click="open = false">Cancelar</button>
+<form method="POST" action="/prospections/{{uuidToString .Prospect.ID}}/delete">
+<button type="submit" class="btn btn-error">Excluir</button>
+</form>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body>
+</html>{{end}}

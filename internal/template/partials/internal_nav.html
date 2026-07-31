@@ -1,0 +1,21 @@
+{{define "internal_nav"}}
+<nav class="w-64 bg-surface-container-low min-h-screen flex flex-col border-r border-outline-variant" x-data="{ open: false }">
+<div class="p-4 border-b border-outline-variant">
+<a href="/admin" class="font-display text-headline-md text-primary no-underline">Prospecção Brasil</a>
+<p class="text-sm text-on-surface-variant">Sistema Interno</p>
+</div>
+<div class="flex-1 py-4" :class="{ 'hidden': !open }" @click.away="open = false">
+<a href="/admin" class="nav-link {{if eq .ActivePage "dashboard"}}active{{end}} block px-4 py-2 text-on-surface hover:bg-surface-container no-underline">Dashboard</a>
+<a href="/properties" class="nav-link {{if eq .ActivePage "properties"}}active{{end}} block px-4 py-2 text-on-surface hover:bg-surface-container no-underline">Imóveis</a>
+<a href="/clients" class="nav-link {{if eq .ActivePage "clients"}}active{{end}} block px-4 py-2 text-on-surface hover:bg-surface-container no-underline">Clientes</a>
+<a href="/prospections" class="nav-link {{if eq .ActivePage "prospections"}}active{{end}} block px-4 py-2 text-on-surface hover:bg-surface-container no-underline">Prospecções</a>
+</div>
+<div class="p-4 border-t border-outline-variant">
+<p class="text-sm text-on-surface-variant truncate">{{.UserEmail}}</p>
+<p class="text-xs text-on-surface-variant mb-2">{{.UserRole}}</p>
+<form action="/logout" method="POST" class="inline">
+<button type="submit" class="btn btn-ghost btn-sm w-full">Sair</button>
+</form>
+</div>
+</nav>
+{{end}}

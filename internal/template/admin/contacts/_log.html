@@ -1,0 +1,22 @@
+{{define "contacts_log.html"}}
+{{if .HasContacts}}
+<table class="data-table">
+<thead>
+<tr><th>Canal</th><th>Direção</th><th>Assunto</th><th>Mensagem</th><th>Data</th></tr>
+</thead>
+<tbody>
+{{range .Contacts}}
+<tr>
+<td>{{.Channel}}</td>
+<td>{{.Direction}}</td>
+<td>{{pgText .Subject}}</td>
+<td>{{pgText .Body}}</td>
+<td>{{.ContactedAt.Time.Format "02/01/2006 15:04"}}</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+{{else}}
+<p class="text-body-md text-on-surface-variant">Nenhum contato registrado.</p>
+{{end}}
+{{end}}

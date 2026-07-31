@@ -1,0 +1,80 @@
+{{define "properties_list.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<div class="flex justify-between items-center mb-6">
+<h1 class="font-display text-headline-lg text-on-surface">Imóveis</h1>
+<a href="/properties/new" class="btn btn-filled">Novo Imóvel</a>
+</div>
+
+<form class="filter-bar mb-4 flex gap-2" method="GET" action="/properties">
+<select name="status" class="form-input">
+<option value="">Todos os Status</option>
+<option value="available" {{if eq .Filters.Status "available"}}selected{{end}}>Disponível</option>
+<option value="reserved" {{if eq .Filters.Status "reserved"}}selected{{end}}>Reservado</option>
+<option value="sold" {{if eq .Filters.Status "sold"}}selected{{end}}>Vendido</option>
+<option value="inactive" {{if eq .Filters.Status "inactive"}}selected{{end}}>Inativo</option>
+</select>
+<select name="type" class="form-input">
+<option value="">Todos os Tipos</option>
+<option value="residential" {{if eq .Filters.Type "residential"}}selected{{end}}>Residencial</option>
+<option value="commercial" {{if eq .Filters.Type "commercial"}}selected{{end}}>Comercial</option>
+<option value="land" {{if eq .Filters.Type "land"}}selected{{end}}>Terreno</option>
+<option value="rural" {{if eq .Filters.Type "rural"}}selected{{end}}>Rural</option>
+</select>
+<input type="text" name="search" class="form-input" placeholder="Buscar por título ou cidade..." value="{{.Filters.Search}}">
+<button type="submit" class="btn btn-tonal">Filtrar</button>
+</form>
+
+{{if .Properties}}
+<table class="data-table">
+<thead>
+<tr><th>Título</th><th>Endereço</th><th>Preço</th><th>Status</th><th>Tipo</th><th>Ações</th></tr>
+</thead>
+<tbody>
+{{range .Properties}}
+<tr>
+<td><a href="/properties/{{uuidToString .ID}}" class="link">{{.Title}}</a></td>
+<td>{{.Address}}, {{.City}} - {{.State}}</td>
+<td class="font-mono">{{formatBRLNumeric .Price}}</td>
+<td><span class="badge badge-{{.Status}}">{{.Status}}</span></td>
+<td>{{.Type}}</td>
+<td class="actions">
+<a href="/properties/{{uuidToString .ID}}" class="btn btn-ghost btn-sm">Ver</a>
+<a href="/properties/{{uuidToString .ID}}/edit" class="btn btn-ghost btn-sm">Editar</a>
+<a href="/properties/{{uuidToString .ID}}/pdf" class="btn btn-ghost btn-sm">PDF</a>
+</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+
+<div class="pagination mt-4 flex gap-2 items-center">
+{{if gt .Page 1}}
+<a href="/properties?page={{sub .Page 1}}&status={{.Filters.Status}}&type={{.Filters.Type}}&search={{.Filters.Search}}" class="btn btn-ghost btn-sm">Anterior</a>
+{{end}}
+<span class="text-body-md text-on-surface-variant">Página {{.Page}} de {{.TotalPages}} ({{.Total}} imóveis)</span>
+{{if lt .Page .TotalPages}}
+<a href="/properties?page={{add .Page 1}}&status={{.Filters.Status}}&type={{.Filters.Type}}&search={{.Filters.Search}}" class="btn btn-ghost btn-sm">Próxima</a>
+{{end}}
+</div>
+{{else}}
+<div class="card p-8 text-center">
+<p class="text-body-lg text-on-surface-variant mb-4">Nenhum imóvel cadastrado.</p>
+<a href="/properties/new" class="btn btn-filled">Cadastrar Imóvel</a>
+</div>
+{{end}}
+</main>
+</div>
+</body>
+</html>{{end}}

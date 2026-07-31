@@ -1,0 +1,86 @@
+{{define "prospections_form.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<h1 class="font-display text-headline-lg text-on-surface mb-6">{{.Title}}</h1>
+
+{{if not .HasClients}}
+<div class="alert alert-warning mb-4">Cadastre um cliente primeiro.</div>
+{{end}}
+{{if not .HasProperties}}
+<div class="alert alert-warning mb-4">Cadastre um imóvel primeiro.</div>
+{{end}}
+
+{{if and .HasClients .HasProperties}}
+{{if .Errors.Generic}}
+<div class="alert alert-error mb-4">{{.Errors.Generic}}</div>
+{{end}}
+
+<form method="POST" action="{{if .IsEdit}}/prospections/{{uuidToString .Prospect.ID}}{{else}}/prospections{{end}}" class="space-y-4 max-w-2xl">
+{{if not .IsEdit}}
+<div>
+<label class="form-label">Cliente *</label>
+<select name="client_id" class="form-input" required>
+<option value="">Selecione...</option>
+{{range .Clients}}
+<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) .Form.ClientID}}selected{{end}}>{{.Name}}</option>
+{{end}}
+</select>
+{{if .Errors.ClientID}}<p class="form-error">{{.Errors.ClientID}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">Imóvel *</label>
+<select name="property_id" class="form-input" required>
+<option value="">Selecione...</option>
+{{range .Properties}}
+<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) .Form.PropertyID}}selected{{end}}>{{.Title}}</option>
+{{end}}
+</select>
+{{if .Errors.PropertyID}}<p class="form-error">{{.Errors.PropertyID}}</p>{{end}}
+</div>
+{{end}}
+<div>
+<label class="form-label">Status *</label>
+<select name="status" class="form-input" required>
+<option value="new" {{if eq .Form.Status "new"}}selected{{end}}>Novo</option>
+<option value="contacting" {{if eq .Form.Status "contacting"}}selected{{end}}>Em Contato</option>
+<option value="visiting" {{if eq .Form.Status "visiting"}}selected{{end}}>Em Visita</option>
+<option value="negotiating" {{if eq .Form.Status "negotiating"}}selected{{end}}>Negociando</option>
+<option value="closed_won" {{if eq .Form.Status "closed_won"}}selected{{end}}>Fechado (Ganho)</option>
+<option value="closed_lost" {{if eq .Form.Status "closed_lost"}}selected{{end}}>Fechado (Perdido)</option>
+</select>
+</div>
+<div>
+<label class="form-label">Notas</label>
+<textarea name="notes" class="form-input" rows="4">{{.Form.Notes}}</textarea>
+</div>
+{{if not .IsEdit}}
+<div>
+<label class="form-label">Data de Contato</label>
+<input type="date" name="contact_date" class="form-input" value="{{.Form.ContactDate}}">
+</div>
+{{end}}
+<div>
+<label class="form-label">Próxima Ação</label>
+<input type="date" name="next_action_date" class="form-input" value="{{.Form.NextActionDate}}">
+</div>
+<div class="flex gap-2">
+<button type="submit" class="btn btn-filled">{{if .IsEdit}}Salvar{{else}}Cadastrar{{end}}</button>
+<a href="/prospections" class="btn btn-ghost">Cancelar</a>
+</div>
+</form>
+{{end}}
+</main>
+</div>
+</body>
+</html>{{end}}

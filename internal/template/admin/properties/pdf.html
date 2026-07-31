@@ -1,0 +1,50 @@
+{{define "properties_pdf.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}}</title>
+<style>
+body { font-family: 'Helvetica', 'Arial', sans-serif; margin: 40px; color: #1a1a1a; }
+h1 { font-size: 28px; color: #b8956a; margin-bottom: 8px; }
+h2 { font-size: 18px; color: #333; margin-top: 24px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+.price { font-size: 24px; font-weight: bold; color: #b8956a; margin: 12px 0; }
+.detail-row { display: flex; margin-bottom: 6px; }
+.detail-label { font-weight: bold; width: 150px; color: #555; }
+.detail-value { flex: 1; }
+.photos { margin-top: 16px; }
+.photos img { width: 100%; max-height: 400px; object-fit: cover; margin-bottom: 12px; border-radius: 4px; }
+.description { margin-top: 12px; line-height: 1.6; color: #333; }
+.footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid #ddd; font-size: 12px; color: #888; text-align: center; }
+</style>
+</head>
+<body>
+<h1>{{.Title}}</h1>
+<p class="price">{{.Price}}</p>
+<p>{{.Address}}</p>
+
+<h2>Características</h2>
+<div class="detail-row"><span class="detail-label">Tipo</span><span class="detail-value">{{.Type}}</span></div>
+{{if .AreaSqm}}<div class="detail-row"><span class="detail-label">Área</span><span class="detail-value">{{.AreaSqm}} m²</span></div>{{end}}
+{{if .Bedrooms}}<div class="detail-row"><span class="detail-label">Quartos</span><span class="detail-value">{{.Bedrooms}}</span></div>{{end}}
+{{if .Bathrooms}}<div class="detail-row"><span class="detail-label">Banheiros</span><span class="detail-value">{{.Bathrooms}}</span></div>{{end}}
+
+{{if .Description}}
+<h2>Descrição</h2>
+<p class="description">{{.Description}}</p>
+{{end}}
+
+{{if .Photos}}
+<h2>Fotos</h2>
+<div class="photos">
+{{range .Photos}}
+<img src="{{.}}" alt="Foto do imóvel">
+{{end}}
+</div>
+{{end}}
+
+<div class="footer">
+Prospecção Brasil -- www.prospeccaobrasil.com
+</div>
+</body>
+</html>{{end}}

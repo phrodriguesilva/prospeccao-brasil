@@ -1,0 +1,105 @@
+{{define "properties_form.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<h1 class="font-display text-headline-lg text-on-surface mb-6">{{.Title}}</h1>
+
+{{if .Errors.Generic}}
+<div class="alert alert-error mb-4">{{.Errors.Generic}}</div>
+{{end}}
+
+<form method="POST" action="{{if .IsEdit}}/properties/{{uuidToString .Property.ID}}{{else}}/properties{{end}}" class="space-y-4 max-w-2xl">
+<div>
+<label class="form-label">Título *</label>
+<input type="text" name="title" class="form-input" value="{{.Form.Title}}" required>
+{{if .Errors.Title}}<p class="form-error">{{.Errors.Title}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">Endereço *</label>
+<input type="text" name="address" class="form-input" value="{{.Form.Address}}" required>
+{{if .Errors.Address}}<p class="form-error">{{.Errors.Address}}</p>{{end}}
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="form-label">Cidade *</label>
+<input type="text" name="city" class="form-input" value="{{.Form.City}}" required>
+{{if .Errors.City}}<p class="form-error">{{.Errors.City}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">Estado *</label>
+<input type="text" name="state" class="form-input" value="{{.Form.State}}" required>
+{{if .Errors.State}}<p class="form-error">{{.Errors.State}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">CEP</label>
+<input type="text" name="zip_code" class="form-input" value="{{.Form.ZipCode}}">
+</div>
+</div>
+<div>
+<label class="form-label">Preço *</label>
+<input type="number" name="price" class="form-input" value="{{.Form.Price}}" step="0.01" required>
+{{if .Errors.Price}}<p class="form-error">{{.Errors.Price}}</p>{{end}}
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="form-label">Status *</label>
+<select name="status" class="form-input" required>
+<option value="available" {{if eq .Form.Status "available"}}selected{{end}}>Disponível</option>
+<option value="reserved" {{if eq .Form.Status "reserved"}}selected{{end}}>Reservado</option>
+<option value="sold" {{if eq .Form.Status "sold"}}selected{{end}}>Vendido</option>
+<option value="inactive" {{if eq .Form.Status "inactive"}}selected{{end}}>Inativo</option>
+</select>
+{{if .Errors.Status}}<p class="form-error">{{.Errors.Status}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">Tipo *</label>
+<select name="type" class="form-input" required>
+<option value="residential" {{if eq .Form.Type "residential"}}selected{{end}}>Residencial</option>
+<option value="commercial" {{if eq .Form.Type "commercial"}}selected{{end}}>Comercial</option>
+<option value="land" {{if eq .Form.Type "land"}}selected{{end}}>Terreno</option>
+<option value="rural" {{if eq .Form.Type "rural"}}selected{{end}}>Rural</option>
+</select>
+{{if .Errors.Type}}<p class="form-error">{{.Errors.Type}}</p>{{end}}
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="form-label">Quartos</label>
+<input type="number" name="bedrooms" class="form-input" value="{{.Form.Bedrooms}}">
+</div>
+<div>
+<label class="form-label">Banheiros</label>
+<input type="number" name="bathrooms" class="form-input" value="{{.Form.Bathrooms}}">
+</div>
+<div>
+<label class="form-label">Área (m²)</label>
+<input type="number" name="area_sqm" class="form-input" value="{{.Form.AreaSqm}}" step="0.01">
+</div>
+</div>
+<div>
+<label class="form-label">Descrição</label>
+<textarea name="description" class="form-input" rows="4">{{.Form.Description}}</textarea>
+</div>
+<div>
+<label class="form-label">Fotos (uma URL por linha)</label>
+<textarea name="photos" class="form-input" rows="4">{{.Form.Photos}}</textarea>
+</div>
+<div class="flex gap-2">
+<button type="submit" class="btn btn-filled">{{if .IsEdit}}Salvar{{else}}Cadastrar{{end}}</button>
+<a href="/properties" class="btn btn-ghost">Cancelar</a>
+</div>
+</form>
+</main>
+</div>
+</body>
+</html>{{end}}

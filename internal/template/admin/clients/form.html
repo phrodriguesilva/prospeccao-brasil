@@ -1,0 +1,72 @@
+{{define "clients_form.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<h1 class="font-display text-headline-lg text-on-surface mb-6">{{.Title}}</h1>
+
+{{if .Errors.Generic}}
+<div class="alert alert-error mb-4">{{.Errors.Generic}}</div>
+{{end}}
+
+<form method="POST" action="{{if .IsEdit}}/clients/{{uuidToString .Client.ID}}{{else}}/clients{{end}}" class="space-y-4 max-w-2xl">
+<div>
+<label class="form-label">Nome *</label>
+<input type="text" name="name" class="form-input" value="{{.Form.Name}}" required>
+{{if .Errors.Name}}<p class="form-error">{{.Errors.Name}}</p>{{end}}
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="form-label">Email</label>
+<input type="email" name="email" class="form-input" value="{{.Form.Email}}">
+{{if .Errors.Email}}<p class="form-error">{{.Errors.Email}}</p>{{end}}
+</div>
+<div>
+<label class="form-label">Telefone</label>
+<input type="text" name="phone" class="form-input" value="{{.Form.Phone}}">
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="form-label">CPF/CNPJ</label>
+<input type="text" name="cpf_cnpj" class="form-input" value="{{.Form.CpfCnpj}}">
+</div>
+<div>
+<label class="form-label">Orçamento</label>
+<input type="number" name="budget" class="form-input" value="{{.Form.Budget}}" step="0.01">
+</div>
+</div>
+<div>
+<label class="form-label">Endereço</label>
+<input type="text" name="address" class="form-input" value="{{.Form.Address}}">
+</div>
+<div>
+<label class="form-label">Preferências (JSON)</label>
+<textarea name="preferences" class="form-input" rows="3">{{.Form.Preferences}}</textarea>
+</div>
+<div>
+<label class="form-label">Status *</label>
+<select name="status" class="form-input" required>
+<option value="active" {{if eq .Form.Status "active"}}selected{{end}}>Ativo</option>
+<option value="inactive" {{if eq .Form.Status "inactive"}}selected{{end}}>Inativo</option>
+<option value="lead" {{if eq .Form.Status "lead"}}selected{{end}}>Lead</option>
+</select>
+</div>
+<div class="flex gap-2">
+<button type="submit" class="btn btn-filled">{{if .IsEdit}}Salvar{{else}}Cadastrar{{end}}</button>
+<a href="/clients" class="btn btn-ghost">Cancelar</a>
+</div>
+</form>
+</main>
+</div>
+</body>
+</html>{{end}}

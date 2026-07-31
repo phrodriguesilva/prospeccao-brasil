@@ -1,0 +1,87 @@
+{{define "dashboard.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} -- Prospecção Brasil Interno</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+<div class="flex min-h-screen">
+{{template "internal_nav" .}}
+<main class="flex-1 p-6 overflow-x-auto">
+<h1 class="font-display text-headline-lg text-on-surface mb-6">Dashboard</h1>
+
+{{if .IsEmpty}}
+<div class="card p-8 text-center">
+<p class="text-body-lg text-on-surface-variant mb-4">Bem-vindo ao sistema interno.</p>
+<p class="text-body-md text-on-surface-variant mb-6">Comece cadastrando seu primeiro imóvel.</p>
+<a href="/properties/new" class="btn btn-filled">Cadastrar Imóvel</a>
+</div>
+{{else}}
+<div class="grid grid-cols-4 gap-4 mb-8">
+<div class="card p-4">
+<p class="text-label-md text-on-surface-variant">Imóveis</p>
+<p class="font-display text-headline-md text-primary">{{.PropertyCount}}</p>
+</div>
+<div class="card p-4">
+<p class="text-label-md text-on-surface-variant">Clientes</p>
+<p class="font-display text-headline-md text-primary">{{.ClientCount}}</p>
+</div>
+<div class="card p-4">
+<p class="text-label-md text-on-surface-variant">Prospecções</p>
+<p class="font-display text-headline-md text-primary">{{.ProspectCount}}</p>
+</div>
+<div class="card p-4">
+<p class="text-label-md text-on-surface-variant">Taxa de Sucesso</p>
+<p class="font-display text-headline-md text-primary">{{if .StatusCounts}}{{range .StatusCounts}}{{if eq .Status "closed_won"}}{{.Count}}{{end}}{{end}}{{else}}0{{end}}</p>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-6">
+<div class="card p-4">
+<h2 class="font-display text-title-md mb-4">Prospecções por Status</h2>
+{{if .StatusCounts}}
+<div class="space-y-2">
+{{range .StatusCounts}}
+<div class="flex justify-between items-center">
+<span class="badge badge-{{.Status}}">{{.Status}}</span>
+<span class="font-mono text-body-md">{{.Count}}</span>
+</div>
+{{end}}
+</div>
+{{else}}
+<p class="text-body-md text-on-surface-variant">Nenhuma prospecção cadastrada.</p>
+{{end}}
+</div>
+
+<div class="card p-4">
+<h2 class="font-display text-title-md mb-4">Prospecções Recentes</h2>
+{{if .RecentProspects}}
+<table class="data-table">
+<thead>
+<tr><th>Cliente</th><th>Imóvel</th><th>Status</th><th>Próxima Ação</th></tr>
+</thead>
+<tbody>
+{{range .RecentProspects}}
+<tr>
+<td>{{.ClientName}}</td>
+<td>{{.PropertyTitle}}</td>
+<td><span class="badge badge-{{.Status}}">{{.Status}}</span></td>
+<td>{{if .NextActionDate.Valid}}{{.NextActionDate.Time.Format "02/01/2006"}}{{else}}--{{end}}</td>
+</tr>
+{{end}}
+</tbody>
+</table>
+{{else}}
+<p class="text-body-md text-on-surface-variant">Nenhuma prospecção recente.</p>
+{{end}}
+</div>
+</div>
+{{end}}
+</main>
+</div>
+</body>
+</html>{{end}}
