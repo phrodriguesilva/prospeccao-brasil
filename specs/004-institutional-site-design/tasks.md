@@ -18,10 +18,10 @@
 
 **Purpose**: Migration, sqlc queries, self-hosted JS, and design system CSS classes.
 
-- [ ] T001 Create migration `migrations/2_contact_newsletter.sql` with `contact_submissions` and `newsletter_subscribers` tables (id UUID PK, name, email, phone, subject, message, status CHECK, created_at, updated_at; newsletter: id, email UNIQUE, subscribed_at, active). Add indexes. (FR-014, FR-018, FR-019, data-model.md)
-- [ ] T002 Run `make migrate` and `make sqlc` to generate typed Go code for the new tables. Verify `internal/db/models.go` has `ContactSubmission` and `NewsletterSubscriber` structs. (FR-014, FR-018)
-- [ ] T003 [P] Download self-hosted HTMX 1.9.12 to `static/js/htmx.min.js` and Alpine.js 3.14.1 to `static/js/alpine.min.js`. Verify both files are non-empty (~48KB and ~44KB). (FR-024, research.md R8)
-- [ ] T004 [P] Add design system component classes to `input.css` using `@layer components`: `.btn` (primary, secondary, outline, ghost; sizes sm, md, lg), `.badge` (success, warning, error, info), `.card` (elevation, padding), `.form-input` (text, email, tel, textarea, select with focus/error/disabled states), `.nav-link` (active state). Use Tailwind tokens from `tailwind.config.js`. Run `make build-css` to compile. (FR-001 to FR-007, research.md R1)
+- [x] T001 Create migration `migrations/2_contact_newsletter.sql` with `contact_submissions` and `newsletter_subscribers` tables (id UUID PK, name, email, phone, subject, message, status CHECK, created_at, updated_at; newsletter: id, email UNIQUE, subscribed_at, active). Add indexes. (FR-014, FR-018, FR-019, data-model.md)
+- [x] T002 Run `make migrate` and `make sqlc` to generate typed Go code for the new tables. Verify `internal/db/models.go` has `ContactSubmission` and `NewsletterSubscriber` structs. (FR-014, FR-018)
+- [x] T003 [P] Download self-hosted HTMX 1.9.12 to `static/js/htmx.min.js` and Alpine.js 3.14.1 to `static/js/alpine.min.js`. Verify both files are non-empty (~48KB and ~44KB). (FR-024, research.md R8)
+- [x] T004 [P] Add design system component classes to `input.css` using `@layer components`: `.btn` (primary, secondary, outline, ghost; sizes sm, md, lg), `.badge` (success, warning, error, info), `.card` (elevation, padding), `.form-input` (text, email, tel, textarea, select with focus/error/disabled states), `.nav-link` (active state). Use Tailwind tokens from `tailwind.config.js`. Run `make build-css` to compile. (FR-001 to FR-007, research.md R1)
 
 ---
 
@@ -29,10 +29,10 @@
 
 **Purpose**: Base template, static file serving, and router wiring. MUST be complete before any user story.
 
-- [ ] T005 Create `internal/template/base.html` -- shared layout with `<head>` (meta viewport, title block, link to app.css, script tags for htmx.min.js and alpine.min.js with `defer`), `<nav>` (logo, menu items with active state via template var, mobile hamburger menu via Alpine.js `x-data`/`x-show`), `{{block "content" .}}{{end}}`, `<footer>` (company info, contact links, newsletter form with `hx-post="/newsletter"`, social media links, copyright). (FR-005, FR-006, FR-017, FR-021, FR-024, FR-025, research.md R3, R6, R8)
-- [ ] T006 Create `internal/template/partials/nav.html` and `internal/template/partials/footer.html` -- extracted partials included by `base.html` via `{{template "nav" .}}` and `{{template "footer" .}}`. Nav has menu items: Home, Quem somos, Servicos, Nossos clientes, Fale Conosco. Active page highlighted via `.nav-link.active` class based on `{{.ActivePage}}` template var. (FR-005, FR-025)
-- [ ] T007 Create `internal/handler/institutional.go` -- `InstitutionalHandler` struct with `queries *db.Queries`, `tmpl *template.Template`. Methods: `Home`, `QuemSomos`, `Servicos`, `NossosClientes`, `FaleConosco`, `NotFound`. Each renders the corresponding template with `base.html` layout and `ActivePage` var. `NotFound` returns 404 status code. (FR-008 to FR-012, FR-022, contracts/endpoints.md)
-- [ ] T008 Update `cmd/prospeccao/main.go` -- add institutional routes to chi router (public group): `GET /`, `GET /quem-somos`, `GET /servicos`, `GET /nossos-clientes`, `GET /fale-conosco`, `POST /fale-conosco`, `POST /newsletter`. Add `r.NotFound(authHandler.NotFound)` for 404. Add static file server: `r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))`. Update template loading to parse all templates including partials and fragments. (FR-008 to FR-012, FR-022, FR-024, contracts/endpoints.md)
+- [x] T005 Create `internal/template/base.html` -- shared layout with `<head>` (meta viewport, title block, link to app.css, script tags for htmx.min.js and alpine.min.js with `defer`), `<nav>` (logo, menu items with active state via template var, mobile hamburger menu via Alpine.js `x-data`/`x-show`), `{{block "content" .}}{{end}}`, `<footer>` (company info, contact links, newsletter form with `hx-post="/newsletter"`, social media links, copyright). (FR-005, FR-006, FR-017, FR-021, FR-024, FR-025, research.md R3, R6, R8)
+- [x] T006 Create `internal/template/partials/nav.html` and `internal/template/partials/footer.html` -- extracted partials included by `base.html` via `{{template "nav" .}}` and `{{template "footer" .}}`. Nav has menu items: Home, Quem somos, Servicos, Nossos clientes, Fale Conosco. Active page highlighted via `.nav-link.active` class based on `{{.ActivePage}}` template var. (FR-005, FR-025)
+- [x] T007 Create `internal/handler/institutional.go` -- `InstitutionalHandler` struct with `queries *db.Queries`, `tmpl *template.Template`. Methods: `Home`, `QuemSomos`, `Servicos`, `NossosClientes`, `FaleConosco`, `NotFound`. Each renders the corresponding template with `base.html` layout and `ActivePage` var. `NotFound` returns 404 status code. (FR-008 to FR-012, FR-022, contracts/endpoints.md)
+- [x] T008 Update `cmd/prospeccao/main.go` -- add institutional routes to chi router (public group): `GET /`, `GET /quem-somos`, `GET /servicos`, `GET /nossos-clientes`, `GET /fale-conosco`, `POST /fale-conosco`, `POST /newsletter`. Add `r.NotFound(authHandler.NotFound)` for 404. Add static file server: `r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))`. Update template loading to parse all templates including partials and fragments. (FR-008 to FR-012, FR-022, FR-024, contracts/endpoints.md)
 
 **Checkpoint**: Foundation ready -- base template, static files, router wired. User story implementation can begin.
 
@@ -46,8 +46,8 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Create `internal/template/home.html` -- defines `{{block "content" .}}` with: hero section (headline, subheadline, CTA button "Solicite uma prospecção" linking to `/fale-conosco`), services preview (3 service cards with `.card` class, icon, title, description, "Saiba mais" link to `/servicos`), clients preview (link to `/nossos-clientes` or empty state), and a final CTA section. Uses `.btn`, `.card` design system classes. (FR-008, FR-001, FR-003)
-- [ ] T010 [US1] Create `internal/handler/institutional_test.go` -- integration test: `TestHomeGET` verifies 200 status, hero text present, services preview present, CTA link to `/fale-conosco` present. Uses httptest + chi router. (SC-001, SC-007, quickstart.md Scenario 1)
+- [x] T009 [US1] Create `internal/template/home.html` -- defines `{{block "content" .}}` with: hero section (headline, subheadline, CTA button "Solicite uma prospecção" linking to `/fale-conosco`), services preview (3 service cards with `.card` class, icon, title, description, "Saiba mais" link to `/servicos`), clients preview (link to `/nossos-clientes` or empty state), and a final CTA section. Uses `.btn`, `.card` design system classes. (FR-008, FR-001, FR-003)
+- [x] T010 [US1] Create `internal/handler/institutional_test.go` -- integration test: `TestHomeGET` verifies 200 status, hero text present, services preview present, CTA link to `/fale-conosco` present. Uses httptest + chi router. (SC-001, SC-007, quickstart.md Scenario 1)
 
 **Checkpoint**: Home page is functional and tested independently.
 
@@ -61,9 +61,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T011 [P] [US2] Create `internal/template/quem-somos.html` -- defines content block with: company history section, mission/vision/values cards (`.card` class), team section (at least 1 member: Luiz Claudio with photo placeholder, name, role). Uses `.badge` for values, `.card` for team members. (FR-009)
-- [ ] T012 [P] [US2] Create `internal/template/servicos.html` -- defines content block with at least 4 service cards: Prospecção de imóveis comerciais, Análise de viabilidade, Relatórios PDF, Gestão de pipeline. Each card has icon, title (`.headline-md`), description (`.body-md`), and CTA button (`.btn .btn-primary`) linking to `/fale-conosco`. (FR-010)
-- [ ] T013 [US2] Add tests to `internal/handler/institutional_test.go`: `TestQuemSomosGET` (200, mission/vision/values present, team member present), `TestServicosGET` (200, at least 4 service cards present), `TestNavActiveState` (each page has correct `active` class on nav item). (SC-007, quickstart.md Scenario 2, 12)
+- [x] T011 [P] [US2] Create `internal/template/quem-somos.html` -- defines content block with: company history section, mission/vision/values cards (`.card` class), team section (at least 1 member: Luiz Claudio with photo placeholder, name, role). Uses `.badge` for values, `.card` for team members. (FR-009)
+- [x] T012 [P] [US2] Create `internal/template/servicos.html` -- defines content block with at least 4 service cards: Prospecção de imóveis comerciais, Análise de viabilidade, Relatórios PDF, Gestão de pipeline. Each card has icon, title (`.headline-md`), description (`.body-md`), and CTA button (`.btn .btn-primary`) linking to `/fale-conosco`. (FR-010)
+- [x] T013 [US2] Add tests to `internal/handler/institutional_test.go`: `TestQuemSomosGET` (200, mission/vision/values present, team member present), `TestServicosGET` (200, at least 4 service cards present), `TestNavActiveState` (each page has correct `active` class on nav item). (SC-007, quickstart.md Scenario 2, 12)
 
 **Checkpoint**: Quem somos and Servicos pages are functional and tested.
 
@@ -77,10 +77,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Create `internal/handler/contact.go` -- `ContactHandler` struct with `queries`, `tmpl`, `log`, `limiter`. `Submit` method: parses form, validates fields (name min 2, email valid via `net/mail.ParseAddress`, message min 10, phone optional), rate-limits via `limiter.AllowBoth(ip, email)`, persists via `queries.CreateContactSubmission`, logs via slog, returns HTMX fragment (`contact_success.html`) or error fragment (`contact_error.html`). If not HTMX request, redirects with query params. (FR-013 to FR-016, contracts/endpoints.md, research.md R4)
-- [ ] T015 [P] [US3] Create `internal/template/fale-conosco.html` -- content block with contact form: name (required, min 2), email (required, type=email), phone (optional, type=tel, placeholder "+55 11 99999-9999"), subject (required), message (required, textarea, min 10). Form uses `hx-post="/fale-conosco"`, `hx-target="#contact-form-container"`, `hx-swap="outerHTML"`. Fallback `action="/fale-conosco" method="POST"`. Uses `.form-input`, `.btn` classes. (FR-012, FR-013, research.md R2)
-- [ ] T016 [P] [US3] Create `internal/template/fragments/contact_success.html` and `internal/template/fragments/contact_error.html` -- HTMX response fragments. Success: green alert box "Mensagem enviada com sucesso!". Error: red alert box with validation error messages. Both use Tailwind alert classes. (FR-015, research.md R2)
-- [ ] T017 [US3] Create `internal/handler/contact_test.go` -- integration tests: `TestContactSubmitValid` (200, success fragment, DB record created), `TestContactSubmitInvalidEmail` (error fragment), `TestContactSubmitShortMessage` (error fragment), `TestContactSubmitMissingName` (error fragment), `TestContactSubmitRateLimited` (429 after 5 attempts). Uses httptest + real Postgres. (SC-003, SC-007, quickstart.md Scenario 4, 5, 14)
+- [x] T014 [US3] Create `internal/handler/contact.go` -- `ContactHandler` struct with `queries`, `tmpl`, `log`, `limiter`. `Submit` method: parses form, validates fields (name min 2, email valid via `net/mail.ParseAddress`, message min 10, phone optional), rate-limits via `limiter.AllowBoth(ip, email)`, persists via `queries.CreateContactSubmission`, logs via slog, returns HTMX fragment (`contact_success.html`) or error fragment (`contact_error.html`). If not HTMX request, redirects with query params. (FR-013 to FR-016, contracts/endpoints.md, research.md R4)
+- [x] T015 [P] [US3] Create `internal/template/fale-conosco.html` -- content block with contact form: name (required, min 2), email (required, type=email), phone (optional, type=tel, placeholder "+55 11 99999-9999"), subject (required), message (required, textarea, min 10). Form uses `hx-post="/fale-conosco"`, `hx-target="#contact-form-container"`, `hx-swap="outerHTML"`. Fallback `action="/fale-conosco" method="POST"`. Uses `.form-input`, `.btn` classes. (FR-012, FR-013, research.md R2)
+- [x] T016 [P] [US3] Create `internal/template/fragments/contact_success.html` and `internal/template/fragments/contact_error.html` -- HTMX response fragments. Success: green alert box "Mensagem enviada com sucesso!". Error: red alert box with validation error messages. Both use Tailwind alert classes. (FR-015, research.md R2)
+- [x] T017 [US3] Create `internal/handler/contact_test.go` -- integration tests: `TestContactSubmitValid` (200, success fragment, DB record created), `TestContactSubmitInvalidEmail` (error fragment), `TestContactSubmitShortMessage` (error fragment), `TestContactSubmitMissingName` (error fragment), `TestContactSubmitRateLimited` (429 after 5 attempts). Uses httptest + real Postgres. (SC-003, SC-007, quickstart.md Scenario 4, 5, 14)
 
 **Checkpoint**: Contact form is functional, validated, persisted, and tested.
 
@@ -94,9 +94,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T018 [US4] Create `internal/handler/newsletter.go` -- `NewsletterHandler` with `queries`, `tmpl`, `log`, `limiter`. `Subscribe` method: parses email, validates via `net/mail.ParseAddress`, rate-limits, tries `queries.CreateNewsletterSubscriber`, catches unique violation (pgx error code 23505) and returns "already subscribed" fragment, logs via slog, returns HTMX fragment. (FR-017 to FR-020, contracts/endpoints.md, research.md R5)
-- [ ] T019 [P] [US4] Create `internal/template/fragments/newsletter_success.html` and `internal/template/fragments/newsletter_error.html` -- HTMX fragments. Success: "Inscrição confirmada!" or "Você já está inscrito!". Error: "Email inválido". (FR-019, research.md R5)
-- [ ] T020 [US4] Create `internal/handler/newsletter_test.go` -- integration tests: `TestNewsletterSubscribeNew` (success, DB record created), `TestNewsletterSubscribeDuplicate` ("already subscribed", no duplicate), `TestNewsletterSubscribeInvalidEmail` (error fragment), `TestNewsletterSubscribeRateLimited` (429). Uses httptest + real Postgres. (SC-004, SC-007, quickstart.md Scenario 6, 7, 8)
+- [x] T018 [US4] Create `internal/handler/newsletter.go` -- `NewsletterHandler` with `queries`, `tmpl`, `log`, `limiter`. `Subscribe` method: parses email, validates via `net/mail.ParseAddress`, rate-limits, tries `queries.CreateNewsletterSubscriber`, catches unique violation (pgx error code 23505) and returns "already subscribed" fragment, logs via slog, returns HTMX fragment. (FR-017 to FR-020, contracts/endpoints.md, research.md R5)
+- [x] T019 [P] [US4] Create `internal/template/fragments/newsletter_success.html` and `internal/template/fragments/newsletter_error.html` -- HTMX fragments. Success: "Inscrição confirmada!" or "Você já está inscrito!". Error: "Email inválido". (FR-019, research.md R5)
+- [x] T020 [US4] Create `internal/handler/newsletter_test.go` -- integration tests: `TestNewsletterSubscribeNew` (success, DB record created), `TestNewsletterSubscribeDuplicate` ("already subscribed", no duplicate), `TestNewsletterSubscribeInvalidEmail` (error fragment), `TestNewsletterSubscribeRateLimited` (429). Uses httptest + real Postgres. (SC-004, SC-007, quickstart.md Scenario 6, 7, 8)
 
 **Checkpoint**: Newsletter form is functional, idempotent, and tested.
 
@@ -110,8 +110,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T021 [US5] Create `internal/template/nossos-clientes.html` -- content block with: if `{{.Testimonials}}` is non-empty, render testimonial cards (`.card` class with client name, quote, metric badge). If empty, render elegant empty state: centered message "Em breve nossos clientes e cases de sucesso" with a subtle icon. Uses `.badge` for metrics, `.card` for testimonials. (FR-011)
-- [ ] T022 [US5] Add test to `internal/handler/institutional_test.go`: `TestNossosClientesGET` (200, empty state or testimonials present). (SC-007, quickstart.md Scenario 2)
+- [x] T021 [US5] Create `internal/template/nossos-clientes.html` -- content block with: if `{{.Testimonials}}` is non-empty, render testimonial cards (`.card` class with client name, quote, metric badge). If empty, render elegant empty state: centered message "Em breve nossos clientes e cases de sucesso" with a subtle icon. Uses `.badge` for metrics, `.card` for testimonials. (FR-011)
+- [x] T022 [US5] Add test to `internal/handler/institutional_test.go`: `TestNossosClientesGET` (200, empty state or testimonials present). (SC-007, quickstart.md Scenario 2)
 
 **Checkpoint**: Nossos clientes page is functional and tested.
 
@@ -121,13 +121,13 @@
 
 **Purpose**: 404 page, final CSS build, full test run, CI verification.
 
-- [ ] T023 [P] Create `internal/template/404.html` -- content block with friendly 404 message "Página não encontrada", a link back to Home (`.btn .btn-primary`), and institutional header/footer from base template. (FR-022)
-- [ ] T024 [P] Add test to `internal/handler/institutional_test.go`: `TestNotFound` (404 status, "não encontrada" text, nav and footer present). (FR-022, quickstart.md Scenario 3)
-- [ ] T025 Run `make build-css` to compile final CSS with all design system component classes. Verify `.btn`, `.badge`, `.card`, `.form-input` classes exist in `static/css/app.css`. (FR-001 to FR-007, quickstart.md Scenario 9)
-- [ ] T026 Run `make check` and verify: golangci-lint 0 issues, all tests pass, coverage >= 85% (excluding internal/db, cmd/prospeccao, scripts), build succeeds, ast-grep 0 errors. Fix any failures. (SC-007, quickstart.md Scenario 15)
-- [ ] T027 Run all 16 quickstart.md validation scenarios and verify each passes. Document any failures and fix. (All FRs, quickstart.md)
-- [ ] T028 Update `tailwind.config.js` content paths to include `internal/template/**/*.html` (currently points to `internal/ui/templates/` and `internal/handler/templates/` which don't exist). Ensure all template files are scanned by Tailwind for class purging. (FR-001 to FR-007)
-- [ ] T029 Commit all changes. Push to main. Verify CI passes via `gh run watch`. Check that the Test step runs integration tests against Postgres service container and the coverage gate passes. (SC-007)
+- [x] T023 [P] Create `internal/template/404.html` -- content block with friendly 404 message "Página não encontrada", a link back to Home (`.btn .btn-primary`), and institutional header/footer from base template. (FR-022)
+- [x] T024 [P] Add test to `internal/handler/institutional_test.go`: `TestNotFound` (404 status, "não encontrada" text, nav and footer present). (FR-022, quickstart.md Scenario 3)
+- [x] T025 Run `make build-css` to compile final CSS with all design system component classes. Verify `.btn`, `.badge`, `.card`, `.form-input` classes exist in `static/css/app.css`. (FR-001 to FR-007, quickstart.md Scenario 9)
+- [x] T026 Run `make check` and verify: golangci-lint 0 issues, all tests pass, coverage >= 85% (excluding internal/db, cmd/prospeccao, scripts), build succeeds, ast-grep 0 errors. Fix any failures. (SC-007, quickstart.md Scenario 15)
+- [x] T027 Run all 16 quickstart.md validation scenarios and verify each passes. Document any failures and fix. (All FRs, quickstart.md)
+- [x] T028 Update `tailwind.config.js` content paths to include `internal/template/**/*.html` (currently points to `internal/ui/templates/` and `internal/handler/templates/` which don't exist). Ensure all template files are scanned by Tailwind for class purging. (FR-001 to FR-007)
+- [x] T029 Commit all changes. Push to main. Verify CI passes via `gh run watch`. Check that the Test step runs integration tests against Postgres service container and the coverage gate passes. (SC-007)
 
 ---
 
