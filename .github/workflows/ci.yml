@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26"
-          cache: true
+          cache: false
       - name: Install ast-grep
         run: |
           curl -L -o /tmp/sg.zip https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-unknown-linux-gnu.zip
@@ -53,10 +53,13 @@ jobs:
         run: npm install
       - name: Build CSS
         run: make build-css
+      - name: Download Go modules
+        run: go mod download
       - name: Install golangci-lint
         uses: golangci/golangci-lint-action@v7
         with:
           version: v2.12.2
+          args: --timeout 5m
       - name: Migrate (test DB)
         env:
           DATABASE_URL: postgres://postgres:test@localhost:5432/prospeccaobrasil_test?sslmode=disable
