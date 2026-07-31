@@ -1,0 +1,17 @@
+{{define "totp_verify.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificar 2FA -- Prospeccao Brasil</title>
+</head>
+<body>
+<h1>Verificar Autenticacao em Duas Etapas</h1>
+<p>Digite o codigo TOTP do seu app de autenticador:</p>
+{{if .Error}}<p style="color:red">{{.Error}}</p>{{end}}
+<form method="POST" action="/2fa/verify">
+<label>Codigo TOTP: <input type="text" name="code" pattern="[0-9]{6}" maxlength="6" required></label><br>
+<button type="submit">Verificar</button>
+</form>
+</body>
+</html>{{end}}

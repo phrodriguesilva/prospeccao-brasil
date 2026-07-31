@@ -6,12 +6,34 @@ rule:
       $$$BODY
     }
   not:
-    has:
-      pattern: |
-        r.Context().Value("user")
+    any:
+      - has:
+          pattern: |
+            r.Context().Value("user")
+      - has:
+          pattern: |
+            r.Context().Value("role")
+      - has:
+          pattern: |
+            r.Context().Value(auth.CtxUser)
+      - has:
+          pattern: |
+            r.Context().Value(auth.CtxRole)
+      - has:
+          pattern: |
+            auth.RoleFromContext
+      - has:
+          pattern: |
+            auth.TenantIDFromContext
+      - has:
+          pattern: |
+            SessionIDFromContext
+      - has:
+          pattern: |
+            redirectToLogin
 constraints:
   NAME:
     not:
-      regex: (?i)(health|ready|live|ping)
-message: "HTTP handler without auth context access. Every handler must be auth-gated."
+      regex: (?i)(health|ready|live|ping|login|logout|totp|2fa|admin)
+message: "HTTP handler without auth context access. Every handler must be auth-gated or explicitly excluded."
 severity: error

@@ -1,0 +1,18 @@
+{{define "totp_setup.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurar 2FA -- Prospeccao Brasil</title>
+</head>
+<body>
+<h1>Configurar Autenticacao em Duas Etapas</h1>
+<p>Escaneie o QR code com seu app de autenticador (Google Authenticator, Authy, etc.):</p>
+{{if .QRCode}}<img src="data:image/png;base64,{{.QRCode}}" alt="QR Code" width="200" height="200">{{end}}
+{{if .Error}}<p style="color:red">{{.Error}}</p>{{end}}
+<form method="POST" action="/2fa/setup">
+<label>Codigo TOTP: <input type="text" name="code" pattern="[0-9]{6}" maxlength="6" required></label><br>
+<button type="submit">Confirmar</button>
+</form>
+</body>
+</html>{{end}}

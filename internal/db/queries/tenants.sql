@@ -11,3 +11,6 @@ UPDATE tenants
 SET name = $2, cnpj = $3, updated_at = now()
 WHERE id = $1
 RETURNING *;
+
+-- name: ListTenantsByActive :many
+SELECT * FROM tenants WHERE active = $1 AND deleted_at IS NULL ORDER BY created_at;

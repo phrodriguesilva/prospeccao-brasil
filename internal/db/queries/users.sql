@@ -27,3 +27,13 @@ RETURNING *;
 SELECT * FROM users
 WHERE tenant_id = $1 AND deleted_at IS NULL
 ORDER BY created_at DESC;
+
+-- name: GetUserForAuth :one
+-- Does NOT filter deleted_at so middleware can check separately.
+SELECT * FROM users
+WHERE email = $1 AND tenant_id = $2;
+
+-- name: ResetFailedLoginAttempts :exec
+UPDATE users
+SET failed_login_attempts = 0, locked_at = NULL, updated_at = now()
+WHERE id = $1 AND tenant_id = $2;

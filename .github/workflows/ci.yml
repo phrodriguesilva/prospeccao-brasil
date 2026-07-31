@@ -100,7 +100,8 @@ jobs:
         run: |
           # internal/db is sqlc-generated (DO NOT EDIT) -- exclude from coverage gate.
           # cmd/prospeccao is the server entry point (main) -- not unit-testable.
-          grep -v "internal/db/" coverage.out | grep -v "cmd/prospeccao/" > coverage-nogen.out || true
+          # scripts/ is a standalone seed CLI -- not unit-testable.
+          grep -v "internal/db/" coverage.out | grep -v "cmd/prospeccao/" | grep -v "scripts/" > coverage-nogen.out || true
           echo "mode: atomic" > coverage-nogen.out.tmp
           grep -v "^mode:" coverage-nogen.out >> coverage-nogen.out.tmp 2>/dev/null || true
           mv coverage-nogen.out.tmp coverage-nogen.out

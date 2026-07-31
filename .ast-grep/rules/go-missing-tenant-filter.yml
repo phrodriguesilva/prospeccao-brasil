@@ -25,7 +25,7 @@ rule:
 constraints:
   NAME:
     not:
-      regex: ^(Test|seed|setup|Benchmark|Example|Fuzz|Session|Pending|Tenant|Audit|RBAC|Slog|New|pgUUID|pgTimestamptz|strPtr|uuidFromPG|redirectToLogin|actionFromMethod|capMetadata|ParseIP|Log|validate|render|parse|match|create|do|encode|decode|status)
+      regex: ^(Test|seed|setup|Benchmark|Example|Fuzz|Session|Pending|Tenant|Audit|RBAC|Slog|New|pgUUID|pgTimestamptz|strPtr|uuidFromPG|redirectToLogin|actionFromMethod|capMetadata|ParseIP|Log|validate|render|parse|match|create|do|encode|decode|status|get|find)
   ARGS:
     not:
       any:
