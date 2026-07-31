@@ -92,11 +92,11 @@ These tasks are parallelizable (different files, no dependencies between query f
 
 **Purpose**: Verify CI parity, run all quickstart scenarios, commit and push.
 
-- [ ] T025 Run `make check` and verify it passes: golangci-lint, go test (with coverage >= 85%), build-css, go build, ast-grep scan. If any gate fails, fix the underlying issue. (FR-012, quickstart.md Scenario 11)
-- [ ] T026 Run all quickstart.md validation scenarios (1-13) and verify each passes. Document any failures and fix. (All FRs, quickstart.md)
-- [ ] T027 Verify `grep -r "UPDATE audit_log\|DELETE FROM audit_log" internal/db/queries/` returns no matches (FR-009 append-only). (FR-009, quickstart.md Scenario 8)
-- [ ] T028 Verify `migrate up` on a fresh test DB succeeds (CI parity). Run: `dropdb prospeccaobrasil_test && createdb prospeccaobrasil_test && migrate -path migrations -database "postgres://postgres:postgres@localhost:5432/prospeccaobrasil_test?sslmode=disable" up`. (FR-010, quickstart.md Scenario 9)
-- [ ] T029 Commit all changes. Push to main. Verify CI passes (the "Migrate (test DB)" step now runs the real migration, "Test" step runs integration tests against Postgres service container). Check via `gh run watch`. (FR-010, FR-012)
+- [X] T025 Run `make check` and verify it passes: golangci-lint, go test (with coverage >= 85%), build-css, go build, ast-grep scan. If any gate fails, fix the underlying issue. (FR-012, quickstart.md Scenario 11)
+- [X] T026 Run all quickstart.md validation scenarios (1-13) and verify each passes. Document any failures and fix. (All FRs, quickstart.md)
+- [X] T027 Verify `grep -r "UPDATE audit_log\|DELETE FROM audit_log" internal/db/queries/` returns no matches (FR-009 append-only). (FR-009, quickstart.md Scenario 8)
+- [X] T028 Verify `migrate up` on a fresh test DB succeeds (CI parity). Run: `dropdb prospeccaobrasil_test && createdb prospeccaobrasil_test && migrate -path migrations -database "postgres://postgres:postgres@localhost:5432/prospeccaobrasil_test?sslmode=disable" up`. (FR-010, quickstart.md Scenario 9)
+- [X] T029 Commit all changes. Push to main. Verify CI passes (the "Migrate (test DB)" step now runs the real migration, "Test" step runs integration tests against Postgres service container). Check via `gh run watch`. (FR-010, FR-012)
 
 **Checkpoint**: CI is green. All 12 FRs verified. SPEC-02 is complete.
 
