@@ -90,11 +90,11 @@ from the project roadmap and is non-negotiable.
   existence checked via `information_schema.table_constraints` and
   `pg_indexes`.
 - **FR-003**: `users` table includes `role` (admin for MVP; CHECK
-  constraint allows admin, socio, advogado, estagiario, financeiro,
-  recepcao for future-proofing), `password_hash`, `totp_secret`,
+  constraint allows admin, corretor, assistente, financeiro for
+  future-proofing), `password_hash`, `totp_secret`,
   `totp_enabled`, `failed_login_attempts`, `locked_at`. Verify:
   `psql -c "\d users"` shows all columns; `role` is a CHECK constraint with
-  the 6 values.
+  the 4 values.
 - **FR-004**: `sessions` table includes `token_hash`, `user_id`,
   `tenant_id`, `expires_at`, `revoked_at` (for instant revocation). Verify:
   `psql -c "\d sessions"` shows all columns; `revoked_at` is nullable
@@ -205,8 +205,8 @@ sqlc generates `internal/db/models.go` and query-specific `*.sql.go` files.
 
 Key schema constraints (enforced at DB level):
 - `tenant_id` FK + index on every tenant-scoped table (FR-002)
-- `users.role` CHECK constraint with 6 values: admin, socio, advogado,
-  estagiario, financeiro, recepcao (FR-003)
+- `users.role` CHECK constraint with 4 values: admin, corretor,
+  assistente, financeiro (FR-003)
 - `sessions.revoked_at` nullable (active = NULL, revoked = timestamp) (FR-004)
 - `properties.status` CHECK: available, reserved, sold, inactive (FR-005)
 - `properties.type` CHECK: residential, commercial, land, rural (FR-005)
@@ -265,7 +265,7 @@ encryption strategy is documented here and enforced in SPEC-03.
 | clients | indefinite (while tenant active) | soft-delete (`deleted_at` column); hard delete on tenant termination | Art. 15 (data retention for legal obligation) |
 | properties | indefinite (while tenant active) | soft-delete (`deleted_at` column); hard delete on tenant termination | Art. 15 |
 | prospections | indefinite (while client/property active) | soft-delete on closure; hard delete on tenant termination | Art. 15 |
-| contacts | indefinite (while client active) | soft-delete on client closure; hard delete on tenant termination | Art. 15 |
+| contacts | indefinite (while client active) | hard delete on tenant termination (immutable log, no soft-delete) | Art. 15 |
 | audit_log | 5 years (LGPD Art. 16) | archival job (future ops spec); no in-app DELETE | Art. 16 (legal retention period) |
 | sessions | 30 days after `expires_at` | cron job (future ops spec) deletes expired sessions | Art. 15 |
 

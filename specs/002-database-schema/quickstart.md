@@ -71,8 +71,8 @@ psql -d prospeccaobrasil -c "\d users"
 Expected columns: `id`, `tenant_id`, `email`, `full_name`, `role`,
 `password_hash`, `totp_secret`, `totp_enabled`, `failed_login_attempts`,
 `locked_at`, `active`, `created_at`, `updated_at`, `deleted_at`. The `role`
-column has a CHECK constraint with 6 values: admin, socio, advogado,
-estagiario, financeiro, recepcao.
+column has a CHECK constraint with 4 values: admin, corretor,
+assistente, financeiro.
 
 ### Scenario 5: sessions table has revocation support
 

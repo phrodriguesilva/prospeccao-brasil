@@ -93,9 +93,10 @@ tenants/users.
   clients/properties; accidental deletes are recoverable.
 
 **Tables with `deleted_at`**: tenants, users, properties, clients,
-prospections, contacts.
+prospections.
 **Tables WITHOUT `deleted_at`**: sessions (hard delete on expiry), audit_log
-(never deleted), contacts (soft-delete on client closure -- has deleted_at).
+(never deleted), contacts (immutable interaction log, like audit_log -- no
+soft-delete; hard delete on tenant termination only).
 
 ### R4: sqlc configuration (pgx vs database/sql)
 

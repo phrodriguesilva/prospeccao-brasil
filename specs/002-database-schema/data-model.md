@@ -18,6 +18,16 @@ tenants (root)
   └── audit_log (tenant-scoped, append-only)
 ```
 
+**Note on contacts**: The `contacts` table has a nullable `prospect_id`
+foreign key. A contact can be either:
+- A standalone client interaction (`prospect_id` is NULL -- e.g., a general
+  inquiry call before any prospection exists), OR
+- Linked to a specific prospection (`prospect_id` references a row in
+  `prospections` -- e.g., a negotiation email about a specific property).
+Both paths share the same `contacts` table; the `prospect_id` column
+distinguishes them. This is why contacts appears under both `prospections`
+and `clients` in the diagram above.
+
 ## Conventions
 
 - **Primary keys**: `uuid` type, UUID v7 generated in Go (`uuid.NewV7()`),
@@ -56,7 +66,7 @@ Prospector users with RBAC. Tenant-scoped.
 | tenant_id | uuid | NOT NULL, FK tenants(id), indexed | |
 | email | text | NOT NULL, UNIQUE(tenant_id, email) | |
 | full_name | text | NOT NULL | |
-| role | text | NOT NULL, CHECK (role IN ('admin','socio','advogado','estagiario','financeiro','recepcao')) | FR-003; admin for MVP |
+| role | text | NOT NULL, CHECK (role IN ('admin','corretor','assistente','financeiro')) | FR-003; admin for MVP |
 | password_hash | text | NOT NULL | bcrypt hash |
 | totp_secret | text | nullable | app-layer encrypted (SPEC-03) |
 | totp_enabled | boolean | NOT NULL DEFAULT false | |
