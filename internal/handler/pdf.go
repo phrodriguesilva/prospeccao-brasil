@@ -171,5 +171,18 @@ func findChrome() string {
 			return path
 		}
 	}
+	// Check common macOS paths
+	macPaths := []string{
+		"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+		"/Applications/Chromium.app/Contents/MacOS/Chromium",
+		"/usr/bin/google-chrome",
+		"/usr/bin/chromium-browser",
+		"/snap/bin/chromium",
+	}
+	for _, p := range macPaths {
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+	}
 	return ""
 }

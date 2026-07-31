@@ -33,7 +33,7 @@
 <select name="client_id" class="form-input" required>
 <option value="">Selecione...</option>
 {{range .Clients}}
-<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) .Form.ClientID}}selected{{end}}>{{.Name}}</option>
+<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) $.Form.ClientID}}selected{{end}}>{{.Name}}</option>
 {{end}}
 </select>
 {{if .Errors.ClientID}}<p class="form-error">{{.Errors.ClientID}}</p>{{end}}
@@ -43,7 +43,7 @@
 <select name="property_id" class="form-input" required>
 <option value="">Selecione...</option>
 {{range .Properties}}
-<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) .Form.PropertyID}}selected{{end}}>{{.Title}}</option>
+<option value="{{uuidToString .ID}}" {{if eq (uuidToString .ID) $.Form.PropertyID}}selected{{end}}>{{.Title}}</option>
 {{end}}
 </select>
 {{if .Errors.PropertyID}}<p class="form-error">{{.Errors.PropertyID}}</p>{{end}}

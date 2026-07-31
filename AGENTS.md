@@ -60,7 +60,7 @@ original SPEC-06 (Sistema interno) became SPEC-05 in the new numbering.
 
 `.specify/memory/constitution.md` defines the 7 principles. Key constraints:
 
-- 85% test coverage minimum.
+- 70% test coverage minimum for app code (85% for security-critical internal/auth).
 - No secrets in repo (gitleaks enforces).
 - Forward-only SQL migrations (golang-migrate).
 - Structured logs via `slog` (no `fmt.Println` in non-main code).

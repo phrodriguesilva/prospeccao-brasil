@@ -40,15 +40,15 @@ WHERE id = $1 AND tenant_id = $2;
 -- name: ListPropertiesFiltered :many
 SELECT * FROM properties
 WHERE tenant_id = $1 AND deleted_at IS NULL
-  AND ($2::text IS NULL OR status = $2)
-  AND ($3::text IS NULL OR type = $3)
-  AND ($4::text IS NULL OR title ILIKE '%' || $4 || '%' OR city ILIKE '%' || $4 || '%')
+  AND ($2 = '' OR status = $2)
+  AND ($3 = '' OR type = $3)
+  AND ($4 = '' OR title ILIKE '%' || $4 || '%' OR city ILIKE '%' || $4 || '%')
 ORDER BY created_at DESC
 LIMIT $5 OFFSET $6;
 
 -- name: CountPropertiesFiltered :one
 SELECT COUNT(*) FROM properties
 WHERE tenant_id = $1 AND deleted_at IS NULL
-  AND ($2::text IS NULL OR status = $2)
-  AND ($3::text IS NULL OR type = $3)
-  AND ($4::text IS NULL OR title ILIKE '%' || $4 || '%' OR city ILIKE '%' || $4 || '%');
+  AND ($2 = '' OR status = $2)
+  AND ($3 = '' OR type = $3)
+  AND ($4 = '' OR title ILIKE '%' || $4 || '%' OR city ILIKE '%' || $4 || '%');

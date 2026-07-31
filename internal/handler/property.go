@@ -191,7 +191,7 @@ func (h *PropertyHandler) Create(w http.ResponseWriter, r *http.Request) {
 	form := parsePropertyForm(r)
 	errors := validatePropertyForm(form)
 	if hasPropertyErrors(errors) {
-		h.renderFormError(w, r, user, form, errors, false)
+		h.renderFormError(w, r, user, form, errors, false, nil)
 		return
 	}
 
@@ -216,7 +216,7 @@ func (h *PropertyHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "property: create", "error", err)
 		errors.Generic = "Erro ao criar imóvel. Tente novamente."
-		h.renderFormError(w, r, user, form, errors, false)
+		h.renderFormError(w, r, user, form, errors, false, nil)
 		return
 	}
 
@@ -331,8 +331,7 @@ func (h *PropertyHandler) Update(w http.ResponseWriter, r *http.Request) {
 	errors := validatePropertyForm(form)
 	if hasPropertyErrors(errors) {
 		prop, _ := h.queries.GetPropertyByID(r.Context(), db.GetPropertyByIDParams{ID: id, TenantID: user.TenantID})
-		h.renderFormError(w, r, user, form, errors, true)
-		_ = prop
+		h.renderFormError(w, r, user, form, errors, true, &prop)
 		return
 	}
 
@@ -356,7 +355,7 @@ func (h *PropertyHandler) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "property: update", "error", err)
 		errors.Generic = "Erro ao atualizar imóvel."
-		h.renderFormError(w, r, user, form, errors, true)
+		h.renderFormError(w, r, user, form, errors, true, nil)
 		return
 	}
 
@@ -386,13 +385,14 @@ func (h *PropertyHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/properties", http.StatusSeeOther)
 }
 
-func (h *PropertyHandler) renderFormError(w http.ResponseWriter, r *http.Request, user *db.User, form propertyForm, errors propertyErrors, isEdit bool) {
+func (h *PropertyHandler) renderFormError(w http.ResponseWriter, r *http.Request, user *db.User, form propertyForm, errors propertyErrors, isEdit bool, prop *db.Property) {
 	data := propertyPageData{
 		Title:      cond(isEdit, "Editar Imóvel", "Novo Imóvel"),
 		ActivePage: "properties",
 		UserEmail:  user.Email,
 		UserRole:   user.Role,
 		IsEdit:     isEdit,
+		Property:   prop,
 		Form:       form,
 		Errors:     errors,
 	}

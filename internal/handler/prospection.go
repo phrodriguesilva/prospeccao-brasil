@@ -398,14 +398,15 @@ func (h *ProspectionHandler) CreateContact(w http.ResponseWriter, r *http.Reques
 
 	id := pgtype.UUID{Bytes: uuid.New(), Valid: true}
 	_, err = h.queries.CreateContact(r.Context(), db.CreateContactParams{
-		ID:         id,
-		TenantID:   user.TenantID,
-		ClientID:   prospect.ClientID,
-		ProspectID: prospectID,
-		Channel:    channel,
-		Direction:  direction,
-		Subject:    toPgText(subject),
-		Body:       toPgText(body),
+		ID:          id,
+		TenantID:    user.TenantID,
+		ClientID:    prospect.ClientID,
+		ProspectID:  prospectID,
+		Channel:     channel,
+		Direction:   direction,
+		Subject:     toPgText(subject),
+		Body:        toPgText(body),
+		ContactedAt: pgtype.Timestamptz{Time: time.Now(), Valid: true},
 	})
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "contact: create for prospect", "error", err)

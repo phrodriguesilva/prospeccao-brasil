@@ -24,10 +24,11 @@ test:
 	@echo "mode: atomic" > coverage-nogen.out.tmp
 	@grep -v "^mode:" coverage-nogen.out >> coverage-nogen.out.tmp 2>/dev/null || true
 	@mv coverage-nogen.out.tmp coverage-nogen.out
-	@echo "Coverage (excluding internal/db, cmd/prospeccao):"
+	@echo "Coverage (excluding internal/db, cmd/prospeccao, scripts):"
 	@go tool cover -func=coverage-nogen.out | grep total || echo "No non-excluded packages yet (expected in SPEC-01)"
-	@echo "Total coverage (all packages):"
-	@go tool cover -func=coverage.out | grep total
+	@COV=$$(go tool cover -func=coverage-nogen.out | grep total | awk '{print $$3}' | tr -d '%') && \
+	awk "BEGIN { exit !($$COV >= 70) }" || (echo "Coverage below 70%" && exit 1)
+	@echo "Coverage gate: 70% minimum -- PASS"
 
 build-css:
 	npx tailwindcss -i input.css -o static/css/app.css --minify

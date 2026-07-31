@@ -1,12 +1,1 @@
-{
-  "mcpServers": {
-    "ast-grep": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/ast-grep/ast-grep-mcp", "ast-grep-server"],
-      "env": {
-        "PATH": "/opt/homebrew/bin:/usr/local/bin:/Users/relterborges/go/bin:${PATH}",
-        "AST_GREP_CONFIG": "/Users/relterborges/Documents/Dev/prospeccao-brasil/sgconfig.yml"
-      }
-    }
-  }
-}
+{}

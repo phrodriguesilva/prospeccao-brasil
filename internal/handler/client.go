@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/mail"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -170,7 +171,7 @@ func (h *ClientHandler) Create(w http.ResponseWriter, r *http.Request) {
 	form := parseClientForm(r)
 	errors := validateClientForm(form)
 	if hasClientErrors(errors) {
-		h.renderClientFormError(w, r, user, form, errors, false)
+		h.renderClientFormError(w, r, user, form, errors, false, nil)
 		return
 	}
 
@@ -190,7 +191,7 @@ func (h *ClientHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "client: create", "error", err)
 		errors.Generic = "Erro ao criar cliente."
-		h.renderClientFormError(w, r, user, form, errors, false)
+		h.renderClientFormError(w, r, user, form, errors, false, nil)
 		return
 	}
 
@@ -304,7 +305,8 @@ func (h *ClientHandler) Update(w http.ResponseWriter, r *http.Request) {
 	form := parseClientForm(r)
 	errors := validateClientForm(form)
 	if hasClientErrors(errors) {
-		h.renderClientFormError(w, r, user, form, errors, true)
+		client, _ := h.queries.GetClientByID(r.Context(), db.GetClientByIDParams{ID: id, TenantID: user.TenantID})
+		h.renderClientFormError(w, r, user, form, errors, true, &client)
 		return
 	}
 
@@ -323,7 +325,7 @@ func (h *ClientHandler) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "client: update", "error", err)
 		errors.Generic = "Erro ao atualizar cliente."
-		h.renderClientFormError(w, r, user, form, errors, true)
+		h.renderClientFormError(w, r, user, form, errors, true, nil)
 		return
 	}
 
@@ -379,14 +381,15 @@ func (h *ClientHandler) CreateContact(w http.ResponseWriter, r *http.Request) {
 
 	id := pgtype.UUID{Bytes: uuid.New(), Valid: true}
 	_, err := h.queries.CreateContact(r.Context(), db.CreateContactParams{
-		ID:         id,
-		TenantID:   user.TenantID,
-		ClientID:   clientID,
-		ProspectID: pgtype.UUID{Valid: false},
-		Channel:    channel,
-		Direction:  direction,
-		Subject:    toPgText(subject),
-		Body:       toPgText(body),
+		ID:          id,
+		TenantID:    user.TenantID,
+		ClientID:    clientID,
+		ProspectID:  pgtype.UUID{Valid: false},
+		Channel:     channel,
+		Direction:   direction,
+		Subject:     toPgText(subject),
+		Body:        toPgText(body),
+		ContactedAt: pgtype.Timestamptz{Time: time.Now(), Valid: true},
 	})
 	if err != nil {
 		h.log.ErrorContext(r.Context(), "contact: create for client", "error", err)
@@ -414,13 +417,14 @@ func (h *ClientHandler) CreateContact(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, fmt.Sprintf("/clients/%s", uuid.UUID(clientID.Bytes).String()), http.StatusSeeOther)
 }
 
-func (h *ClientHandler) renderClientFormError(w http.ResponseWriter, r *http.Request, user *db.User, form clientForm, errors clientErrors, isEdit bool) {
+func (h *ClientHandler) renderClientFormError(w http.ResponseWriter, r *http.Request, user *db.User, form clientForm, errors clientErrors, isEdit bool, client *db.Client) {
 	data := clientPageData{
 		Title:      cond(isEdit, "Editar Cliente", "Novo Cliente"),
 		ActivePage: "clients",
 		UserEmail:  user.Email,
 		UserRole:   user.Role,
 		IsEdit:     isEdit,
+		Client:     client,
 		Form:       form,
 		Errors:     errors,
 	}

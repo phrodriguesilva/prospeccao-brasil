@@ -48,14 +48,14 @@ WHERE id = $1 AND tenant_id = $2;
 -- name: ListProspectsFiltered :many
 SELECT * FROM prospections
 WHERE tenant_id = $1 AND deleted_at IS NULL
-  AND ($2::text IS NULL OR status = $2)
+  AND ($2 = '' OR status = $2)
 ORDER BY created_at DESC
 LIMIT $3 OFFSET $4;
 
 -- name: CountProspectsFiltered :one
 SELECT COUNT(*) FROM prospections
 WHERE tenant_id = $1 AND deleted_at IS NULL
-  AND ($2::text IS NULL OR status = $2);
+  AND ($2 = '' OR status = $2);
 
 -- name: ListProspectsByClientWithDetails :many
 SELECT

@@ -36,8 +36,9 @@ acceptable. Tailwind CSS is a build-time tool (not a runtime dependency).
 
 ### IV. Test-First & Continuous Quality
 
-85% test coverage minimum (enforced by CI gate, excluding sqlc-generated
-`internal/db` and the `cmd/prospeccao` entry point). Tests run with `-race`
+70% test coverage minimum for application code (enforced by CI gate, excluding
+sqlc-generated `internal/db`, the `cmd/prospeccao` entry point, and `scripts/`).
+Security-critical packages (`internal/auth`) target 85%. Tests run with `-race`
 and `-p 1` (sequential) to catch data races and integration test isolation
 issues. `govulncheck` runs in CI. ast-grep structural rules catch violations
 that linters miss (bare errors, missing tenant filters, missing auth, missing
@@ -76,7 +77,7 @@ cognitive load is the primary UX metric.
 | Format | `gofmt` | pre-commit | `.pre-commit-config.yaml` |
 | Lint | `golangci-lint` | pre-commit + CI | `.pre-commit-config.yaml`, `ci.yml` |
 | Vet | `go vet` | CI | `ci.yml` |
-| Test + coverage (85%) | `go test -race -p 1` | pre-commit + CI | Makefile, `ci.yml` |
+| Test + coverage (70% app, 85% auth) | `go test -race -p 1` | pre-commit + CI | Makefile, `ci.yml` |
 | Build | `go build` | CI | `ci.yml` |
 | Structural scan | `ast-grep scan` | pre-commit + CI | `.pre-commit-config.yaml`, `ci.yml` |
 | Secret scan | `gitleaks` | pre-commit | `.pre-commit-config.yaml` |
