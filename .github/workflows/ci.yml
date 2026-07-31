@@ -25,23 +25,41 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26"
-          cache: false
+          cache: true
+      # Cache curl-installed tools (ast-grep, sqlc, migrate, golangci-lint)
+      # at /usr/local/bin/. Composite key includes each tool's version so
+      # a version bump invalidates the cache automatically.
+      - name: Cache tools
+        id: cache-tools
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/bin
+          key: tools-v1-astgrep0450-sqlc1311-migrate4181-golangci2122
       - name: Install ast-grep
+        if: steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           curl -L -o /tmp/sg.zip https://github.com/ast-grep/ast-grep/releases/download/0.45.0/app-x86_64-unknown-linux-gnu.zip
           unzip -o /tmp/sg.zip -d /tmp/sg
           mv /tmp/sg/sg /usr/local/bin/sg
           mv /tmp/sg/ast-grep /usr/local/bin/ast-grep
       - name: Install sqlc
+        if: steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           curl -L -o /tmp/sqlc.tar.gz https://github.com/sqlc-dev/sqlc/releases/download/v1.31.1/sqlc_1.31.1_linux_amd64.tar.gz
           tar -xzf /tmp/sqlc.tar.gz -C /tmp
           mv /tmp/sqlc /usr/local/bin/sqlc
       - name: Install migrate
+        if: steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           curl -L -o /tmp/migrate.tar.gz https://github.com/golang-migrate/migrate/releases/download/v4.18.1/migrate.linux-amd64.tar.gz
           tar -xzf /tmp/migrate.tar.gz -C /tmp
           mv /tmp/migrate /usr/local/bin/migrate
+      - name: Install golangci-lint
+        if: steps.cache-tools.outputs.cache-hit != 'true'
+        run: |
+          curl -L -o /tmp/golangci-lint.tar.gz https://github.com/golangci/golangci-lint/releases/download/v2.12.2/golangci-lint-2.12.2-linux-amd64.tar.gz
+          tar -xzf /tmp/golangci-lint.tar.gz -C /tmp
+          mv /tmp/golangci-lint-2.12.2-linux-amd64/golangci-lint /usr/local/bin/golangci-lint
       - name: Generate sqlc
         run: |
           if [ -n "$(ls -A internal/db/queries/*.sql 2>/dev/null)" ]; then
@@ -60,11 +78,6 @@ jobs:
         run: make build-css
       - name: Download Go modules
         run: go mod download
-      - name: Install golangci-lint
-        run: |
-          curl -L -o /tmp/golangci-lint.tar.gz https://github.com/golangci/golangci-lint/releases/download/v2.12.2/golangci-lint-2.12.2-linux-amd64.tar.gz
-          tar -xzf /tmp/golangci-lint.tar.gz -C /tmp
-          mv /tmp/golangci-lint-2.12.2-linux-amd64/golangci-lint /usr/local/bin/golangci-lint
       - name: Migrate (test DB)
         env:
           DATABASE_URL: postgres://postgres:test@localhost:5432/prospeccaobrasil_test?sslmode=disable
@@ -91,10 +104,14 @@ jobs:
           echo "mode: atomic" > coverage-nogen.out.tmp
           grep -v "^mode:" coverage-nogen.out >> coverage-nogen.out.tmp 2>/dev/null || true
           mv coverage-nogen.out.tmp coverage-nogen.out
-          COV=$(go tool cover -func=coverage-nogen.out | grep total | awk '{print $3}' | tr -d '%')
-          if [ -z "$COV" ]; then
+          # Count actual coverage lines (excluding the mode header). If zero,
+          # there are no non-excluded packages to measure -- skip the gate.
+          # This happens in SPEC-01 where cmd/prospeccao is the only package.
+          LINE_COUNT=$(grep -c -v "^mode:" coverage-nogen.out || true)
+          if [ "$LINE_COUNT" -eq 0 ]; then
             echo "No non-excluded packages yet (expected in SPEC-01) -- coverage gate skipped"
           else
+            COV=$(go tool cover -func=coverage-nogen.out | grep total | awk '{print $3}' | tr -d '%')
             echo "Coverage (excluding internal/db, cmd/prospeccao): $COV%"
             awk "BEGIN { exit !($COV >= 85) }" || (echo "Coverage below 85%" && exit 1)
           fi
@@ -102,7 +119,16 @@ jobs:
         run: go build -o bin/prospeccao ./cmd/prospeccao
       - name: ast-grep scan
         run: ast-grep scan
+      # Cache govulncheck binary in GOPATH/bin with a version-pinned key.
+      # Bump govulncheck-v1 -> govulncheck-v2 to force a fresh install.
+      - name: Cache govulncheck
+        id: cache-govulncheck
+        uses: actions/cache@v4
+        with:
+          path: $(go env GOPATH)/bin
+          key: govulncheck-v1
+      - name: Install govulncheck
+        if: steps.cache-govulncheck.outputs.cache-hit != 'true'
+        run: cd /tmp && go install golang.org/x/vuln/cmd/govulncheck@latest
       - name: govulncheck
-        run: |
-          cd /tmp && go install golang.org/x/vuln/cmd/govulncheck@latest && cd -
-          govulncheck ./...
+        run: govulncheck ./...
