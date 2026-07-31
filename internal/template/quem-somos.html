@@ -1,0 +1,62 @@
+{{define "quem-somos.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quem Somos -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "nav" .}}
+<main class="min-h-screen">
+<section class="py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h1 class="font-display text-display-lg text-primary text-center mb-12">Quem Somos</h1>
+<div class="max-w-3xl mx-auto text-body-lg text-on-surface-variant space-y-6">
+<p>A Prospecção Brasil nasceu da necessidade de profissionalizar a prospecção de imóveis comerciais no Brasil. Nosso fundador, Luiz Claudio, identificou que prospectores perdiam oportunidades valiosas por falta de um sistema centralizado.</p>
+<p>Criamos uma plataforma que reduz a carga cognitiva do prospector, permitindo que ele foque no que importa: relacionamento e negócios.</p>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="font-display text-headline-lg text-center text-on-surface mb-12">Missão, Visão e Valores</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="card">
+<span class="badge badge-info mb-4">Missão</span>
+<h3 class="font-display text-headline-md text-primary mb-3">Reduzir a carga cognitiva</h3>
+<p class="text-body-md text-on-surface-variant">Profissionalizar a prospecção imobiliária com tecnologia e dados.</p>
+</div>
+<div class="card">
+<span class="badge badge-info mb-4">Visão</span>
+<h3 class="font-display text-headline-md text-primary mb-3">Referência nacional</h3>
+<p class="text-body-md text-on-surface-variant">Ser a plataforma líder em prospecção de imóveis comerciais no Brasil.</p>
+</div>
+<div class="card">
+<span class="badge badge-info mb-4">Valores</span>
+<h3 class="font-display text-headline-md text-primary mb-3">Transparência e dados</h3>
+<p class="text-body-md text-on-surface-variant">Decisões baseadas em dados, com conformidade LGPD em primeiro lugar.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="font-display text-headline-lg text-center text-on-surface mb-12">Nossa Equipe</h2>
+<div class="flex justify-center">
+<div class="card max-w-md text-center">
+<div class="w-24 h-24 bg-surface-container rounded-full mx-auto mb-4 flex items-center justify-center">
+<span class="font-display text-headline-lg text-primary">LC</span>
+</div>
+<h3 class="font-display text-headline-md text-primary">Luiz Claudio</h3>
+<p class="text-body-md text-on-surface-variant">Fundador e Prospector</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

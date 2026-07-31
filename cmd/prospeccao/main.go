@@ -60,10 +60,26 @@ func loadEncryptionKey() ([]byte, error) {
 	return []byte(enc[:32]), nil
 }
 
-// loadTemplates parses all HTML templates from internal/template/.
+// loadTemplates parses all HTML templates from internal/template/ and subdirectories.
 func loadTemplates() (*template.Template, error) {
 	templateDir := filepath.Join("internal", "template")
-	return template.ParseGlob(filepath.Join(templateDir, "*.html"))
+	// Parse all templates in one pass using a glob pattern that matches all HTML files
+	// in the template directory and its subdirectories.
+	tmpl, err := template.New("").ParseGlob(filepath.Join(templateDir, "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse templates: %w", err)
+	}
+	// Parse partials
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "partials", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse partials: %w", err)
+	}
+	// Parse fragments
+	_, err = tmpl.ParseGlob(filepath.Join(templateDir, "fragments", "*.html"))
+	if err != nil {
+		return nil, fmt.Errorf("parse fragments: %w", err)
+	}
+	return tmpl, nil
 }
 
 func main() {
@@ -122,12 +138,26 @@ func main() {
 	limiter := auth.NewRateLimiter()
 	svc := auth.NewService(queries, pool, encKey, limiter, log)
 	authHandler := handler.NewAuthHandler(svc, queries, tmpl, log, secure, hmacKey)
+	institutionalHandler := handler.NewInstitutionalHandler(queries, tmpl, log)
+	contactHandler := handler.NewContactHandler(queries, tmpl, log, limiter)
+	newsletterHandler := handler.NewNewsletterHandler(queries, tmpl, log, limiter)
 
 	// Build router
 	r := chi.NewRouter()
 
-	// Public group (no auth)
+	// Static files (self-hosted JS/CSS)
+	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	// Public group (no auth) -- institutional site
 	r.Group(func(r chi.Router) {
+		r.Get("/", institutionalHandler.Home)
+		r.Get("/quem-somos", institutionalHandler.QuemSomos)
+		r.Get("/servicos", institutionalHandler.Servicos)
+		r.Get("/nossos-clientes", institutionalHandler.NossosClientes)
+		r.Get("/fale-conosco", institutionalHandler.FaleConosco)
+		r.Post("/fale-conosco", contactHandler.Submit)
+		r.Post("/newsletter", newsletterHandler.Subscribe)
+
 		r.Get("/healthz", healthHandler)
 		r.Get("/login", authHandler.LoginGET)
 		r.Post("/login", authHandler.LoginPOST)
@@ -136,6 +166,9 @@ func main() {
 		r.Get("/2fa/verify", authHandler.TotpVerifyGET)
 		r.Post("/2fa/verify", authHandler.TotpVerifyPOST)
 	})
+
+	// 404 handler (uses institutional layout)
+	r.NotFound(institutionalHandler.NotFound)
 
 	// Protected group (auth required)
 	r.Group(func(r chi.Router) {

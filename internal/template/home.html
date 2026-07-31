@@ -1,0 +1,53 @@
+{{define "home.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospecção Brasil -- Inteligência em Prospecção Imobiliária</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "nav" .}}
+<main class="min-h-screen">
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<h1 class="font-display text-display-lg text-primary mb-6">Inteligência em Prospecção de Imóveis Comerciais</h1>
+<p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8">Reduzimos a carga cognitiva do prospector. Gerenciamos imóveis, clientes e pipeline de prospecção em um só lugar.</p>
+<a href="/fale-conosco" class="btn btn-primary btn-lg">Solicite uma prospecção</a>
+</div>
+</section>
+<section class="py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="font-display text-headline-lg text-center text-on-surface mb-12">Nossos Serviços</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="card card-hover">
+<h3 class="font-display text-headline-md text-primary mb-3">Prospecção Comercial</h3>
+<p class="text-body-md text-on-surface-variant">Identificamos oportunidades de imóveis comerciais alinhadas ao seu perfil.</p>
+</div>
+<div class="card card-hover">
+<h3 class="font-display text-headline-md text-primary mb-3">Análise de Viabilidade</h3>
+<p class="text-body-md text-on-surface-variant">Avaliamos o potencial de cada imóvel com dados de mercado.</p>
+</div>
+<div class="card card-hover">
+<h3 class="font-display text-headline-md text-primary mb-3">Relatórios PDF</h3>
+<p class="text-body-md text-on-surface-variant">Geramos relatórios profissionais para apresentação aos clientes.</p>
+</div>
+</div>
+<div class="text-center mt-8">
+<a href="/servicos" class="btn btn-outline btn-md">Ver todos os serviços</a>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<h2 class="font-display text-headline-lg text-on-surface mb-6">Pronto para começar?</h2>
+<p class="text-body-lg text-on-surface-variant mb-8">Entre em contato e descubra como podemos otimizar sua prospecção.</p>
+<a href="/fale-conosco" class="btn btn-primary btn-lg">Fale Conosco</a>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

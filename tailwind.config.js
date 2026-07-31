@@ -5,8 +5,7 @@
 // spacing, or radius not defined here is a bug.
 module.exports = {
   content: [
-    "./internal/ui/templates/**/*.html",
-    "./internal/handler/templates/**/*.html",
+    "./internal/template/**/*.html",
     "./**/*.go",
   ],
   theme: {

@@ -1,0 +1,56 @@
+{{define "fale-conosco.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fale Conosco -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "nav" .}}
+<main class="min-h-screen">
+<section class="py-section-gap">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+<h1 class="font-display text-display-lg text-primary text-center mb-12">Fale Conosco</h1>
+{{if .Success}}
+<div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+<p class="text-green-800">Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
+</div>
+{{end}}
+<div id="contact-form-container">
+<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-6">
+<div>
+<label for="name" class="form-label">Nome *</label>
+<input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input" value="{{.Form.Name}}">
+{{if .Errors.Name}}<p class="form-error">{{.Errors.Name}}</p>{{end}}
+</div>
+<div>
+<label for="email" class="form-label">Email *</label>
+<input type="email" id="email" name="email" required class="form-input" value="{{.Form.Email}}">
+{{if .Errors.Email}}<p class="form-error">{{.Errors.Email}}</p>{{end}}
+</div>
+<div>
+<label for="phone" class="form-label">Telefone (opcional)</label>
+<input type="tel" id="phone" name="phone" placeholder="+55 11 99999-9999" class="form-input" value="{{.Form.Phone}}">
+</div>
+<div>
+<label for="subject" class="form-label">Assunto *</label>
+<input type="text" id="subject" name="subject" required minlength="2" maxlength="255" class="form-input" value="{{.Form.Subject}}">
+{{if .Errors.Subject}}<p class="form-error">{{.Errors.Subject}}</p>{{end}}
+</div>
+<div>
+<label for="message" class="form-label">Mensagem *</label>
+<textarea id="message" name="message" required minlength="10" maxlength="5000" rows="5" class="form-input">{{.Form.Message}}</textarea>
+{{if .Errors.Message}}<p class="form-error">{{.Errors.Message}}</p>{{end}}
+</div>
+<button type="submit" class="btn btn-primary btn-lg w-full">Enviar Mensagem</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

@@ -1,0 +1,46 @@
+{{define "nossos-clientes.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nossos Clientes -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "nav" .}}
+<main class="min-h-screen">
+<section class="py-section-gap">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h1 class="font-display text-display-lg text-primary text-center mb-12">Nossos Clientes</h1>
+{{if .Testimonials}}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+{{range .Testimonials}}
+<div class="card">
+<p class="text-body-md text-on-surface-variant mb-4 italic">"{{.Quote}}"</p>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-semibold text-on-surface">{{.Name}}</p>
+<p class="text-sm text-on-surface-variant">{{.Company}}</p>
+</div>
+{{if .Metric}}<span class="badge badge-success">{{.Metric}}</span>{{end}}
+</div>
+</div>
+{{end}}
+</div>
+{{else}}
+<div class="text-center py-16">
+<div class="w-16 h-16 bg-surface-container rounded-full mx-auto mb-6 flex items-center justify-center">
+<svg class="w-8 h-8 text-on-surface-variant" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+</div>
+<h2 class="font-display text-headline-md text-on-surface-variant mb-3">Em breve nossos clientes e cases de sucesso</h2>
+<p class="text-body-md text-on-surface-variant">Estamos construindo relacionamentos. Em breve compartilharemos depoimentos e resultados.</p>
+</div>
+{{end}}
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

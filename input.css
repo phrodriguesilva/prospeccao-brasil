@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Buttons -- built on Tailwind tokens from SPEC-01 */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold
+           transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-sm { @apply px-3 py-1.5 text-sm; }
+  .btn-md { @apply px-5 py-2.5 text-body-md; }
+  .btn-lg { @apply px-7 py-3 text-body-lg; }
+
+  .btn-primary { @apply bg-primary text-on-primary hover:bg-primary-container focus:ring-primary; }
+  .btn-secondary { @apply bg-secondary text-on-secondary hover:bg-secondary-container focus:ring-secondary; }
+  .btn-outline { @apply border border-primary text-primary bg-transparent hover:bg-primary hover:text-on-primary focus:ring-primary; }
+  .btn-ghost { @apply bg-transparent text-primary hover:bg-surface-container focus:ring-primary; }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-label-sm font-semibold;
+  }
+  .badge-success { @apply bg-green-100 text-green-800; }
+  .badge-warning { @apply bg-yellow-100 text-yellow-800; }
+  .badge-error { @apply bg-error-container text-error; }
+  .badge-info { @apply bg-primary-fixed text-primary-on-fixed; }
+
+  /* Cards */
+  .card {
+    @apply bg-surface-container-lowest rounded-lg shadow-md p-6
+           border border-outline-variant;
+  }
+  .card-hover { @apply transition-shadow hover:shadow-lg; }
+
+  /* Form inputs */
+  .form-input {
+    @apply w-full rounded-md border border-outline-variant bg-surface-container-lowest
+           px-4 py-2.5 text-body-md text-on-surface
+           focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
+           disabled:bg-surface-container disabled:cursor-not-allowed
+           placeholder:text-on-surface-variant;
+  }
+  .form-input-error { @apply border-error focus:ring-error focus:border-error; }
+  .form-label {
+    @apply block text-body-md font-semibold text-on-surface mb-1;
+  }
+  .form-error {
+    @apply text-sm text-error mt-1;
+  }
+
+  /* Navigation links */
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-body-md font-semibold text-on-surface-variant
+           hover:text-on-surface hover:bg-surface-container-low
+           transition-colors duration-150;
+  }
+  .nav-link.active {
+    @apply text-primary bg-primary-fixed-dim;
+  }
+}
