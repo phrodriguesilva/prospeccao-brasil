@@ -35,3 +35,17 @@ RETURNING *;
 UPDATE clients
 SET deleted_at = now()
 WHERE id = $1 AND tenant_id = $2;
+
+-- name: ListClientsFiltered :many
+SELECT * FROM clients
+WHERE tenant_id = $1 AND deleted_at IS NULL
+  AND ($2::text IS NULL OR status = $2)
+  AND ($3::text IS NULL OR name ILIKE '%' || $3 || '%' OR email ILIKE '%' || $3 || '%')
+ORDER BY created_at DESC
+LIMIT $4 OFFSET $5;
+
+-- name: CountClientsFiltered :one
+SELECT COUNT(*) FROM clients
+WHERE tenant_id = $1 AND deleted_at IS NULL
+  AND ($2::text IS NULL OR status = $2)
+  AND ($3::text IS NULL OR name ILIKE '%' || $3 || '%' OR email ILIKE '%' || $3 || '%');
