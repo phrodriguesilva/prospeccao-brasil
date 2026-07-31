@@ -49,6 +49,7 @@ func setupMWTestDB(t *testing.T) *mwTestDB {
 	if err := m.Up(); err != nil && err.Error() != "no change" {
 		t.Fatalf("migrate up: %v", err)
 	}
+	defer func() { _, _ = m.Close() }()
 
 	queries := db.New(pool)
 	key := make([]byte, 32)
