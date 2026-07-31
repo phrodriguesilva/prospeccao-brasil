@@ -49,9 +49,11 @@ multi-tenant (tenant_id on every table, RBAC roles, session + 2FA
 encanamento) but the UI is minimal -- one admin manages everything.
 
 MVP deliverables:
-1. **Institutional site** (SPEC-05): Home, Quem somos, Servicos, Nossos
-   clientes, Fale Conosco, Newsletter. Premium front-end for credibility.
-2. **Internal system** (SPEC-06): Property CRUD, client CRUD, prospecting
+1. **Institutional site & design system** (SPEC-04): Home, Quem somos,
+   Servicos, Nossos clientes, Fale Conosco, Newsletter. Premium front-end
+   for credibility. Design system component classes (buttons, badges,
+   cards, forms, nav, footer) built on Tailwind tokens from SPEC-01.
+2. **Internal system** (SPEC-05): Property CRUD, client CRUD, prospecting
    pipeline (status tracking), contact log, PDF report generation via
    chromedp.
 
@@ -99,10 +101,9 @@ assistente, financeiro) and 2FA. The path from MVP to SaaS:
 |------|-------|--------|
 | SPEC-01 | Repo Tooling & Dev Environment | DONE (CI green) |
 | SPEC-02 | Database Schema & Migrations | DONE (CI green) |
-| SPEC-03 | Auth + Tenant + RBAC Middleware | Pending |
-| SPEC-04 | Design System (tokens, components, Pencil) | Pending |
-| SPEC-05 | Institutional Site (Home, Quem somos, Servicos, etc.) | Pending |
-| SPEC-06 | Internal System (properties, clients, prospecting CRUD + PDF) | Pending |
+| SPEC-03 | Auth + Tenant + RBAC Middleware | DONE (CI green) |
+| SPEC-04 | Institutional Site & Design System | Pending |
+| SPEC-05 | Internal System (properties, clients, prospecting CRUD + PDF) | Pending |
 
 ## References
 

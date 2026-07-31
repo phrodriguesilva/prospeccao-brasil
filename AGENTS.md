@@ -44,12 +44,17 @@ Two spec templates exist in `.specify/templates/`:
   specs that deliver engineering value, not user stories.
 
 Use the **slim** template for: SPEC-01 (repo tooling), SPEC-02 (database
-schema), SPEC-03 (auth middleware), SPEC-04 (design system tokens).
+schema), SPEC-03 (auth middleware).
 
-Use the **full** template for everything else (SPEC-05 institutional site,
-SPEC-06 internal system). When in doubt, default to full -- a slim spec that
-grows user-facing behavior mid-implementation is a sign it should have been
-full.
+Use the **full** template for everything else (SPEC-04 institutional site &
+design system, SPEC-05 internal system). When in doubt, default to full -- a
+slim spec that grows user-facing behavior mid-implementation is a sign it
+should have been full.
+
+Note: SPEC-04 (Design System) and SPEC-05 (Institutional Site) were merged
+into a single spec "SPEC-04: Institutional Site & Design System" to deliver
+user-facing value sooner and avoid a design system with no consumer. The
+original SPEC-06 (Sistema interno) became SPEC-05 in the new numbering.
 
 ## Constitution
 
@@ -89,7 +94,7 @@ full.
 - 2FA TOTP required for the admin user.
 - RBAC middleware ships now (encanamento) but MVP is single-admin.
 - PDF generation via `chromedp` (HTML to PDF) for property presentation
-  documents (SPEC-06).
+  documents (SPEC-05).
 
 ### Commits
 - No conventional-commit prefixes (rejected by CI).
