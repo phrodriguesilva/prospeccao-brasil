@@ -1,3 +1,1 @@
-{
-  "feature_directory": "specs/002-database-schema"
-}
+{"feature_directory": "specs/003-auth-tenant-rbac"}
