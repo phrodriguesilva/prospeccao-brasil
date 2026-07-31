@@ -37,6 +37,11 @@ jobs:
           curl -L -o /tmp/sqlc.tar.gz https://github.com/sqlc-dev/sqlc/releases/download/v1.31.1/sqlc_1.31.1_linux_amd64.tar.gz
           tar -xzf /tmp/sqlc.tar.gz -C /tmp
           mv /tmp/sqlc /usr/local/bin/sqlc
+      - name: Install migrate
+        run: |
+          curl -L -o /tmp/migrate.tar.gz https://github.com/golang-migrate/migrate/releases/download/v4.18.1/migrate.linux-amd64.tar.gz
+          tar -xzf /tmp/migrate.tar.gz -C /tmp
+          mv /tmp/migrate /usr/local/bin/migrate
       - name: Generate sqlc
         run: |
           if [ -n "$(ls -A internal/db/queries/*.sql 2>/dev/null)" ]; then
@@ -64,7 +69,6 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:test@localhost:5432/prospeccaobrasil_test?sslmode=disable
         run: |
-          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
           if [ -n "$(ls -A migrations/*.sql 2>/dev/null)" ]; then
             migrate -path migrations -database "$DATABASE_URL" up
           else
@@ -96,5 +100,5 @@ jobs:
         run: ast-grep scan
       - name: govulncheck
         run: |
-          go install golang.org/x/vuln/cmd/govulncheck@latest
+          cd /tmp && go install golang.org/x/vuln/cmd/govulncheck@latest && cd -
           govulncheck ./...
