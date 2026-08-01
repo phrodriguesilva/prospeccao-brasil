@@ -324,8 +324,8 @@ func TestFaleConoscoGET(t *testing.T) {
 	if !strings.Contains(body, `name="company"`) {
 		t.Error("expected company field in form")
 	}
-	if !strings.Contains(body, "Botafogo") {
-		t.Error("expected contact info 'Botafogo' on page")
+	if !strings.Contains(body, "Ipanema") {
+		t.Error("expected contact info 'Ipanema' on page")
 	}
 }
 

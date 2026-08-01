@@ -18,6 +18,7 @@ type LoginResult struct {
 	User          db.User
 	Need2FASetup  bool // totp_enabled=false -> redirect to /2fa/setup
 	Need2FAVerify bool // totp_enabled=true -> redirect to /2fa/verify
+	Skip2FA       bool // 2FA disabled globally -> create session directly
 }
 
 // Service provides authentication operations (login, 2FA, session management).
@@ -28,6 +29,7 @@ type Service struct {
 	limiter    *RateLimiter
 	log        *slog.Logger
 	sessionTTL time.Duration
+	require2FA bool // if false, login skips 2FA and creates session directly
 }
 
 // NewService creates a new auth Service.
@@ -39,7 +41,15 @@ func NewService(queries *db.Queries, pool *pgxpool.Pool, key []byte, limiter *Ra
 		limiter:    limiter,
 		log:        log,
 		sessionTTL: SessionMaxAge * time.Second,
+		require2FA: true,
 	}
+}
+
+// SetRequire2FA configures whether 2FA is required at login.
+// When false, Login returns Skip2FA=true and the handler creates a session
+// directly without redirecting to /2fa/setup or /2fa/verify.
+func (s *Service) SetRequire2FA(required bool) {
+	s.require2FA = required
 }
 
 // Limiter returns the rate limiter (for handler use).
@@ -110,6 +120,10 @@ func (s *Service) Login(ctx context.Context, email, password string, tenantID pg
 	s.log.InfoContext(ctx, "login_success", "email", email, "user_id", user.ID)
 
 	result := &LoginResult{User: user}
+	if !s.require2FA {
+		result.Skip2FA = true
+		return result, nil
+	}
 	if user.TotpEnabled {
 		result.Need2FAVerify = true
 	} else {

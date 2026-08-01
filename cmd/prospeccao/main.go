@@ -159,6 +159,12 @@ func main() {
 	// Initialize auth service + handler
 	limiter := auth.NewRateLimiter()
 	svc := auth.NewService(queries, pool, encKey, limiter, log)
+	// REQUIRE_2FA defaults to "true". Set to "false" to disable 2FA at login
+	// (temporary for development/testing -- re-enable for production).
+	if v := os.Getenv("REQUIRE_2FA"); v == "false" || v == "0" {
+		svc.SetRequire2FA(false)
+		log.Info("2FA requirement disabled via REQUIRE_2FA env var")
+	}
 	authHandler := handler.NewAuthHandler(svc, queries, tmpl, log, secure, hmacKey)
 	institutionalHandler := handler.NewInstitutionalHandler(queries, tmpl, log)
 	contactHandler := handler.NewContactHandler(queries, tmpl, log, limiter)

@@ -96,6 +96,21 @@ func (h *AuthHandler) LoginPOST(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, pendingCookie)
 
+	if result.Skip2FA {
+		// 2FA disabled globally -- create session directly
+		rawToken, _, err := h.svc.CreateSession(r.Context(), result.User.ID, result.User.TenantID)
+		if err != nil {
+			h.log.ErrorContext(r.Context(), "login: create session (skip 2fa)", "error", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+		sessionCookie := auth.SessionCookie(rawToken, h.secure)
+		http.SetCookie(w, sessionCookie)
+		http.SetCookie(w, auth.ClearCookie(auth.PendingSessionCookieName, h.secure))
+		http.Redirect(w, r, "/admin", http.StatusFound)
+		return
+	}
+
 	if result.Need2FASetup {
 		http.Redirect(w, r, "/2fa/setup", http.StatusFound)
 		return
