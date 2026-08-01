@@ -8,10 +8,10 @@
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
+<body class="admin-shell">
 <div class="flex min-h-screen">
 {{template "internal_nav" .}}
-<main class="flex-1 p-6 overflow-x-auto">
+<main class="admin-main">
 {{template "admin_content" .}}
 </main>
 </div>

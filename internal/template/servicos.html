@@ -9,45 +9,37 @@
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
 {{template "nav" .}}
-<main class="min-h-screen">
-<section class="py-section-gap">
+<main>
+<section class="hero-glow bg-primary text-on-primary py-20 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow text-secondary">Soluções</p>
+<h1 class="font-display text-display-lg mb-4">Nossos <span class="text-gradient">Serviços</span></h1>
+<p class="text-body-lg text-primary-on-container max-w-2xl">Atingimos resultados com a nossa expertise há mais de uma década. Oferecemos serviços de prospecção de pontos comerciais para entregar com rapidez e integridade toda a parte documental, viabilizando as normas contratuais.</p>
+</div>
+</section>
+
+<section class="py-20 bg-surface reveal">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h1 class="font-display text-display-lg text-primary text-center mb-12">Nossos Serviços</h1>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="card card-hover">
-<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-4">
-<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-</div>
-<h3 class="font-display text-headline-md text-primary mb-3">Prospecção de Imóveis Comerciais</h3>
-<p class="text-body-md text-on-surface-variant mb-4">Identificamos oportunidades de imóveis comerciais alinhadas ao perfil e budget do seu cliente.</p>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Saiba mais</a>
-</div>
-<div class="card card-hover">
-<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-4">
-<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-</div>
-<h3 class="font-display text-headline-md text-primary mb-3">Análise de Viabilidade</h3>
-<p class="text-body-md text-on-surface-variant mb-4">Avaliamos o potencial de cada imóvel com dados de mercado e indicadores de rentabilidade.</p>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Saiba mais</a>
-</div>
-<div class="card card-hover">
-<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-4">
-<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-</div>
-<h3 class="font-display text-headline-md text-primary mb-3">Relatórios PDF</h3>
-<p class="text-body-md text-on-surface-variant mb-4">Geramos relatórios profissionais em PDF para apresentação aos seus clientes.</p>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Saiba mais</a>
-</div>
-<div class="card card-hover">
-<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-4">
-<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-</div>
-<h3 class="font-display text-headline-md text-primary mb-3">Gestão de Pipeline</h3>
-<p class="text-body-md text-on-surface-variant mb-4">Acompanhe cada prospecção do primeiro contato ao fechamento com status e log de interações.</p>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Saiba mais</a>
+{{range .Services}}
+<a href="/servicos/{{.Slug}}" class="premium-card block no-underline reveal">
+<h3 class="font-display text-headline-md text-primary mb-3">{{.Title}}</h3>
+<p class="text-body-md text-on-surface-variant mb-4">{{.Summary}}</p>
+<span class="text-primary font-semibold text-body-sm">Saiba mais &rarr;</span>
+</a>
+{{end}}
 </div>
 </div>
+</section>
+
+<section class="cta-glow bg-primary text-on-primary py-16 relative reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+<h2 class="font-display text-headline-lg mb-4">Solicite uma <span class="text-gradient">apresentação</span></h2>
+<p class="text-body-lg text-primary-on-container mb-8">Entre em contato e descubra como nossos profissionais poderão facilitar o seu processo de localização de novos pontos comerciais.</p>
+<a href="/fale-conosco" class="btn btn-secondary btn-lg">Fale Conosco</a>
 </div>
 </section>
 </main>

@@ -1,0 +1,59 @@
+{{define "servico-detalhe.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Service.Title}} -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
+{{template "nav" .}}
+<main>
+<!-- Title section -->
+<section class="hero-glow bg-primary text-on-primary py-20 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow text-secondary"><a href="/servicos" class="hover:text-secondary">Serviços</a> / {{.Service.Title}}</p>
+<h1 class="font-display text-display-lg mb-4">{{.Service.Title}}</h1>
+<p class="text-body-lg text-primary-on-container max-w-3xl">{{.Service.Summary}}</p>
+</div>
+</section>
+
+<!-- Description -->
+<section class="py-16 bg-surface reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+<p class="text-body-lg text-on-surface-variant leading-relaxed">{{.Service.Description}}</p>
+</div>
+</section>
+
+<!-- Methodology -->
+<section class="py-16 bg-surface-container-low reveal">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<p class="eyebrow text-center">Metodologia</p>
+<h2 class="font-display text-headline-lg text-primary mb-10 text-center">Como <span class="text-gradient">fazemos</span></h2>
+<div class="space-y-6">
+{{range $i, $step := .Service.Methodology}}
+<div class="premium-card flex items-start gap-4 reveal reveal-delay-{{if lt $i 3}}{{add $i 1}}{{else}}3{{end}}">
+<div class="flex-shrink-0 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center font-display font-bold">{{$i}}</div>
+<p class="text-body-md text-on-surface pt-2">{{$step}}</p>
+</div>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-glow bg-primary text-on-primary py-16 relative reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+<h2 class="font-display text-headline-lg mb-4">{{.Service.CTA}}</h2>
+<p class="text-body-lg text-primary-on-container mb-8">Entre em contato e descubra como podemos ajudar a encontrar o ponto comercial ideal.</p>
+<a href="/fale-conosco" class="btn btn-secondary btn-lg">Solicite uma apresentação</a>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

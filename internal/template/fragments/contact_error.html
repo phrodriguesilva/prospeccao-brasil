@@ -1,9 +1,11 @@
 {{define "contact_error.html"}}
-<div id="contact-form-container">
-{{if .Errors.Generic}}<div class="bg-error-container border border-error rounded-lg p-4 mb-6">
-<p class="text-error">{{.Errors.Generic}}</p>
-</div>{{end}}
-<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-6">
+<div id="contact-form-container" class="card">
+{{if .Errors.Generic}}<div class="alert alert-error mb-5">{{.Errors.Generic}}</div>{{end}}
+<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
+<div>
+<label for="company" class="form-label">Empresa (opcional)</label>
+<input type="text" id="company" name="company" maxlength="255" class="form-input" value="{{.Form.Company}}" placeholder="Nome da empresa">
+</div>
 <div>
 <label for="name" class="form-label">Nome *</label>
 <input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input {{if .Errors.Name}}form-input-error{{end}}" value="{{.Form.Name}}">
@@ -28,7 +30,7 @@
 <textarea id="message" name="message" required minlength="10" maxlength="5000" rows="5" class="form-input {{if .Errors.Message}}form-input-error{{end}}">{{.Form.Message}}</textarea>
 {{if .Errors.Message}}<p class="form-error">{{.Errors.Message}}</p>{{end}}
 </div>
-<button type="submit" class="btn btn-primary btn-lg w-full">Enviar Mensagem</button>
+<button type="submit" class="btn btn-filled w-full">Enviar Mensagem</button>
 </form>
 </div>
 {{end}}

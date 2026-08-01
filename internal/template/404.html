@@ -8,15 +8,15 @@
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
+<body class="public-shell">
 {{template "nav" .}}
-<main class="min-h-screen">
-<section class="py-section-gap min-h-[60vh] flex items-center">
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<h1 class="font-display text-display-lg text-primary mb-6">404</h1>
-<h2 class="font-display text-headline-lg text-on-surface-variant mb-4">Página não encontrada</h2>
-<p class="text-body-lg text-on-surface-variant mb-8">A página que você procura não existe ou foi movida.</p>
-<a href="/" class="btn btn-primary btn-lg">Voltar ao Início</a>
+<main>
+<section class="public-section min-h-[60vh] flex items-center">
+<div class="max-w-xl mx-auto px-4 text-center">
+<p class="font-display text-5xl font-bold text-primary mb-4">404</p>
+<h1 class="font-display text-2xl font-bold text-slate-900 mb-3">Página não encontrada</h1>
+<p class="text-slate-500 mb-8">A página que você procura não existe ou foi movida.</p>
+<a href="/" class="btn btn-filled">Voltar ao Início</a>
 </div>
 </section>
 </main>

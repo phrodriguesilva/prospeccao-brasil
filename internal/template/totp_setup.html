@@ -3,16 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Configurar 2FA -- Prospeccao Brasil</title>
+<title>Configurar 2FA -- Prospecção Brasil</title>
+{{template "brand_icons" .}}
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
 </head>
-<body>
-<h1>Configurar Autenticacao em Duas Etapas</h1>
-<p>Escaneie o QR code com seu app de autenticador (Google Authenticator, Authy, etc.):</p>
-{{if .QRCode}}<img src="data:image/png;base64,{{.QRCode}}" alt="QR Code" width="200" height="200">{{end}}
-{{if .Error}}<p style="color:red">{{.Error}}</p>{{end}}
-<form method="POST" action="/2fa/setup">
-<label>Codigo TOTP: <input type="text" name="code" pattern="[0-9]{6}" maxlength="6" required></label><br>
-<button type="submit">Confirmar</button>
+<body class="admin-shell flex items-center justify-center px-4">
+<div class="w-full max-w-sm">
+<div class="text-center mb-8">
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-auth mx-auto mb-3" width="112" height="90">
+<p class="text-sm text-slate-500">Sistema Interno</p>
+</div>
+<div class="card shadow-sm">
+<h2 class="font-display text-xl text-slate-900 mb-2">Configurar autenticação</h2>
+<p class="text-sm text-slate-500 mb-6">Escaneie o QR code com Google Authenticator, Authy ou similar.</p>
+{{if .QRCode}}<div class="flex justify-center mb-6"><img src="data:image/png;base64,{{.QRCode}}" alt="QR Code" width="200" height="200" class="rounded-lg border border-slate-200"></div>{{end}}
+{{if .Error}}<div class="alert alert-error mb-4">{{.Error}}</div>{{end}}
+<form method="POST" action="/2fa/setup" class="space-y-5">
+<div>
+<label for="code" class="form-label">Código TOTP</label>
+<input type="text" id="code" name="code" pattern="[0-9]{6}" maxlength="6" required class="form-input text-center text-lg tracking-widest" placeholder="000000" autocomplete="one-time-code" inputmode="numeric">
+</div>
+<button type="submit" class="btn btn-filled w-full">Confirmar</button>
 </form>
+</div>
+</div>
 </body>
 </html>{{end}}

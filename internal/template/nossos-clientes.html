@@ -9,35 +9,49 @@
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
 {{template "nav" .}}
-<main class="min-h-screen">
-<section class="py-section-gap">
+<main>
+<!-- Title -->
+<section class="hero-glow bg-primary text-on-primary py-20 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow text-secondary">Social Proof</p>
+<h1 class="font-display text-display-lg mb-4">Nossos <span class="text-gradient">Clientes</span></h1>
+<p class="text-body-lg text-primary-on-container max-w-2xl">A confiança de nossos clientes é o nosso maior patrimônio. Conheça quem já encontrou o ponto comercial ideal com a Prospecção Brasil.</p>
+</div>
+</section>
+
+<!-- Metrics strip -->
+{{template "metrics" .Metrics}}
+
+<!-- Testimonials carousel -->
+<section class="py-20 bg-surface reveal">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h1 class="font-display text-display-lg text-primary text-center mb-12">Nossos Clientes</h1>
-{{if .Testimonials}}
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="text-center mb-12">
+<p class="eyebrow">Depoimentos</p>
+<h2 class="font-display text-headline-lg text-primary mb-4">O que dizem nossos <span class="text-gradient">clientes</span></h2>
+</div>
+<div class="testimonial-scroll">
 {{range .Testimonials}}
-<div class="card">
-<p class="text-body-md text-on-surface-variant mb-4 italic">"{{.Quote}}"</p>
-<div class="flex items-center justify-between">
+<div class="premium-card">
+<p class="text-body-md text-on-surface-variant mb-6 italic">"{{.Quote}}"</p>
 <div>
 <p class="font-semibold text-on-surface">{{.Name}}</p>
 <p class="text-sm text-on-surface-variant">{{.Company}}</p>
 </div>
-{{if .Metric}}<span class="badge badge-success">{{.Metric}}</span>{{end}}
-</div>
 </div>
 {{end}}
 </div>
-{{else}}
-<div class="text-center py-16">
-<div class="w-16 h-16 bg-surface-container rounded-full mx-auto mb-6 flex items-center justify-center">
-<svg class="w-8 h-8 text-on-surface-variant" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
 </div>
-<h2 class="font-display text-headline-md text-on-surface-variant mb-3">Em breve nossos clientes e cases de sucesso</h2>
-<p class="text-body-md text-on-surface-variant">Estamos construindo relacionamentos. Em breve compartilharemos depoimentos e resultados.</p>
-</div>
-{{end}}
+</section>
+
+<!-- CTA -->
+<section class="cta-glow bg-primary text-on-primary py-16 relative reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+<h2 class="font-display text-headline-lg mb-4">Junte-se aos nossos <span class="text-gradient">clientes</span></h2>
+<p class="text-body-lg text-primary-on-container mb-8">Entre em contato e descubra como podemos ajudar a expandir sua rede.</p>
+<a href="/fale-conosco" class="btn btn-secondary btn-lg">Solicite uma apresentação</a>
 </div>
 </section>
 </main>

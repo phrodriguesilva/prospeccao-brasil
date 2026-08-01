@@ -8,11 +8,11 @@
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
+<body class="admin-shell">
 <div class="flex min-h-screen">
 {{template "internal_nav" .}}
-<main class="flex-1 p-6 overflow-x-auto">
-<h1 class="font-display text-headline-lg text-on-surface mb-6">{{.Title}}</h1>
+<main class="admin-main">
+<h1 class="font-display text-2xl text-slate-900 font-bold mb-6">{{.Title}}</h1>
 
 {{if not .HasClients}}
 <div class="alert alert-warning mb-4">Cadastre um cliente primeiro.</div>
@@ -26,7 +26,7 @@
 <div class="alert alert-error mb-4">{{.Errors.Generic}}</div>
 {{end}}
 
-<form method="POST" action="{{if .IsEdit}}/prospections/{{uuidToString .Prospect.ID}}{{else}}/prospections{{end}}" class="space-y-4 max-w-2xl">
+<form method="POST" action="{{if .IsEdit}}/prospections/{{uuidToString .Prospect.ID}}{{else}}/prospections{{end}}" class="space-y-5 max-w-2xl">
 {{if not .IsEdit}}
 <div>
 <label class="form-label">Cliente *</label>

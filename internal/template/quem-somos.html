@@ -9,51 +9,90 @@
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
 {{template "nav" .}}
-<main class="min-h-screen">
-<section class="py-section-gap">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h1 class="font-display text-display-lg text-primary text-center mb-12">Quem Somos</h1>
-<div class="max-w-3xl mx-auto text-body-lg text-on-surface-variant space-y-6">
-<p>A Prospecção Brasil nasceu da necessidade de profissionalizar a prospecção de imóveis comerciais no Brasil. Nosso fundador, Luiz Claudio, identificou que prospectores perdiam oportunidades valiosas por falta de um sistema centralizado.</p>
-<p>Criamos uma plataforma que reduz a carga cognitiva do prospector, permitindo que ele foque no que importa: relacionamento e negócios.</p>
+<main>
+<!-- Title -->
+<section class="hero-glow bg-primary text-on-primary py-20 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow text-secondary">Institucional</p>
+<h1 class="font-display text-display-lg mb-4">Quem <span class="text-gradient">Somos</span></h1>
+<p class="text-body-lg text-primary-on-container max-w-2xl">Planejamos, estruturamos, prospectamos e comercializamos. Encontramos o cliente certo para o seu negócio e o negócio adequado para a sua marca.</p>
+</div>
+</section>
+
+<!-- Company description -->
+<section class="py-16 bg-surface reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+<p class="text-body-lg text-on-surface-variant leading-relaxed mb-6">Selecionamos o melhor ponto comercial para a sua operação, unindo os interesses envolvidos. Maximizamos a rentabilidade atuando de forma personalizada e atendendo às premissas de cada cliente.</p>
+<p class="text-body-lg text-on-surface-variant leading-relaxed">A prospecção de pontos comerciais é uma importante ferramenta de negócios para quem deseja ter sucesso em seus empreendimentos. Por isso, a Prospecção Brasil é a sua escolha certa, comandada por Luiz Claudio P. André.</p>
+</div>
+</section>
+
+<!-- Founder -->
+<section class="py-16 bg-surface-container-low reveal">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+<div class="text-center">
+<div class="w-32 h-32 bg-primary text-on-primary rounded-full mx-auto mb-6 flex items-center justify-center">
+<span class="font-display text-display-md font-bold">LC</span>
+</div>
+<h3 class="font-display text-headline-md text-primary text-center">Luiz Claudio P. André</h3>
+<p class="text-body-md text-on-surface-variant text-center">CEO e Fundador</p>
+</div>
+<div class="md:col-span-2">
+<p class="eyebrow">Fundador</p>
+<h2 class="font-display text-headline-lg text-primary mb-6">O <span class="text-gradient">Fundador</span></h2>
+<p class="text-body-md text-on-surface-variant leading-relaxed mb-4">Como CEO da Prospecção Brasil, aproveitando uma experiência adquirida ao longo de 15 anos atuando na área administrativa, tributária e comercial da Shell Brasil, tornei-me especialista no segmento de redes de franquias e varejo.</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed mb-4">Com este conhecimento, tenho como objetivo identificar pontos comerciais de acordo com as premissas de cada cliente, contribuindo na estruturação e expansão de novas lojas em todo o Brasil. Sou perito na prospecção de pontos comerciais, com abrangência em lojas de rua (calçadões de bairros), centros comerciais e shopping centers.</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed">Desenvolvo um planejamento de expansão, identificando locais impactantes para o posicionamento da marca ou da empresa, minimizando os investimentos iniciais tais como CDU (Cessão de Direito de Uso) e custos locatícios.</p>
+</div>
 </div>
 </div>
 </section>
-<section class="bg-surface-container-low py-section-gap">
+
+<!-- Mission, Vision, Values -->
+<section class="py-16 bg-surface reveal">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h2 class="font-display text-headline-lg text-center text-on-surface mb-12">Missão, Visão e Valores</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="card">
+<div class="premium-card reveal reveal-delay-1">
 <span class="badge badge-info mb-4">Missão</span>
-<h3 class="font-display text-headline-md text-primary mb-3">Reduzir a carga cognitiva</h3>
-<p class="text-body-md text-on-surface-variant">Profissionalizar a prospecção imobiliária com tecnologia e dados.</p>
+<h3 class="font-display text-headline-md text-primary mb-3">Missão</h3>
+<p class="text-body-md text-on-surface-variant">Oferecer a melhor qualidade de serviços de prospecção de pontos comerciais para nossos clientes, fornecendo insights precisos, informações valiosas e soluções inovadoras para que possam alcançar seus objetivos de negócios.</p>
 </div>
-<div class="card">
+<div class="premium-card reveal reveal-delay-2">
 <span class="badge badge-info mb-4">Visão</span>
-<h3 class="font-display text-headline-md text-primary mb-3">Referência nacional</h3>
-<p class="text-body-md text-on-surface-variant">Ser a plataforma líder em prospecção de imóveis comerciais no Brasil.</p>
+<h3 class="font-display text-headline-md text-primary mb-3">Visão</h3>
+<p class="text-body-md text-on-surface-variant">Ser reconhecida como a melhor empresa de prospecção de pontos comerciais do Rio de Janeiro, que fornece excelência em serviços e tem o compromisso de atender às necessidades de nossos clientes.</p>
 </div>
-<div class="card">
+<div class="premium-card reveal reveal-delay-3">
 <span class="badge badge-info mb-4">Valores</span>
-<h3 class="font-display text-headline-md text-primary mb-3">Transparência e dados</h3>
-<p class="text-body-md text-on-surface-variant">Decisões baseadas em dados, com conformidade LGPD em primeiro lugar.</p>
+<h3 class="font-display text-headline-md text-primary mb-3">Valores</h3>
+<ul class="text-body-md text-on-surface-variant space-y-1">
+<li>Transparência</li>
+<li>Profissionalismo</li>
+<li>Ética</li>
+<li>Comprometimento</li>
+<li>Agilidade</li>
+</ul>
 </div>
 </div>
 </div>
 </section>
-<section class="py-section-gap">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<h2 class="font-display text-headline-lg text-center text-on-surface mb-12">Nossa Equipe</h2>
-<div class="flex justify-center">
-<div class="card max-w-md text-center">
-<div class="w-24 h-24 bg-surface-container rounded-full mx-auto mb-4 flex items-center justify-center">
-<span class="font-display text-headline-lg text-primary">LC</span>
+
+<!-- CRECI -->
+<section class="py-12 bg-surface-container-low reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<p class="text-body-md text-on-surface-variant">Somos licenciados pelo Conselho Federal de Corretores de Imóveis (CRECI) e pelo Conselho Regional de Corretores de Imóveis com Certificado de Inscrição de Pessoa Jurídica.</p>
 </div>
-<h3 class="font-display text-headline-md text-primary">Luiz Claudio</h3>
-<p class="text-body-md text-on-surface-variant">Fundador e Prospector</p>
-</div>
-</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-glow bg-primary text-on-primary py-16 relative reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+<h2 class="font-display text-headline-lg mb-4">Queremos encontrar o melhor <span class="text-gradient">ponto comercial</span> para o seu negócio</h2>
+<a href="/fale-conosco" class="btn btn-secondary btn-lg">Fale Conosco</a>
 </div>
 </section>
 </main>

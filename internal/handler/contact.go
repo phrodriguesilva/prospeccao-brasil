@@ -41,6 +41,7 @@ func (h *ContactHandler) Submit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	form := contactForm{
+		Company: strings.TrimSpace(r.FormValue("company")),
 		Name:    strings.TrimSpace(r.FormValue("name")),
 		Email:   strings.TrimSpace(r.FormValue("email")),
 		Phone:   strings.TrimSpace(r.FormValue("phone")),
@@ -68,11 +69,16 @@ func (h *ContactHandler) Submit(w http.ResponseWriter, r *http.Request) {
 	if form.Phone != "" {
 		phonePtr = &form.Phone
 	}
+	var companyPtr *string
+	if form.Company != "" {
+		companyPtr = &form.Company
+	}
 	_, err := h.queries.CreateContactSubmission(r.Context(), db.CreateContactSubmissionParams{
 		ID:      id,
 		Name:    form.Name,
 		Email:   form.Email,
 		Phone:   phonePtr,
+		Company: companyPtr,
 		Subject: form.Subject,
 		Message: form.Message,
 	})

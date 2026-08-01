@@ -9,18 +9,35 @@
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
 {{template "nav" .}}
-<main class="min-h-screen">
-<section class="py-section-gap">
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-<h1 class="font-display text-display-lg text-primary text-center mb-12">Fale Conosco</h1>
-{{if .Success}}
-<div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-<p class="text-green-800">Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
+<main>
+<!-- Title -->
+<section class="hero-glow bg-primary text-on-primary py-20 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow text-secondary">Contato</p>
+<h1 class="font-display text-display-lg mb-4">Fale <span class="text-gradient">Conosco</span></h1>
+<p class="text-body-lg text-primary-on-container max-w-2xl">Conte sobre o seu projeto. Retornamos em breve com a melhor solução para o seu negócio.</p>
 </div>
+</section>
+
+<!-- Two-column: form + contact info -->
+<section class="py-16 bg-surface reveal">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+<!-- Form column -->
+<div>
+{{if .Success}}
+<div class="alert alert-success mb-6">Mensagem enviada com sucesso! Entraremos em contato em breve.</div>
 {{end}}
-<div id="contact-form-container">
-<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-6">
+<div id="contact-form-container" class="card">
+<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
+<div>
+<label for="company" class="form-label">Empresa (opcional)</label>
+<input type="text" id="company" name="company" maxlength="255" class="form-input" value="{{.Form.Company}}" placeholder="Nome da empresa">
+</div>
 <div>
 <label for="name" class="form-label">Nome *</label>
 <input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input" value="{{.Form.Name}}">
@@ -33,7 +50,7 @@
 </div>
 <div>
 <label for="phone" class="form-label">Telefone (opcional)</label>
-<input type="tel" id="phone" name="phone" placeholder="+55 11 99999-9999" class="form-input" value="{{.Form.Phone}}">
+<input type="tel" id="phone" name="phone" placeholder="+55 21 99999-9999" class="form-input" value="{{.Form.Phone}}">
 </div>
 <div>
 <label for="subject" class="form-label">Assunto *</label>
@@ -45,8 +62,39 @@
 <textarea id="message" name="message" required minlength="10" maxlength="5000" rows="5" class="form-input">{{.Form.Message}}</textarea>
 {{if .Errors.Message}}<p class="form-error">{{.Errors.Message}}</p>{{end}}
 </div>
-<button type="submit" class="btn btn-primary btn-lg w-full">Enviar Mensagem</button>
+<button type="submit" class="btn btn-filled w-full">Enviar Mensagem</button>
 </form>
+</div>
+</div>
+
+<!-- Contact info column -->
+<div class="space-y-8">
+<div>
+<p class="eyebrow">Endereço</p>
+<h2 class="font-display text-headline-md text-primary mb-4">Endereço</h2>
+<p class="text-body-md text-on-surface-variant">Praia de Botafogo, 228 -- 16º Andar -- Edifício Argentina<br>Botafogo -- Rio de Janeiro -- RJ</p>
+</div>
+<div>
+<p class="eyebrow">Telefones</p>
+<h2 class="font-display text-headline-md text-primary mb-4">Telefones</h2>
+<ul class="text-body-md text-on-surface-variant space-y-1">
+<li>+55 21 99842-3232</li>
+<li>+55 21 97034-2617</li>
+<li>+55 21 3736-3696</li>
+</ul>
+</div>
+<div>
+<p class="eyebrow">E-mail</p>
+<h2 class="font-display text-headline-md text-primary mb-4">E-mail</h2>
+<p class="text-body-md text-on-surface-variant">contato@prospeccaobrasil.com</p>
+</div>
+<div>
+<p class="eyebrow">WhatsApp</p>
+<h2 class="font-display text-headline-md text-primary mb-4">WhatsApp</h2>
+<a href="https://wa.me/5521998423232" class="btn btn-outline btn-md" target="_blank" rel="noopener">Conversar no WhatsApp</a>
+</div>
+</div>
+
 </div>
 </div>
 </section>

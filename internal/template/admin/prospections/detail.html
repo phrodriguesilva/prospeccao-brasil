@@ -8,12 +8,12 @@
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
+<body class="admin-shell">
 <div class="flex min-h-screen">
 {{template "internal_nav" .}}
-<main class="flex-1 p-6 overflow-x-auto">
+<main class="admin-main">
 <div class="flex justify-between items-center mb-6">
-<h1 class="font-display text-headline-lg text-on-surface">Prospecção</h1>
+<h1 class="font-display text-2xl text-slate-900 font-bold">Prospecção</h1>
 <div class="flex gap-2">
 <a href="/prospections/{{uuidToString .Prospect.ID}}/edit" class="btn btn-tonal">Editar</a>
 <button class="btn btn-error" @click="$dispatch('open-modal', {id: 'delete-modal'})">Excluir</button>

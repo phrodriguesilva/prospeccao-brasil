@@ -86,7 +86,7 @@ func (td *instTestDB) teardown(t *testing.T) {
 func loadTestTemplates(t *testing.T) (*template.Template, error) {
 	t.Helper()
 	templateDir := findTemplateDir(t)
-	tmpl, err := template.New("").ParseGlob(filepath.Join(templateDir, "*.html"))
+	tmpl, err := template.New("").Funcs(TemplateFuncs()).ParseGlob(filepath.Join(templateDir, "*.html"))
 	if err != nil {
 		return nil, err
 	}
@@ -106,6 +106,7 @@ func newInstRouter(td *instTestDB) *chi.Mux {
 	r.Get("/", td.instHandler.Home)
 	r.Get("/quem-somos", td.instHandler.QuemSomos)
 	r.Get("/servicos", td.instHandler.Servicos)
+	r.Get("/servicos/{slug}", td.instHandler.ServicoDetalhe)
 	r.Get("/nossos-clientes", td.instHandler.NossosClientes)
 	r.Get("/fale-conosco", td.instHandler.FaleConosco)
 	r.Post("/fale-conosco", td.contactHandler.Submit)
@@ -129,11 +130,28 @@ func TestHomeGET(t *testing.T) {
 	if !strings.Contains(body, "Prospecção Brasil") {
 		t.Error("expected 'Prospecção Brasil' in body")
 	}
-	if !strings.Contains(body, "Solicite uma prospecção") {
-		t.Error("expected CTA 'Solicite uma prospecção' in body")
+	if !strings.Contains(body, "ponto comercial") {
+		t.Error("expected market copy 'ponto comercial' in body")
 	}
-	if !strings.Contains(body, "Nossos Serviços") {
+	if strings.Contains(body, "carga cognitiva") {
+		t.Error("forbidden copy 'carga cognitiva' found in home")
+	}
+	if strings.Contains(body, "pipeline") {
+		t.Error("forbidden copy 'pipeline' found in home")
+	}
+	if !strings.Contains(body, "Nossos") || !strings.Contains(body, "Servi") {
 		t.Error("expected services preview section")
+	}
+	if !strings.Contains(body, "Solicite uma apresentação") {
+		t.Error("expected CTA 'Solicite uma apresentação' in body")
+	}
+	// Verify metrics labels present
+	if !strings.Contains(body, "Pontos Comercializados") {
+		t.Error("expected metric label 'Pontos Comercializados'")
+	}
+	// Verify at least one testimonial name present
+	if !strings.Contains(body, "Larissa Mello") {
+		t.Error("expected testimonial from 'Larissa Mello'")
 	}
 }
 
@@ -152,11 +170,23 @@ func TestQuemSomosGET(t *testing.T) {
 	if !strings.Contains(body, "Quem Somos") {
 		t.Error("expected 'Quem Somos' in body")
 	}
+	if !strings.Contains(body, "Luiz Claudio") {
+		t.Error("expected founder 'Luiz Claudio'")
+	}
+	if !strings.Contains(body, "Shell") {
+		t.Error("expected 'Shell' in founder bio")
+	}
 	if !strings.Contains(body, "Missão") {
 		t.Error("expected 'Missão' section")
 	}
-	if !strings.Contains(body, "Luiz Claudio") {
-		t.Error("expected team member 'Luiz Claudio'")
+	if !strings.Contains(body, "CRECI") {
+		t.Error("expected 'CRECI' mention")
+	}
+	if strings.Contains(body, "carga cognitiva") {
+		t.Error("forbidden copy 'carga cognitiva' found in quem-somos")
+	}
+	if strings.Contains(body, "plataforma") {
+		t.Error("forbidden copy 'plataforma' found in quem-somos")
 	}
 }
 
@@ -172,13 +202,74 @@ func TestServicosGET(t *testing.T) {
 		t.Fatalf("expected 200, got %d", rr.Code)
 	}
 	body := rr.Body.String()
-	if !strings.Contains(body, "Nossos Serviços") {
+	if !strings.Contains(body, "Nossos") || !strings.Contains(body, "Servi") {
 		t.Error("expected 'Nossos Serviços' in body")
 	}
-	// Check for at least 4 service cards
+	// Check for at least 5 service cards (we have 5 services)
 	count := strings.Count(body, "Saiba mais")
-	if count < 4 {
-		t.Errorf("expected at least 4 service cards, got %d 'Saiba mais' links", count)
+	if count < 5 {
+		t.Errorf("expected at least 5 service cards, got %d 'Saiba mais' links", count)
+	}
+	// Verify no software copy
+	if strings.Contains(body, "carga cognitiva") {
+		t.Error("forbidden copy 'carga cognitiva' found in servicos")
+	}
+}
+
+func TestServicoDetalheGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/servicos/expansao-de-redes", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Expansão de Redes") {
+		t.Error("expected service title 'Expansão de Redes'")
+	}
+	if !strings.Contains(body, "Como") || !strings.Contains(body, "fazemos") {
+		t.Error("expected methodology section 'Como fazemos'")
+	}
+}
+
+func TestServicoDetalheNotFound(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/servicos/inexistente", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusNotFound {
+		t.Fatalf("expected 404, got %d", rr.Code)
+	}
+}
+
+func TestServicoDetalheAll(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	slugs := []string{
+		"expansao-de-redes",
+		"built-to-suit",
+		"strip-mall",
+		"lajes-comerciais",
+		"prospeccao-de-ponto",
+	}
+	for _, slug := range slugs {
+		t.Run(slug, func(t *testing.T) {
+			req := httptest.NewRequest("GET", "/servicos/"+slug, nil)
+			rr := httptest.NewRecorder()
+			newInstRouter(td).ServeHTTP(rr, req)
+
+			if rr.Code != http.StatusOK {
+				t.Errorf("expected 200 for %s, got %d", slug, rr.Code)
+			}
+		})
 	}
 }
 
@@ -194,9 +285,15 @@ func TestNossosClientesGET(t *testing.T) {
 		t.Fatalf("expected 200, got %d", rr.Code)
 	}
 	body := rr.Body.String()
-	// Should show empty state since no testimonials seeded
-	if !strings.Contains(body, "Em breve") {
-		t.Error("expected empty state 'Em breve' in body")
+	// Should show testimonials, not empty state
+	if strings.Contains(body, "Em breve") {
+		t.Error("should not show empty state 'Em breve' -- testimonials are static")
+	}
+	if !strings.Contains(body, "Larissa Mello") && !strings.Contains(body, "Roberto Andrade") {
+		t.Error("expected at least one testimonial name in body")
+	}
+	if !strings.Contains(body, "Pontos Comercializados") {
+		t.Error("expected metrics strip on nossos-clientes")
 	}
 }
 
@@ -223,6 +320,12 @@ func TestFaleConoscoGET(t *testing.T) {
 	}
 	if !strings.Contains(body, `name="message"`) {
 		t.Error("expected message field in form")
+	}
+	if !strings.Contains(body, `name="company"`) {
+		t.Error("expected company field in form")
+	}
+	if !strings.Contains(body, "Botafogo") {
+		t.Error("expected contact info 'Botafogo' on page")
 	}
 }
 
@@ -291,6 +394,7 @@ func TestContactSubmitValid(t *testing.T) {
 	defer td.teardown(t)
 
 	form := url.Values{
+		"company": {"Empresa Teste Ltda"},
 		"name":    {"João Silva"},
 		"email":   {"joao@example.com"},
 		"phone":   {"+55 11 99999-9999"},

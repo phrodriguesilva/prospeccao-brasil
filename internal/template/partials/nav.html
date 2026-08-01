@@ -1,26 +1,27 @@
-{{define "nav"}}<nav class="sticky top-0 z-sticky bg-surface-container-lowest border-b border-outline-variant shadow-sm" x-data="{ open: false }">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+{{define "nav"}}<nav class="sticky top-0 z-sticky bg-surface border-b border-outline-variant" x-data="{ open: false }">
+<div class="public-container">
 <div class="flex items-center justify-between h-16">
-<a href="/" class="font-display text-headline-md text-primary font-bold">Prospecção Brasil</a>
-<div class="hidden md:flex items-center gap-2">
+<a href="/" class="flex items-center gap-2.5 no-underline shrink-0">
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-nav" width="120" height="97">
+<span class="font-display text-base text-primary font-bold tracking-tight hidden sm:inline">Prospecção Brasil</span>
+</a>
+<div class="hidden md:flex items-center gap-1">
 <a href="/" class="nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
 <a href="/quem-somos" class="nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
 <a href="/servicos" class="nav-link {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
 <a href="/nossos-clientes" class="nav-link {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Fale Conosco</a>
+<a href="/fale-conosco" class="btn btn-filled btn-sm ml-2">Fale Conosco</a>
 </div>
-<button class="md:hidden p-2 rounded-md text-on-surface" @click="open = !open" aria-label="Menu">
-<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+<button type="button" class="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-100" @click="open = !open" aria-label="Menu" aria-expanded="false" :aria-expanded="open.toString()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
 </div>
-<div class="md:hidden" x-show="open" x-transition>
-<div class="flex flex-col gap-2 pb-4">
-<a href="/" class="nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
-<a href="/quem-somos" class="nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
-<a href="/servicos" class="nav-link {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
-<a href="/nossos-clientes" class="nav-link {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
-<a href="/fale-conosco" class="btn btn-primary btn-sm">Fale Conosco</a>
-</div>
+<div class="md:hidden pb-4 space-y-1" x-show="open" x-transition>
+<a href="/" class="nav-link block {{if eq .ActivePage "home"}}active{{end}}">Início</a>
+<a href="/quem-somos" class="nav-link block {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
+<a href="/servicos" class="nav-link block {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
+<a href="/nossos-clientes" class="nav-link block {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
+<a href="/fale-conosco" class="btn btn-filled btn-sm mt-2">Fale Conosco</a>
 </div>
 </div>
 </nav>{{end}}

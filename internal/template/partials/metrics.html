@@ -1,0 +1,11 @@
+{{define "metrics"}}{{if .}}<section class="bg-primary text-on-primary py-16 hero-glow relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+{{range .}}<div class="reveal">
+<p class="font-display text-display-md text-secondary font-bold mb-2">{{.Value}}</p>
+<p class="text-body-sm text-primary-on-container uppercase tracking-wide">{{.Label}}</p>
+</div>
+{{end}}
+</div>
+</div>
+</section>{{end}}{{end}}

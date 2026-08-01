@@ -1,6 +1,6 @@
 -- name: CreateContactSubmission :one
-INSERT INTO contact_submissions (id, name, email, phone, subject, message)
-VALUES ($1, $2, $3, $4, $5, $6)
+INSERT INTO contact_submissions (id, name, email, phone, company, subject, message)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING *;
 
 -- name: ListContactSubmissions :many

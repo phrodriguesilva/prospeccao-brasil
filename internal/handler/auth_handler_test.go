@@ -66,7 +66,9 @@ func setupHandlerTestDB(t *testing.T) *handlerTestDB {
 	log := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelError}))
 	svc := auth.NewService(queries, pool, key, limiter, log)
 
-	tmpl := template.Must(template.ParseGlob(filepath.Join(findTemplateDir(t), "*.html")))
+	tmpl := template.Must(template.New("").Funcs(TemplateFuncs()).ParseGlob(filepath.Join(findTemplateDir(t), "*.html")))
+	template.Must(tmpl.ParseGlob(filepath.Join(findTemplateDir(t), "partials", "*.html")))
+	template.Must(tmpl.ParseGlob(filepath.Join(findTemplateDir(t), "fragments", "*.html")))
 	handler := NewAuthHandler(svc, queries, tmpl, log, false, key)
 
 	return &handlerTestDB{queries: queries, pool: pool, svc: svc, handler: handler, key: key, tmpl: tmpl}

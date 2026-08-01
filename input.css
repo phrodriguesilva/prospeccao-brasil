@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Alpine.js elements before library loads */
+[x-cloak] { display: none !important; }
+
 @layer components {
-  /* Buttons -- built on Tailwind tokens from SPEC-01 */
+  /* Buttons -- built on Tailwind tokens from SPEC-01.
+     Default size is md so bare `.btn` still has usable padding. */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold
+           px-5 py-2.5 text-body-md
            transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
@@ -16,7 +21,21 @@
   .btn-primary { @apply bg-primary text-on-primary hover:bg-primary-container focus:ring-primary; }
   .btn-secondary { @apply bg-secondary text-on-secondary hover:bg-secondary-container focus:ring-secondary; }
   .btn-outline { @apply border border-primary text-primary bg-transparent hover:bg-primary hover:text-on-primary focus:ring-primary; }
-  .btn-ghost { @apply bg-transparent text-primary hover:bg-surface-container focus:ring-primary; }
+  .btn-ghost { @apply bg-transparent text-primary hover:bg-slate-100 focus:ring-primary; }
+
+  /* Aliases used by admin templates (SPEC-05) */
+  .btn-filled { @apply bg-primary text-on-primary hover:bg-primary-container focus:ring-primary; }
+  .btn-tonal { @apply bg-slate-100 text-primary hover:bg-slate-200 focus:ring-primary; }
+  .btn-error { @apply bg-error text-on-error hover:bg-error-container hover:text-error focus:ring-error; }
+
+  /* Alerts */
+  .alert {
+    @apply rounded-md px-4 py-3 text-body-md border;
+  }
+  .alert-error { @apply bg-error-container text-error-on-container border-error/20; }
+  .alert-warning { @apply bg-yellow-50 text-yellow-900 border-yellow-200; }
+  .alert-success { @apply bg-green-50 text-green-800 border-green-200; }
+  .alert-info { @apply bg-primary-fixed text-primary-on-fixed border-primary/10; }
 
   /* Badges */
   .badge {
@@ -29,34 +48,386 @@
 
   /* Cards */
   .card {
-    @apply bg-surface-container-lowest rounded-lg shadow-md p-6
-           border border-outline-variant;
+    @apply bg-white rounded-lg shadow-sm p-6 border border-slate-200;
   }
-  .card-hover { @apply transition-shadow hover:shadow-lg; }
+  .card-hover { @apply transition-shadow hover:shadow-md; }
 
   /* Form inputs */
   .form-input {
-    @apply w-full rounded-md border border-outline-variant bg-surface-container-lowest
-           px-4 py-2.5 text-body-md text-on-surface
+    @apply w-full rounded-md border border-slate-300 bg-white
+           px-3.5 py-2.5 text-body-md text-on-surface
            focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-           disabled:bg-surface-container disabled:cursor-not-allowed
-           placeholder:text-on-surface-variant;
+           disabled:bg-slate-100 disabled:cursor-not-allowed
+           placeholder:text-slate-400;
   }
   .form-input-error { @apply border-error focus:ring-error focus:border-error; }
   .form-label {
-    @apply block text-body-md font-semibold text-on-surface mb-1;
+    @apply block text-sm font-semibold text-slate-700 mb-1.5;
   }
   .form-error {
-    @apply text-sm text-error mt-1;
+    @apply text-sm text-error mt-1.5;
   }
 
-  /* Navigation links */
+  /* Public site navigation links */
   .nav-link {
-    @apply px-3 py-2 rounded-md text-body-md font-semibold text-on-surface-variant
-           hover:text-on-surface hover:bg-surface-container-low
+    @apply px-3 py-2 rounded-md text-sm font-medium text-slate-600
+           hover:text-primary hover:bg-slate-100
            transition-colors duration-150;
   }
   .nav-link.active {
-    @apply text-primary bg-primary-fixed-dim;
+    @apply text-primary bg-slate-100;
   }
+
+  /* Public shell -- same cool neutral as admin */
+  .public-shell {
+    @apply min-h-screen bg-slate-50 text-slate-900 font-sans;
+  }
+
+  .public-section {
+    @apply py-16 md:py-20;
+  }
+
+  .public-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .public-hero {
+    @apply bg-primary text-on-primary py-20 md:py-28;
+  }
+
+  .public-muted {
+    @apply bg-white border-y border-slate-200;
+  }
+
+  /* Brand logos */
+  .logo-nav {
+    @apply h-9 w-auto;
+  }
+  .logo-nav-sm {
+    @apply h-8 w-auto;
+  }
+  .logo-auth {
+    @apply h-28 w-auto max-w-full;
+  }
+  .logo-auth-full {
+    @apply w-56 max-w-full h-auto;
+  }
+  .logo-footer {
+    @apply h-10 w-auto;
+  }
+  .logo-sidebar {
+    @apply h-10 w-auto;
+  }
+  .logo-hero {
+    @apply h-16 md:h-20 w-auto;
+  }
+
+  /* Admin shell -- cool neutral, not warm beige */
+  .admin-shell {
+    @apply min-h-screen bg-slate-50 text-slate-900 font-sans;
+  }
+
+  .admin-sidebar {
+    @apply w-60 shrink-0 min-h-screen flex flex-col bg-primary text-on-primary;
+  }
+
+  .admin-nav-link {
+    @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+           text-on-primary/70 hover:text-on-primary hover:bg-white/10
+           no-underline transition-colors duration-150;
+  }
+  .admin-nav-link.active {
+    @apply text-on-primary bg-white/15;
+  }
+  .admin-nav-link svg {
+    @apply w-4 h-4 shrink-0 opacity-80;
+  }
+
+  .admin-main {
+    @apply flex-1 p-6 lg:p-8 overflow-x-auto;
+  }
+
+  /* Admin filter bars + data tables */
+  .filter-bar {
+    @apply flex flex-wrap items-end gap-3 mb-6 p-4 bg-white rounded-lg border border-slate-200;
+  }
+  .filter-bar .form-input {
+    @apply w-auto min-w-[9rem] flex-1;
+  }
+  .filter-bar .btn {
+    @apply shrink-0;
+  }
+
+  .data-table {
+    @apply w-full text-left text-sm border-collapse bg-white rounded-lg
+           overflow-hidden border border-slate-200;
+  }
+  .data-table th {
+    @apply px-4 py-3 font-semibold text-slate-600 bg-slate-50 border-b border-slate-200 whitespace-nowrap;
+  }
+  .data-table td {
+    @apply px-4 py-3 border-b border-slate-100 text-slate-800 align-middle;
+  }
+  .data-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-slate-50/80;
+  }
+}
+
+/* Status badges -- plain CSS so Tailwind does not drop identical @apply groups */
+.badge-available,
+.badge-active,
+.badge-closed_won {
+  background-color: #dcfce7;
+  color: #166534;
+}
+.badge-reserved,
+.badge-negotiating {
+  background-color: #fef3c7;
+  color: #78350f;
+}
+.badge-sold {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+.badge-inactive {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+.badge-lead,
+.badge-new {
+  background-color: #e0f2fe;
+  color: #075985;
+}
+.badge-contacting {
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+.badge-visiting {
+  background-color: #ede9fe;
+  color: #5b21b6;
+}
+.badge-closed_lost {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.badge-warning {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+.badge-error {
+  background-color: #ffdad6;
+  color: #ba1a1a;
+}
+
+/* ========================================
+   SPEC-06 Visual Polish -- public site only
+   ======================================== */
+
+/* 1. Scroll reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* 2. Premium card hover */
+.premium-card {
+  position: relative;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.premium-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #765a1a, #d4af6a, #765a1a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+}
+.premium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-color: rgba(118, 90, 26, 0.4);
+}
+.premium-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* 3. Eyebrow labels + text gradients */
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #765a1a;
+  margin-bottom: 0.75rem;
+}
+.text-gradient {
+  background: linear-gradient(135deg, #765a1a 0%, #d4af6a 50%, #f5e6c8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 4. Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, #765a1a, #031636);
+  z-index: 100;
+  transition: width 0.05s linear;
+}
+
+/* 5. Back-to-top button */
+#back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  background: #031636;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 90;
+  cursor: pointer;
+  border: none;
+}
+#back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#back-to-top:hover {
+  background: #051f47;
+}
+#back-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 6. WhatsApp floating button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  width: 56px;
+  height: 56px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 90;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-float:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+}
+.whatsapp-float svg {
+  width: 28px;
+  height: 28px;
+  fill: #ffffff;
+}
+
+/* 7. Hero gradient fallback (shows when no image) */
+.hero-bg {
+  background:
+    radial-gradient(circle at 20% 50%, rgba(118, 90, 26, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+    linear-gradient(135deg, #031636 0%, #051f47 100%);
+}
+
+/* 8. Testimonial scroll carousel */
+.testimonial-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 1rem;
+}
+.testimonial-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.testimonial-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.testimonial-scroll::-webkit-scrollbar-thumb {
+  background: #765a1a;
+  border-radius: 3px;
+}
+.testimonial-scroll > * {
+  flex: 0 0 380px;
+  max-width: 380px;
+  scroll-snap-align: start;
+}
+@media (max-width: 640px) {
+  .testimonial-scroll > * {
+    flex: 0 0 85%;
+    max-width: 85%;
+  }
+}
+
+/* 9. Decorative glow for navy sections */
+.hero-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(118, 90, 26, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+}
+.cta-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(118, 90, 26, 0.1) 0%, transparent 60%);
+}
+
+/* 10. Custom scrollbar (global) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #031636;
+}
+::-webkit-scrollbar-thumb {
+  background: #765a1a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94723a;
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #765a1a #031636;
 }
