@@ -39,6 +39,9 @@
         btn.classList.remove("is-visible");
       }
     }
+    // Glass nav scrolled state
+    var nav = document.querySelector(".glass-nav");
+    if (nav) nav.classList.toggle("scrolled", scrollTop > 20);
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });

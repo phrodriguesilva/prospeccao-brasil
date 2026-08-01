@@ -13,62 +13,89 @@
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<!-- Hero full-bleed with gradient fallback -->
-<section class="hero-bg hero-glow relative min-h-[600px] flex items-center overflow-hidden">
-<div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('/static/img/hero-comercial.jpg')"></div>
-<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/60"></div>
-<div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 z-10">
+<!-- Hero full-bleed with Ken Burns -->
+<section class="hero-fullbleed">
+<div class="hero-img" style="background-image: url('/static/img/hero-comercial.jpg')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-primary/40"></div>
+<div class="absolute inset-0" style="background: radial-gradient(circle at 70% 50%, rgba(118,90,26,0.15) 0%, transparent 50%);"></div>
+<div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-32 z-10">
 <div class="max-w-3xl">
-<p class="eyebrow text-secondary">Retail Service para Grandes Empresas</p>
-<h1 class="font-display text-display-lg text-on-primary mb-6 leading-tight">Encontramos o <span class="text-gradient">ponto comercial</span> ideal para a sua rede</h1>
-<p class="text-body-lg text-primary-on-container mb-8 max-w-2xl">Prospecção imobiliária comercial com mais de 15 anos de experiência em expansão de redes varejistas, franquias e shopping centers em todo o Brasil.</p>
-<div class="flex flex-wrap gap-4">
-<a href="/fale-conosco" class="btn btn-secondary btn-lg">Solicite uma apresentação</a>
-<a href="/servicos" class="btn btn-outline btn-lg text-on-primary border-on-primary hover:bg-on-primary hover:text-primary">Conheça nossos serviços</a>
+<p class="eyebrow text-secondary" style="color: #d4af6a;">PROSPECÇÃO E EXPANSÃO COMERCIAL</p>
+<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-[1.1] font-extrabold">Prospecção de pontos comerciais para <span class="text-gradient">expandir sua rede</span></h1>
+<p class="text-lg md:text-xl text-white/80 mb-10 max-w-[600px]">Inteligência em Real Estate Comercial. Encontramos, estruturamos e comercializamos o ponto ideal para a expansão da sua rede varejista em todo o Brasil.</p>
+<div class="flex flex-wrap gap-4 mb-12">
+<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Solicite uma apresentação</a>
+<a href="/servicos" class="btn btn-pill btn-lg text-white border-2 border-white/40 hover:bg-white hover:text-primary transition-all">Conheça nossos serviços</a>
+</div>
+<!-- Metrics inline -->
+<div class="grid grid-cols-4 gap-4 max-w-2xl">
+<div class="hero-metric">
+<p class="hero-metric-value">500+</p>
+<p class="hero-metric-label">Pontos</p>
+</div>
+<div class="hero-metric">
+<p class="hero-metric-value">50+</p>
+<p class="hero-metric-label">Clientes</p>
+</div>
+<div class="hero-metric">
+<p class="hero-metric-value">100+</p>
+<p class="hero-metric-label">Cidades</p>
+</div>
+<div class="hero-metric">
+<p class="hero-metric-value">15+</p>
+<p class="hero-metric-label">Anos</p>
+</div>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Metrics strip -->
-{{template "metrics" .Metrics}}
-
-<!-- Services overview -->
-<section class="py-20 bg-surface reveal">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-12">
+<!-- Services with photos -->
+<section class="py-24 md:py-32 bg-surface reveal">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
 <p class="eyebrow">O que fazemos</p>
-<h2 class="font-display text-headline-lg text-primary mb-4">Nossos <span class="text-gradient">Serviços</span></h2>
-<p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">Soluções completas em prospecção imobiliária comercial, do planejamento à implantação do ponto.</p>
+<h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">Nossos <span class="text-gradient">Serviços</span></h2>
+<p class="text-lg text-on-surface-variant max-w-2xl mx-auto">Da prospecção do ponto à expansão da rede: planejamento, estruturação e implantação em todo o Brasil.</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-{{range $i, $svc := .Services}}
-<div class="premium-card reveal reveal-delay-{{if lt $i 3}}{{add $i 1}}{{else}}3{{end}}">
-<h3 class="font-display text-headline-md text-primary mb-3">{{.Title}}</h3>
-<p class="text-body-md text-on-surface-variant mb-4">{{.Summary}}</p>
-<a href="/servicos/{{.Slug}}" class="btn btn-ghost btn-sm">Saiba mais</a>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+{{range $i, $svc := .Services}}{{if lt $i 3}}
+<div class="premium-card-img reveal reveal-delay-{{add $i 1}}">
+<div class="card-img-wrap">
+{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/service-expansao.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "lajes-comerciais"}}<img src="/static/img/service-lajes.jpg" alt="{{.Title}}">{{end}}
 </div>
-{{end}}
+<div class="card-body">
+<h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
+<p class="text-base text-on-surface-variant mb-4">{{.Summary}}</p>
+<a href="/servicos/{{.Slug}}" class="text-primary font-semibold text-sm hover:text-secondary transition-colors">Saiba mais &rarr;</a>
 </div>
-<div class="text-center mt-10">
-<a href="/servicos" class="btn btn-outline btn-md">Ver todos os serviços</a>
+</div>
+{{end}}{{end}}
+</div>
+<div class="text-center mt-12">
+<a href="/servicos" class="btn btn-outline btn-pill btn-md">Ver todos os serviços</a>
 </div>
 </div>
 </section>
 
 <!-- Testimonials carousel -->
-<section class="py-20 bg-surface-container-low reveal">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-12">
+<section class="py-24 md:py-32 bg-surface-container-low reveal">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
 <p class="eyebrow">Depoimentos</p>
-<h2 class="font-display text-headline-lg text-primary mb-4">O que nossos <span class="text-gradient">clientes</span> dizem</h2>
+<h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">O que nossos <span class="text-gradient">clientes</span> dizem</h2>
 </div>
 <div class="testimonial-scroll">
 {{range .Testimonials}}
-<div class="premium-card">
-<p class="text-body-md text-on-surface-variant mb-6 italic">"{{.Quote}}"</p>
+<div class="premium-card" style="background: #fdfbf7;">
+<div class="quote-mark">&ldquo;</div>
+<p class="text-base text-on-surface-variant mb-6 italic">{{.Quote}}</p>
 <div>
-<p class="font-semibold text-on-surface">{{.Name}}</p>
+<p class="font-bold text-on-surface">{{.Name}}</p>
 <p class="text-sm text-on-surface-variant">{{.Company}}</p>
 </div>
 </div>
@@ -77,12 +104,14 @@
 </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-glow bg-primary text-on-primary py-20 relative reveal">
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-<h2 class="font-display text-headline-lg mb-4">Pronto para <span class="text-gradient">expandir</span> sua rede?</h2>
-<p class="text-body-lg text-primary-on-container mb-8">Entre em contato e descubra como podemos encontrar o ponto comercial ideal para o seu negócio.</p>
-<a href="/fale-conosco" class="btn btn-secondary btn-lg">Solicite uma apresentação</a>
+<!-- CTA with bg image -->
+<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative reveal">
+<div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
+<div class="absolute inset-0 bg-primary/80"></div>
+<div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+<h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Pronto para <span class="text-gradient">expandir</span> sua rede?</h2>
+<p class="text-lg text-primary-on-container mb-8">Prospecção, estruturação e comercialização de pontos comerciais. Entre em contato e acelere a expansão da sua rede.</p>
+<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Solicite uma apresentação</a>
 </div>
 </section>
 </main>

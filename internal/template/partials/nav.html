@@ -1,27 +1,25 @@
-{{define "nav"}}<nav class="sticky top-0 z-sticky bg-surface border-b border-outline-variant" x-data="{ open: false }">
-<div class="public-container">
-<div class="flex items-center justify-between h-16">
+{{define "nav"}}<nav class="glass-nav" x-data="{ open: false }">
+<div class="glass-nav-inner">
 <a href="/" class="flex items-center gap-2.5 no-underline shrink-0">
-<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-nav" width="120" height="97">
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="h-9 w-auto" width="120" height="97">
 <span class="font-display text-base text-primary font-bold tracking-tight hidden sm:inline">Prospecção Brasil</span>
 </a>
 <div class="hidden md:flex items-center gap-1">
-<a href="/" class="nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
-<a href="/quem-somos" class="nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
-<a href="/servicos" class="nav-link {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
-<a href="/nossos-clientes" class="nav-link {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
-<a href="/fale-conosco" class="btn btn-filled btn-sm ml-2">Fale Conosco</a>
+<a href="/" class="glass-nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
+<a href="/quem-somos" class="glass-nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
+<a href="/servicos" class="glass-nav-link {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
+<a href="/nossos-clientes" class="glass-nav-link {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
+<a href="/fale-conosco" class="btn btn-filled btn-pill btn-sm ml-2">Fale Conosco</a>
 </div>
-<button type="button" class="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-100" @click="open = !open" aria-label="Menu" aria-expanded="false" :aria-expanded="open.toString()">
+<button type="button" class="md:hidden p-2 rounded-full text-slate-700 hover:bg-slate-100" @click="open = !open" aria-label="Menu" aria-expanded="false" :aria-expanded="open.toString()">
 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
 </div>
-<div class="md:hidden pb-4 space-y-1" x-show="open" x-transition>
-<a href="/" class="nav-link block {{if eq .ActivePage "home"}}active{{end}}">Início</a>
-<a href="/quem-somos" class="nav-link block {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
-<a href="/servicos" class="nav-link block {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
-<a href="/nossos-clientes" class="nav-link block {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
-<a href="/fale-conosco" class="btn btn-filled btn-sm mt-2">Fale Conosco</a>
-</div>
+<div class="glass-nav-mobile" :class="{ 'open': open }" x-show="open" x-transition x-cloak>
+<a href="/" class="glass-nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
+<a href="/quem-somos" class="glass-nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Quem somos</a>
+<a href="/servicos" class="glass-nav-link {{if eq .ActivePage "servicos"}}active{{end}}">Serviços</a>
+<a href="/nossos-clientes" class="glass-nav-link {{if eq .ActivePage "nossos-clientes"}}active{{end}}">Nossos clientes</a>
+<a href="/fale-conosco" class="btn btn-filled btn-pill btn-sm mt-2">Fale Conosco</a>
 </div>
 </nav>{{end}}
