@@ -252,6 +252,11 @@ func (h *InstitutionalHandler) NotFound(w http.ResponseWriter, r *http.Request) 
 	h.renderPage(w, "404.html", pageData{})
 }
 
+// Privacidade renders the LGPD privacy policy page at GET /privacidade.
+func (h *InstitutionalHandler) Privacidade(w http.ResponseWriter, r *http.Request) {
+	h.renderPage(w, "privacidade.html", pageData{ActivePage: "privacidade"})
+}
+
 // renderPage renders a page using the template.
 func (h *InstitutionalHandler) renderPage(w http.ResponseWriter, name string, data pageData) {
 	if err := h.tmpl.ExecuteTemplate(w, name, data); err != nil {

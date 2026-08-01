@@ -47,6 +47,8 @@ module.exports = {
         // Secondary: Sóbrio Gold -- high-value CTAs and key metrics
         secondary: {
           DEFAULT: "#765a1a",
+          light: "#d4af6a",
+          lightest: "#f5e6c8",
           container: "#ffd88b",
           "on-container": "#795c1c",
           fixed: "#ffdea1",
@@ -82,6 +84,14 @@ module.exports = {
         "background-alt": "#F8FAFC",
         "slate-gray": "#334155",
         "whatsapp-green": "#25D366",
+
+        // Neutral aliases for unified design system (replaces slate-* in admin)
+        neutral: {
+          border: "#e2e8f0",
+          "border-hover": "#cbd5e1",
+          muted: "#94a3b8",
+          text: "#1e293b",
+        },
       },
       fontFamily: {
         sans: [
@@ -105,8 +115,8 @@ module.exports = {
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       fontSize: {
-        // Display
-        "display-lg": ["48px", { lineHeight: "1.1", fontWeight: "700", letterSpacing: "-0.02em" }],
+        // Display -- responsive via clamp (hero headlines)
+        "display-lg": ["clamp(2.5rem, 5vw, 4.5rem)", { lineHeight: "1.1", fontWeight: "800", letterSpacing: "-0.02em" }],
         // Headlines (Montserrat)
         "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
         "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "600" }],

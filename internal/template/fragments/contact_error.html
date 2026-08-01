@@ -1,36 +1,36 @@
 {{define "contact_error.html"}}
-<div id="contact-form-container" class="card">
+<div id="contact-form-container" class="form-glass">
 {{if .Errors.Generic}}<div class="alert alert-error mb-5">{{.Errors.Generic}}</div>{{end}}
-<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
+<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-6">
 <div>
 <label for="company" class="form-label">Empresa (opcional)</label>
-<input type="text" id="company" name="company" maxlength="255" class="form-input" value="{{.Form.Company}}" placeholder="Nome da empresa">
+<input type="text" id="company" name="company" maxlength="255" class="form-input-premium" value="{{.Form.Company}}" placeholder="Nome da empresa">
 </div>
 <div>
 <label for="name" class="form-label">Nome *</label>
-<input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input {{if .Errors.Name}}form-input-error{{end}}" value="{{.Form.Name}}">
+<input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input-premium" value="{{.Form.Name}}">
 {{if .Errors.Name}}<p class="form-error">{{.Errors.Name}}</p>{{end}}
 </div>
 <div>
 <label for="email" class="form-label">Email *</label>
-<input type="email" id="email" name="email" required class="form-input {{if .Errors.Email}}form-input-error{{end}}" value="{{.Form.Email}}">
+<input type="email" id="email" name="email" required class="form-input-premium" value="{{.Form.Email}}">
 {{if .Errors.Email}}<p class="form-error">{{.Errors.Email}}</p>{{end}}
 </div>
 <div>
 <label for="phone" class="form-label">Telefone (opcional)</label>
-<input type="tel" id="phone" name="phone" placeholder="+55 11 99999-9999" class="form-input" value="{{.Form.Phone}}">
+<input type="tel" id="phone" name="phone" placeholder="+55 21 99999-9999" class="form-input-premium" value="{{.Form.Phone}}">
 </div>
 <div>
 <label for="subject" class="form-label">Assunto *</label>
-<input type="text" id="subject" name="subject" required minlength="2" maxlength="255" class="form-input {{if .Errors.Subject}}form-input-error{{end}}" value="{{.Form.Subject}}">
+<input type="text" id="subject" name="subject" required minlength="2" maxlength="255" class="form-input-premium" value="{{.Form.Subject}}">
 {{if .Errors.Subject}}<p class="form-error">{{.Errors.Subject}}</p>{{end}}
 </div>
 <div>
 <label for="message" class="form-label">Mensagem *</label>
-<textarea id="message" name="message" required minlength="10" maxlength="5000" rows="5" class="form-input {{if .Errors.Message}}form-input-error{{end}}">{{.Form.Message}}</textarea>
+<textarea id="message" name="message" required minlength="10" maxlength="5000" rows="4" class="form-input-premium">{{.Form.Message}}</textarea>
 {{if .Errors.Message}}<p class="form-error">{{.Errors.Message}}</p>{{end}}
 </div>
-<button type="submit" class="btn btn-filled w-full">Enviar Mensagem</button>
+<button type="submit" class="btn btn-secondary btn-pill btn-lg btn-glow w-full">Enviar Mensagem</button>
 </form>
 </div>
 {{end}}

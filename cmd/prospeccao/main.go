@@ -268,6 +268,7 @@ func buildPublicRouter(
 	r.Get("/fale-conosco", instHandler.FaleConosco)
 	r.Post("/fale-conosco", contactHandler.Submit)
 	r.Post("/newsletter", newsletterHandler.Subscribe)
+	r.Get("/privacidade", instHandler.Privacidade)
 	r.NotFound(instHandler.NotFound)
 	return r
 }
@@ -371,6 +372,7 @@ func buildDevRouter(
 		r.Get("/fale-conosco", instHandler.FaleConosco)
 		r.Post("/fale-conosco", contactHandler.Submit)
 		r.Post("/newsletter", newsletterHandler.Subscribe)
+		r.Get("/privacidade", instHandler.Privacidade)
 
 		r.Get("/login", authHandler.LoginGET)
 		r.Post("/login", authHandler.LoginPOST)

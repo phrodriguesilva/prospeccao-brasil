@@ -1,0 +1,98 @@
+{{define "privacidade.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de Privacidade -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/app.css">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans body-nav-offset">
+{{template "site_gate"}}
+{{template "floating_elements"}}
+{{template "nav" .}}
+<main>
+<section class="hero-glow bg-primary text-on-primary py-24 md:py-32 relative">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<p class="eyebrow" style="color: #d4af6a;">LGPD</p>
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl mb-6 font-extrabold">Política de <span class="text-gradient">Privacidade</span></h1>
+<p class="text-lg text-primary-on-container max-w-2xl">Última atualização: julho de 2026</p>
+</div>
+</section>
+
+<section class="py-24 md:py-32 bg-surface reveal">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">1. Introdução</h2>
+<p class="text-base text-on-surface-variant leading-relaxed">A Prospecção Brasil respeita a privacidade de seus usuários e está comprometida em proteger seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018, LGPD). Esta política descreve como coletamos, utilizamos e protegemos suas informações.</p>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">2. Dados Coletados</h2>
+<p class="text-base text-on-surface-variant leading-relaxed mb-3">Coletamos os seguintes dados por meio de nosso formulário de contato e newsletter:</p>
+<ul class="list-disc pl-6 space-y-1 text-base text-on-surface-variant">
+<li>Nome completo</li>
+<li>E-mail</li>
+<li>Telefone (opcional)</li>
+<li>Empresa (opcional)</li>
+<li>Mensagem enviada</li>
+</ul>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">3. Finalidade do Tratamento</h2>
+<p class="text-base text-on-surface-variant leading-relaxed mb-3">Seus dados são utilizados para:</p>
+<ul class="list-disc pl-6 space-y-1 text-base text-on-surface-variant">
+<li>Responder a solicitações de contato e apresentações comerciais</li>
+<li>Envio de newsletter com oportunidades comerciais</li>
+<li>Prospecção de negócios imobiliários</li>
+<li>Cumprimento de obrigações legais e regulatórias</li>
+</ul>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">4. Cookies</h2>
+<p class="text-base text-on-surface-variant leading-relaxed">Nosso site utiliza cookies essenciais para o funcionamento da sessão de administração e cookies de funcionalidade para a área restrita. Não utilizamos cookies de rastreamento de terceiros para publicidade.</p>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">5. Compartilhamento de Dados</h2>
+<p class="text-base text-on-surface-variant leading-relaxed">Não compartilhamos seus dados pessoais com terceiros, exceto quando exigido por lei ou com seu consentimento explícito. Seus dados não são vendidos ou cedidos a terceiros.</p>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">6. Seus Direitos (LGPD)</h2>
+<p class="text-base text-on-surface-variant leading-relaxed mb-3">Como titular dos dados, você tem direito a:</p>
+<ul class="list-disc pl-6 space-y-1 text-base text-on-surface-variant">
+<li>Confirmar a existência de tratamento de seus dados</li>
+<li>Acessar seus dados</li>
+<li>Corrigir dados incompletos ou inexatos</li>
+<li>Solicitar anonimização ou eliminação de dados</li>
+<li>Solicitar a portabilidade dos dados</li>
+<li>Revogar o consentimento</li>
+</ul>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">7. Segurança</h2>
+<p class="text-base text-on-surface-variant leading-relaxed">Adotamos medidas técnicas e organizacionais para proteger seus dados, incluindo criptografia em trânsito (HTTPS), criptografia de dados sensíveis em repouso e controle de acesso restrito.</p>
+</div>
+
+<div>
+<h2 class="font-display text-2xl text-primary mb-4 font-bold">8. Encarregado de Dados (DPO)</h2>
+<p class="text-base text-on-surface-variant leading-relaxed">Para exercer seus direitos ou tirar dúvidas sobre esta política, entre em contato com nosso encarregado:</p>
+<div class="mt-4 p-4 bg-surface-container-low rounded-lg border border-outline-variant">
+<p class="text-base text-on-surface"><strong>E-mail:</strong> contato@prospeccaobrasil.com</p>
+<p class="text-base text-on-surface"><strong>Telefone:</strong> +55 21 99842-3232</p>
+<p class="text-base text-on-surface"><strong>Endereço:</strong> Rua Visconde de Pirajá, 495 -- 5º Andar, Ipanema, Rio de Janeiro -- RJ</p>
+</div>
+</div>
+
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}
