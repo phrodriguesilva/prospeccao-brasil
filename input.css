@@ -801,14 +801,14 @@ html {
   background-position: center;
   animation: ken-burns 20s ease-in-out infinite alternate;
 }
-/* Decorative symbol watermark in hero */
+/* Decorative watermark in hero (16:9, no offset, bottom-left) */
 .hero-symbol {
   position: absolute;
-  bottom: -80px;
-  left: -60px;
-  width: 280px;
+  bottom: 0;
+  left: 0;
+  width: 320px;
   height: auto;
-  opacity: 0.5;
+  opacity: 0.35;
   z-index: 5;
   pointer-events: none;
   user-select: none;
