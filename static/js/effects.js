@@ -243,6 +243,74 @@
     requestAnimationFrame(tick);
   }
 
+  // === SCROLL-DRIVEN VIDEO ===
+  // Pinned fullscreen section where scroll controls video.currentTime
+  function initScrollVideo() {
+    var section = document.querySelector('.scroll-video-section');
+    if (!section) return;
+    var video = section.querySelector('video');
+    var steps = section.querySelectorAll('.scroll-video-step');
+    var dots = section.querySelectorAll('.scroll-video-progress span');
+    if (!video) return;
+
+    var ticking = false;
+    var duration = 0;
+
+    video.addEventListener('loadedmetadata', function () {
+      duration = video.duration;
+    });
+    // If metadata already loaded
+    if (video.readyState >= 1) duration = video.duration;
+    // Fallback: poll for duration
+    if (!duration) {
+      var poll = setInterval(function () {
+        if (video.duration && isFinite(video.duration)) {
+          duration = video.duration;
+          clearInterval(poll);
+        }
+      }, 100);
+    }
+
+    function update() {
+      var rect = section.getBoundingClientRect();
+      var sectionHeight = section.offsetHeight - window.innerHeight;
+      var scrolled = Math.max(0, -rect.top);
+      var progress = Math.min(1, Math.max(0, scrolled / sectionHeight));
+
+      // Scrub video
+      if (duration > 0) {
+        video.currentTime = progress * duration;
+      }
+
+      // Update steps (divide progress into steps.length segments)
+      var stepCount = steps.length;
+      if (stepCount > 0) {
+        var activeIdx = Math.min(stepCount - 1, Math.floor(progress * stepCount));
+        steps.forEach(function (step, i) {
+          step.classList.toggle('step-active', i === activeIdx);
+        });
+        if (dots.length > 0) {
+          dots.forEach(function (dot, i) {
+            dot.classList.toggle('active', i === activeIdx);
+          });
+        }
+      }
+
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   // Init all
   function init() {
     initSplitText();
@@ -256,6 +324,7 @@
     initStagger();
     initMetricLine();
     initCustomCursor();
+    initScrollVideo();
   }
 
   if (document.readyState === 'loading') {
