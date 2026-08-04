@@ -2172,18 +2172,18 @@ body.bg-slate-50,
   inset: 0;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 1.5rem;
+  align-items: flex-end;
+  padding: 0 2rem 3.5rem;
 }
 .scroll-video-step {
   position: absolute;
+  bottom: 3.5rem;
+  left: 2rem;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
-  max-width: 640px;
+  max-width: 420px;
+  text-align: left;
 }
 .scroll-video-step.step-active {
   opacity: 1;
@@ -2191,38 +2191,37 @@ body.bg-slate-50,
 }
 .scroll-video-step .step-eyebrow {
   color: #d4af6a;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 .scroll-video-step .step-title {
   font-family: 'Montserrat', Inter, system-ui, sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: 800;
   color: #fff;
   line-height: 1.15;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
 .scroll-video-step .step-desc {
-  font-size: clamp(0.95rem, 1.5vw, 1.125rem);
-  color: rgba(255,255,255,0.7);
-  line-height: 1.6;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
 }
 .scroll-video-progress {
   position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 1.5rem;
+  left: 2rem;
   z-index: 3;
   display: flex;
   gap: 0.5rem;
 }
 .scroll-video-progress span {
-  width: 32px;
+  width: 24px;
   height: 2px;
   background: rgba(255,255,255,0.2);
   transition: background 0.3s ease;
