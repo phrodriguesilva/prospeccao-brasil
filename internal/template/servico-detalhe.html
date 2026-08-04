@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{.Service.Title}} -- Prospecção Brasil</title>
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804b">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
@@ -16,7 +16,7 @@
 <main>
 <!-- Hero with service photo -->
 <section class="hero-fullbleed hero-internal">
-{{if eq .Service.Slug "expansao-de-redes"}}<div class="hero-img" style="background-image: url('/static/img/bento-1-custom.jpg')"></div>{{else if eq .Service.Slug "built-to-suit"}}<div class="hero-img" style="background-image: url('/static/img/service-bts.jpg')"></div>{{else if eq .Service.Slug "prospeccao-de-ponto"}}<div class="hero-img" style="background-image: url('/static/img/service-prospeccao.jpg')"></div>{{else if eq .Service.Slug "strip-mall"}}<div class="hero-img" style="background-image: url('/static/img/service-strip-mall.jpg')"></div>{{else if eq .Service.Slug "lajes-comerciais"}}<div class="hero-img" style="background-image: url('/static/img/service-lajes.jpg')"></div>{{else}}<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>{{end}}
+{{if eq .Service.Slug "expansao-de-redes"}}<div class="hero-img" style="background-image: url('/static/img/bento-1-custom.jpg')"></div>{{else if eq .Service.Slug "built-to-suit"}}<div class="hero-img" style="background-image: url('/static/img/service-bts.jpg')"></div>{{else if eq .Service.Slug "prospeccao-de-ponto"}}<div class="hero-img" style="background-image: url('/static/img/service-prospeccao.jpg')"></div>{{else if eq .Service.Slug "strip-mall"}}<div class="hero-img" style="background-image: url('/static/img/service-strip-mall.jpg')"></div>{{else}}<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>{{end}}
 <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
 <img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
 <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">

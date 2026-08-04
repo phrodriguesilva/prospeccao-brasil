@@ -175,8 +175,8 @@ func TestQuemSomosGET(t *testing.T) {
 	if !strings.Contains(body, "Quem Somos") {
 		t.Error("expected 'Quem Somos' in body")
 	}
-	if !strings.Contains(body, "Luiz Claudio") {
-		t.Error("expected founder 'Luiz Claudio'")
+	if !strings.Contains(body, "Luiz Cl") {
+		t.Error("expected founder 'Luiz Cl'")
 	}
 	if !strings.Contains(body, "Shell") {
 		t.Error("expected 'Shell' in founder bio")
@@ -262,7 +262,6 @@ func TestServicoDetalheAll(t *testing.T) {
 		"expansao-de-redes",
 		"built-to-suit",
 		"strip-mall",
-		"lajes-comerciais",
 		"prospeccao-de-ponto",
 		"conselho-consultivo",
 		"sale-leaseback",

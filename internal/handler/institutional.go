@@ -191,20 +191,6 @@ var services = map[string]serviceDetail{
 		},
 		CTA: "Fale com um especialista",
 	},
-	"lajes-comerciais": {
-		Slug:        "lajes-comerciais",
-		Title:       "Lajes Comerciais",
-		Summary:     "Locação e comercialização de lajes corporativas para empresas e investidores.",
-		Description: "Atuamos na locação e comercialização de lajes corporativas, conectando proprietários de imóveis a empresas que buscam espaços de escritório e lajes comerciais de alto padrão. Nossa expertise em real estate comercial garante a melhor decisão para ambas as partes.",
-		Methodology: []string{
-			"Levantamento de lajes disponíveis e análise de potencial comercial",
-			"Estudo de viabilidade e precificação de mercado",
-			"Abordagem a empresas-alvo e investidores",
-			"Negociação de valores locatícios e condições contratuais",
-			"Suporte documental e acompanhamento da contratação",
-		},
-		CTA: "Fale com um especialista",
-	},
 	"prospeccao-de-ponto": {
 		Slug:        "prospeccao-de-ponto",
 		Title:       "Prospecção de Ponto Comercial",
@@ -325,11 +311,10 @@ var services = map[string]serviceDetail{
 // servicesList returns all regular services as a slice for index pages.
 func servicesList() []serviceDetail {
 	return []serviceDetail{
-		services["expansao-de-redes"],
 		services["prospeccao-de-ponto"],
-		services["built-to-suit"],
+		services["expansao-de-redes"],
 		services["strip-mall"],
-		services["lajes-comerciais"],
+		services["built-to-suit"],
 		services["conselho-consultivo"],
 		services["sale-leaseback"],
 		services["transferencia-de-pontos"],
