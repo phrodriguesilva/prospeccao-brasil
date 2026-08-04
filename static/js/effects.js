@@ -157,6 +157,92 @@
     onScroll();
   }
 
+  // === PARALLAX HERO ===
+  // Hero image moves 15% slower than scroll for depth
+  function initParallax() {
+    var els = document.querySelectorAll('[data-parallax]');
+    if (els.length === 0) return;
+    function onScroll() {
+      var scrollY = window.scrollY;
+      els.forEach(function (el) {
+        var speed = parseFloat(el.getAttribute('data-parallax') || '0.15');
+        el.style.transform = 'translateY(' + (scrollY * speed) + 'px) scale(' + (1 + Math.min(scrollY * 0.0002, 0.05)) + ')';
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // === STAGGER REVEAL ===
+  // Grids with [data-stagger] cascade children in on viewport entry
+  function initStagger() {
+    var els = document.querySelectorAll('[data-stagger]');
+    if (els.length === 0) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('stagger-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { observer.observe(el); });
+  }
+
+  // === METRIC LINE DRAW ===
+  // .metric-line elements draw left-to-right on viewport entry
+  function initMetricLine() {
+    var els = document.querySelectorAll('.metric-line');
+    if (els.length === 0) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('metric-drawn');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    els.forEach(function (el) { observer.observe(el); });
+  }
+
+  // === CUSTOM CURSOR ===
+  // Gold ring follows mouse with rAF lag, grows on interactive elements
+  function initCustomCursor() {
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+    var ring = document.createElement('div');
+    ring.className = 'cursor-ring cursor-hidden';
+    document.body.appendChild(ring);
+    var mx = 0, my = 0, rx = 0, ry = 0;
+    var shown = false;
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!shown) { ring.classList.remove('cursor-hidden'); shown = true; }
+    });
+    document.addEventListener('mouseleave', function () {
+      ring.classList.add('cursor-hidden'); shown = false;
+    });
+    // Grow on interactive elements
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest('a, button, [data-magnet], .btn-chamfer, input, textarea, select')) {
+        ring.classList.add('cursor-grow');
+      }
+    });
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest('a, button, [data-magnet], .btn-chamfer, input, textarea, select')) {
+        ring.classList.remove('cursor-grow');
+      }
+    });
+    function tick() {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   // Init all
   function init() {
     initSplitText();
@@ -166,6 +252,10 @@
     initGlareHover();
     initNoise();
     initNavScroll();
+    initParallax();
+    initStagger();
+    initMetricLine();
+    initCustomCursor();
   }
 
   if (document.readyState === 'loading') {

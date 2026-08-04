@@ -2016,3 +2016,118 @@ body.bg-slate-50,
 /* ---- Bento card number/tag gold stays ---- */
 .bento-tag { color: #d4af6a; }
 .bento-link { color: #d4af6a; }
+
+/* ================================================================
+   CINEMATIC ENHANCEMENTS
+   Ken Burns, parallax, stagger, nav underline, metric-line draw,
+   custom cursor with gold ring
+   ================================================================ */
+
+/* ---- Ken Burns: slow infinite zoom on hero image ---- */
+@keyframes ken-burns {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+.hero-fullbleed .hero-img {
+  animation: ken-burns 24s ease-in-out infinite alternate;
+}
+/* Ken Burns for internal page heroes (slower, subtler) */
+.hero-internal .hero-img {
+  animation: ken-burns 30s ease-in-out infinite alternate;
+}
+
+/* ---- Parallax: hero image moves slower than scroll ---- */
+.hero-fullbleed .hero-img[data-parallax],
+.hero-internal .hero-img[data-parallax] {
+  will-change: transform;
+}
+
+/* ---- Stagger: grid children cascade in with incremental delay ---- */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-stagger] > *:nth-child(1) { transition-delay: 0ms; }
+[data-stagger] > *:nth-child(2) { transition-delay: 60ms; }
+[data-stagger] > *:nth-child(3) { transition-delay: 120ms; }
+[data-stagger] > *:nth-child(4) { transition-delay: 180ms; }
+[data-stagger] > *:nth-child(5) { transition-delay: 240ms; }
+[data-stagger] > *:nth-child(6) { transition-delay: 300ms; }
+[data-stagger] > *:nth-child(7) { transition-delay: 360ms; }
+[data-stagger] > *:nth-child(8) { transition-delay: 420ms; }
+[data-stagger].stagger-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Nav underline: gold line grows from left on hover ---- */
+.glass-nav-link {
+  position: relative;
+}
+.glass-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+  right: 12px;
+  height: 1.5px;
+  background: linear-gradient(90deg, #c8a25d, #d4af6a);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.glass-nav-link:hover::after,
+.glass-nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* ---- Metric line: draws left-to-right on viewport entry ---- */
+.metric-line {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.metric-line.metric-drawn {
+  transform: scaleX(1);
+}
+
+/* ---- Custom cursor: gold ring follows mouse with lag ---- */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid rgba(200, 162, 93, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+.cursor-ring.cursor-grow {
+  width: 44px;
+  height: 44px;
+  border-color: rgba(212, 175, 106, 0.8);
+}
+.cursor-ring.cursor-hidden {
+  opacity: 0;
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-ring { display: none; }
+}
+
+/* ---- Section eyebrow fade-in enhancement ---- */
+.section-eyebrow {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.scroll-revealed .section-eyebrow,
+.section-eyebrow.scroll-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}

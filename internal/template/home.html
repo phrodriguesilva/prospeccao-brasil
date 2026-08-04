@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prospecção Brasil -- Prospecção Imobiliária Comercial</title>
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804b">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804c">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
@@ -16,7 +16,7 @@
 <main>
 <!-- Hero -->
 <section class="hero-fullbleed">
-<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<div class="hero-img" data-parallax="0.12" style="background-image: url('/static/img/hero-custom.jpg')"></div>
 <img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
 <canvas id="noise-canvas"></canvas>
 <div class="diag-lines"></div>
@@ -30,7 +30,7 @@
 <p class="section-eyebrow mb-5" data-scroll-reveal>Real Estate Comercial &middot; Retail Service</p>
 <h1 data-split-text class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold uppercase">Prospecção de <span class="text-gradient">pontos comerciais</span> para expandir sua rede</h1>
 <p class="text-lg md:text-xl text-white/75 mb-8 max-w-2xl">Inteligência em Real Estate Comercial para expandir sua rede varejista no Brasil. Arquitetura de negócios e precisão na escolha do seu próximo ponto.</p>
-<a href="/nossos-clientes" class="btn-chamfer self-start"><span class="btn-chamfer-inner">Conheça nossos cases <i class="ph ph-arrow-right"></i></span></a>
+<a href="/nossos-clientes" class="btn-chamfer self-start" data-magnet data-magnet-strength="0.15"><span class="btn-chamfer-inner">Conheça nossos cases <i class="ph ph-arrow-right"></i></span></a>
 <!-- Minimal inline stats -->
 <div class="flex items-center gap-6 mt-10 text-white">
 <div>
@@ -131,7 +131,7 @@
 <h2 class="section-title text-3xl md:text-4xl">Soluções Estratégicas</h2>
 <span class="metric-line"></span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[800px]">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[800px]" data-stagger>
 <!-- Card 1: Large Left (5 cols, 2 rows) -->
 <a href="/servicos/prospeccao-de-ponto" data-glare data-scroll-reveal class="md:col-span-5 md:row-span-2 relative rounded-xl overflow-hidden bento-hover group h-[400px] md:h-auto">
 <img src="/static/img/service-prospeccao.jpg" alt="Prospecção de Ponto" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
@@ -185,7 +185,7 @@
 <h2 class="section-title text-3xl md:text-4xl">Foco &middot; Experiência &middot; Resultados</h2>
 <span class="metric-line mx-auto mt-4"></span>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6" data-stagger>
 <div class="flex flex-col items-center text-center" data-scroll-reveal>
 <div class="hex-icon mb-5"><i class="ph ph-map-pin-line"></i></div>
 <h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Localizações Estratégicas</h3>
