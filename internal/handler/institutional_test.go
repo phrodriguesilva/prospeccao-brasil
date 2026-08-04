@@ -111,7 +111,6 @@ func newInstRouter(td *instTestDB) *chi.Mux {
 	r.Get("/segmentos", td.instHandler.Segmentos)
 	r.Get("/equipe", td.instHandler.Equipe)
 	r.Get("/parceiros", td.instHandler.Parceiros)
-	r.Get("/responsabilidade-social", td.instHandler.ResponsabilidadeSocial)
 	r.Get("/investidores", td.instHandler.Investidores)
 	r.Get("/fale-conosco", td.instHandler.FaleConosco)
 	r.Post("/fale-conosco", td.contactHandler.Submit)
@@ -353,26 +352,6 @@ func TestParceirosGET(t *testing.T) {
 	}
 	if !strings.Contains(body, "rihappy.png") {
 		t.Error("expected result image 'rihappy.png' in body")
-	}
-}
-
-func TestResponsabilidadeSocialGET(t *testing.T) {
-	td := setupInstTestDB(t)
-	defer td.teardown(t)
-
-	req := httptest.NewRequest("GET", "/responsabilidade-social", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	if !strings.Contains(body, "Responsabilidade") {
-		t.Error("expected 'Responsabilidade' in body")
-	}
-	if !strings.Contains(body, "Gerando Falcões") {
-		t.Error("expected social cause 'Gerando Falcões' in body")
 	}
 }
 

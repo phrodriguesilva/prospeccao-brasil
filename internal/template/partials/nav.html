@@ -72,7 +72,7 @@ Serviços
 <a href="/segmentos" class="glass-nav-link {{if eq .ActivePage "segmentos"}}active{{end}}">Segmentos</a>
 <a href="/investidores" class="glass-nav-link {{if eq .ActivePage "investidores"}}active{{end}}">Investidores</a>
 <div @click.away="quemFazOpen = false" class="relative">
-<button type="button" class="glass-nav-link {{if eq .ActivePage "equipe"}}active{{end}}{{if eq .ActivePage "parceiros"}}active{{end}}{{if eq .ActivePage "responsabilidade-social"}}active{{end}}" @click="quemFazOpen = !quemFazOpen" aria-expanded="false" :aria-expanded="quemFazOpen.toString()">
+<button type="button" class="glass-nav-link {{if eq .ActivePage "equipe"}}active{{end}}{{if eq .ActivePage "parceiros"}}active{{end}}" @click="quemFazOpen = !quemFazOpen" aria-expanded="false" :aria-expanded="quemFazOpen.toString()">
 Quem Faz
 <i class="ph ph-caret-down text-xs ml-0.5"></i>
 </button>
@@ -84,10 +84,6 @@ Quem Faz
 <a href="/parceiros" class="glass-nav-dropdown-item">
 <div class="dd-icon"><i class="ph ph-handshake"></i></div>
 <div><div class="dd-title">Empresas Parceiras</div><div class="dd-desc">Parceiros estratégicos e associações</div></div>
-</a>
-<a href="/responsabilidade-social" class="glass-nav-dropdown-item">
-<div class="dd-icon"><i class="ph ph-heart"></i></div>
-<div><div class="dd-title">Responsabilidade Social</div><div class="dd-desc">Causas e instituições apoiadas</div></div>
 </a>
 </div>
 </div>
@@ -114,7 +110,6 @@ Quem Faz
 <a href="/investidores" class="mobile-drawer-link {{if eq .ActivePage "investidores"}}active{{end}}" @click="open = false">Investidores</a>
 <a href="/equipe" class="mobile-drawer-link {{if eq .ActivePage "equipe"}}active{{end}}" @click="open = false">Equipe</a>
 <a href="/parceiros" class="mobile-drawer-link {{if eq .ActivePage "parceiros"}}active{{end}}" @click="open = false">Empresas Parceiras</a>
-<a href="/responsabilidade-social" class="mobile-drawer-link {{if eq .ActivePage "responsabilidade-social"}}active{{end}}" @click="open = false">Responsabilidade Social</a>
 <a href="/quem-somos" class="mobile-drawer-link {{if eq .ActivePage "quem-somos"}}active{{end}}" @click="open = false">Sobre</a>
 <a href="/fale-conosco" class="mobile-drawer-link {{if eq .ActivePage "fale-conosco"}}active{{end}}" @click="open = false">Contato</a>
 </div>

@@ -42,7 +42,6 @@ type pageData struct {
 	Partners         []partnerCategory
 	ClientLogos      []clientLogo
 	Results          []workResult
-	SocialCauses     []socialCause
 	InvestorServices []serviceDetail
 }
 
@@ -111,12 +110,6 @@ type clientLogo struct {
 type workResult struct {
 	Name string
 	Path string
-}
-
-type socialCause struct {
-	Name        string
-	Description string
-	URL         string
 }
 
 // defaultTestimonials contains the 3 testimonials from the legacy site.
@@ -385,13 +378,6 @@ var defaultResults = []workResult{
 	{Name: "RiHappy", Path: "/static/img/results/rihappy.png"},
 }
 
-// defaultSocialCauses contains the social causes for the Responsabilidade Social page.
-var defaultSocialCauses = []socialCause{
-	{Name: "Gerando Falcões", Description: "ONG que transforma favelas em polos de desenvolvimento social e econômico, impactando milhares de famílias em todo o Brasil.", URL: "https://gerandofalcoes.com"},
-	{Name: "Fundação o Pão dos Pobres", Description: "Instituição que oferece educação profissionalizante para jovens em situação de vulnerabilidade social.", URL: "https://www.paodospobres.org.br"},
-	{Name: "CPCA Lomba do Pinheiro", Description: "Centro profissionalizante que atende crianças e jovens em comunidade vulnerável, preparando para o mercado de trabalho.", URL: "https://pod.rs.gov.br/lomba-do-pinheiro"},
-}
-
 // Home renders the home page at GET /.
 func (h *InstitutionalHandler) Home(w http.ResponseWriter, r *http.Request) {
 	h.renderPage(w, "home.html", pageData{
@@ -482,14 +468,6 @@ func (h *InstitutionalHandler) Parceiros(w http.ResponseWriter, r *http.Request)
 		Partners:    defaultPartners,
 		ClientLogos: defaultClientLogos,
 		Results:     defaultResults,
-	})
-}
-
-// ResponsabilidadeSocial renders the "Responsabilidade Social" page at GET /responsabilidade-social.
-func (h *InstitutionalHandler) ResponsabilidadeSocial(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "responsabilidade-social.html", pageData{
-		ActivePage:   "responsabilidade-social",
-		SocialCauses: defaultSocialCauses,
 	})
 }
 
