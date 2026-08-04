@@ -1,0 +1,14 @@
+{{define "hero_form_error.html"}}
+<div id="hero-form-container">
+{{if .Errors.Generic}}<div class="alert alert-error mb-4 text-sm">{{.Errors.Generic}}</div>{{end}}
+<form hx-post="/fale-conosco" hx-target="#hero-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-4">
+<input type="hidden" name="subject" value="Solicitação de apresentação (Home)">
+<input type="text" name="name" required minlength="2" maxlength="255" placeholder="Nome *" value="{{.Form.Name}}" class="hero-form-input">
+{{if .Errors.Name}}<p class="form-error text-xs">{{.Errors.Name}}</p>{{end}}
+<input type="email" name="email" required placeholder="Email *" value="{{.Form.Email}}" class="hero-form-input">
+{{if .Errors.Email}}<p class="form-error text-xs">{{.Errors.Email}}</p>{{end}}
+<input type="tel" name="phone" placeholder="Telefone" value="{{.Form.Phone}}" class="hero-form-input">
+<button type="submit" class="btn btn-pill btn-lg bg-primary text-white w-full hover:bg-primary/90 transition-all">Quero uma apresentação</button>
+</form>
+</div>
+{{end}}

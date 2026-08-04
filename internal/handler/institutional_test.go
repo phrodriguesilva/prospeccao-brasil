@@ -108,6 +108,11 @@ func newInstRouter(td *instTestDB) *chi.Mux {
 	r.Get("/servicos", td.instHandler.Servicos)
 	r.Get("/servicos/{slug}", td.instHandler.ServicoDetalhe)
 	r.Get("/nossos-clientes", td.instHandler.NossosClientes)
+	r.Get("/segmentos", td.instHandler.Segmentos)
+	r.Get("/equipe", td.instHandler.Equipe)
+	r.Get("/parceiros", td.instHandler.Parceiros)
+	r.Get("/responsabilidade-social", td.instHandler.ResponsabilidadeSocial)
+	r.Get("/investidores", td.instHandler.Investidores)
 	r.Get("/fale-conosco", td.instHandler.FaleConosco)
 	r.Post("/fale-conosco", td.contactHandler.Submit)
 	r.Post("/newsletter", td.newsHandler.Subscribe)
@@ -130,8 +135,8 @@ func TestHomeGET(t *testing.T) {
 	if !strings.Contains(body, "Prospecção Brasil") {
 		t.Error("expected 'Prospecção Brasil' in body")
 	}
-	if !strings.Contains(body, "comercial") {
-		t.Error("expected market copy 'comercial' in body")
+	if !strings.Contains(body, "Comercial") {
+		t.Error("expected market copy 'Comercial' in body")
 	}
 	if strings.Contains(body, "carga cognitiva") {
 		t.Error("forbidden copy 'carga cognitiva' found in home")
@@ -139,19 +144,19 @@ func TestHomeGET(t *testing.T) {
 	if strings.Contains(body, "pipeline") {
 		t.Error("forbidden copy 'pipeline' found in home")
 	}
-	if !strings.Contains(body, "Nossos") || !strings.Contains(body, "Servi") {
-		t.Error("expected services preview section")
+	if !strings.Contains(body, "Servi") {
+		t.Error("expected services section in body")
 	}
-	if !strings.Contains(body, "Solicite uma apresentação") {
-		t.Error("expected CTA 'Solicite uma apresentação' in body")
+	if !strings.Contains(body, "Soluções Estratégicas") {
+		t.Error("expected services preview heading 'Soluções Estratégicas'")
 	}
 	// Verify metrics labels present (hero inline metrics)
 	if !strings.Contains(body, "Pontos") {
 		t.Error("expected metric label 'Pontos' in hero")
 	}
-	// Verify at least one testimonial name present
-	if !strings.Contains(body, "Larissa Mello") {
-		t.Error("expected testimonial from 'Larissa Mello'")
+	// Verify at least one hardcoded testimonial name present
+	if !strings.Contains(body, "Ricardo Santos") {
+		t.Error("expected testimonial from 'Ricardo Santos'")
 	}
 }
 
@@ -259,6 +264,13 @@ func TestServicoDetalheAll(t *testing.T) {
 		"strip-mall",
 		"lajes-comerciais",
 		"prospeccao-de-ponto",
+		"conselho-consultivo",
+		"sale-leaseback",
+		"transferencia-de-pontos",
+		"ingresso-em-mercados",
+		"administracao-de-portfolios",
+		"estruturacao-de-contratos",
+		"avaliacao-estrategica",
 	}
 	for _, slug := range slugs {
 		t.Run(slug, func(t *testing.T) {
@@ -270,6 +282,118 @@ func TestServicoDetalheAll(t *testing.T) {
 				t.Errorf("expected 200 for %s, got %d", slug, rr.Code)
 			}
 		})
+	}
+}
+
+func TestSegmentosGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/segmentos", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Segmentos") {
+		t.Error("expected 'Segmentos' in body")
+	}
+	if !strings.Contains(body, "Fast Food") {
+		t.Error("expected segment 'Fast Food' in body")
+	}
+	if !strings.Contains(body, "Farmácias") {
+		t.Error("expected segment 'Farmácias' in body")
+	}
+}
+
+func TestEquipeGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/equipe", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Equipe") {
+		t.Error("expected 'Equipe' in body")
+	}
+	if !strings.Contains(body, "Luiz Claudio") {
+		t.Error("expected team member 'Luiz Claudio' in body")
+	}
+}
+
+func TestParceirosGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/parceiros", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Parceiras") {
+		t.Error("expected 'Parceiras' in body")
+	}
+	if !strings.Contains(body, "Burger King") {
+		t.Error("expected client logo 'Burger King' in body")
+	}
+	if !strings.Contains(body, "burger-king.png") {
+		t.Error("expected client logo path 'burger-king.png' in body")
+	}
+	if !strings.Contains(body, "Resultados") {
+		t.Error("expected 'Resultados' section in body")
+	}
+	if !strings.Contains(body, "rihappy.png") {
+		t.Error("expected result image 'rihappy.png' in body")
+	}
+}
+
+func TestResponsabilidadeSocialGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/responsabilidade-social", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Responsabilidade") {
+		t.Error("expected 'Responsabilidade' in body")
+	}
+	if !strings.Contains(body, "Gerando Falcões") {
+		t.Error("expected social cause 'Gerando Falcões' in body")
+	}
+}
+
+func TestInvestidoresGET(t *testing.T) {
+	td := setupInstTestDB(t)
+	defer td.teardown(t)
+
+	req := httptest.NewRequest("GET", "/investidores", nil)
+	rr := httptest.NewRecorder()
+	newInstRouter(td).ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", rr.Code)
+	}
+	body := rr.Body.String()
+	if !strings.Contains(body, "Investidores") {
+		t.Error("expected 'Investidores' in body")
+	}
+	if !strings.Contains(body, "Portfólios") {
+		t.Error("expected investor service 'Portfólios' in body")
 	}
 }
 

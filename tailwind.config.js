@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-// Prospecção Brasil -- Real Estate Intelligence design system.
-// Canonical token set from the brand spec. The default Tailwind palette is
-// not used in UI; only the tokens below are allowed. Any color, size,
-// spacing, or radius not defined here is a bug.
+// Prospecção Brasil -- Dark Premium design system.
+// Black / charcoal surfaces with metallic gold accents. The default Tailwind
+// palette is not used in UI; only the tokens below are allowed. Any color,
+// size, spacing, or radius not defined here is a bug.
 module.exports = {
   content: [
     "./internal/template/**/*.html",
@@ -11,54 +11,62 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Surface scale (warm off-white, the "clean" premium background)
+        // Surface scale (deep black / charcoal -- the premium dark background)
         surface: {
-          DEFAULT: "#fcf9f8",
-          dim: "#dcd9d9",
-          bright: "#fcf9f8",
-          "container-lowest": "#ffffff",
-          "container-low": "#f6f3f2",
-          container: "#f0edec",
-          "container-high": "#ebe7e7",
-          "container-highest": "#e5e2e1",
+          DEFAULT: "#121212",
+          dim: "#0a0a0a",
+          bright: "#161616",
+          "container-lowest": "#0e0e0e",
+          "container-low": "#161616",
+          container: "#1c1c1c",
+          "container-high": "#222222",
+          "container-highest": "#282828",
         },
-        "on-surface": "#1c1b1b",
-        "on-surface-variant": "#44474e",
-        "inverse-surface": "#313030",
-        "inverse-on-surface": "#f3f0ef",
-        outline: "#75777f",
-        "outline-variant": "#c5c6cf",
-        "surface-tint": "#4e5e82",
-        "surface-variant": "#e5e2e1",
+        "on-surface": "#ffffff",
+        "on-surface-variant": "#a0a0a0",
+        "inverse-surface": "#f3f0ef",
+        "inverse-on-surface": "#1c1b1b",
+        outline: "#4a4a4a",
+        "outline-variant": "#2e2e2e",
+        "surface-tint": "#c8a25d",
+        "surface-variant": "#242424",
 
-        // Primary: Deep Navy -- "Corporate Intelligence" weight
+        // Primary: Metallic Gold -- the high-value accent (CTAs, icons, lines)
         primary: {
-          DEFAULT: "#031636",
-          container: "#1a2b4c",
-          "on-container": "#8293ba",
-          fixed: "#d8e2ff",
-          "fixed-dim": "#b6c6f0",
-          "on-fixed": "#071b3b",
-          "on-fixed-variant": "#364669",
+          DEFAULT: "#c8a25d",
+          container: "#d4af6a",
+          "on-container": "#121212",
+          fixed: "#d4af6a",
+          "fixed-dim": "#c8a25d",
+          "on-fixed": "#121212",
+          "on-fixed-variant": "#7a5e2a",
         },
-        "on-primary": "#ffffff",
-        "inverse-primary": "#b6c6f0",
+        "on-primary": "#121212",
+        "inverse-primary": "#1a2b4c",
 
-        // Secondary: Sóbrio Gold -- high-value CTAs and key metrics
+        // Brand aliases
+        "navy-brand": "#031636",
+        "gold-brand": "#c8a25d",
+        "gold-light": "#d4af6a",
+        "gold-lightest": "#f5e6c8",
+        "gold-dark": "#765a1a",
+        "cream-brand": "#fcf9f8",
+
+        // Secondary: Sóbrio Gold ramp -- gradients and subtle highlights
         secondary: {
           DEFAULT: "#765a1a",
           light: "#d4af6a",
           lightest: "#f5e6c8",
-          container: "#ffd88b",
-          "on-container": "#795c1c",
-          fixed: "#ffdea1",
-          "fixed-dim": "#e7c177",
-          "on-fixed": "#261900",
-          "on-fixed-variant": "#5c4301",
+          container: "#d4af6a",
+          "on-container": "#121212",
+          fixed: "#d4af6a",
+          "fixed-dim": "#c8a25d",
+          "on-fixed": "#121212",
+          "on-fixed-variant": "#7a5e2a",
         },
-        "on-secondary": "#ffffff",
+        "on-secondary": "#121212",
 
-        // Tertiary: warm dark brown
+        // Tertiary: warm dark brown (deep accents)
         tertiary: {
           DEFAULT: "#241300",
           container: "#3f2600",
@@ -79,18 +87,18 @@ module.exports = {
         "on-error": "#ffffff",
 
         // Semantic aliases
-        background: "#fcf9f8",
-        "on-background": "#1c1b1b",
-        "background-alt": "#F8FAFC",
-        "slate-gray": "#334155",
+        background: "#121212",
+        "on-background": "#ffffff",
+        "background-alt": "#0a0a0a",
+        "slate-gray": "#a0a0a0",
         "whatsapp-green": "#25D366",
 
-        // Neutral aliases for unified design system (replaces slate-* in admin)
+        // Neutral aliases for admin data tables (dark-on-dark borders)
         neutral: {
-          border: "#e2e8f0",
-          "border-hover": "#cbd5e1",
-          muted: "#94a3b8",
-          text: "#1e293b",
+          border: "#2e2e2e",
+          "border-hover": "#4a4a4a",
+          muted: "#6a6a6a",
+          text: "#ffffff",
         },
       },
       fontFamily: {
@@ -136,14 +144,13 @@ module.exports = {
         full: "9999px",
       },
       boxShadow: {
-        // Ambient shadows: extremely soft, large-radius, low-opacity Navy
-        // (Blur: 20px, Opacity: 4%, Color: #1A2B4C) -- "floated" but stable
-        DEFAULT: "0 4px 20px rgba(26, 43, 76, 0.04)",
-        sm: "0 2px 10px rgba(26, 43, 76, 0.03)",
-        md: "0 4px 20px rgba(26, 43, 76, 0.04)",
-        lg: "0 8px 30px rgba(26, 43, 76, 0.05)",
-        xl: "0 12px 40px rgba(26, 43, 76, 0.06)",
-        focus: "0 0 0 2px #ffffff, 0 0 0 4px #031636",
+        // Ambient shadows: deep black, low-opacity -- "floated" on dark
+        DEFAULT: "0 4px 20px rgba(0, 0, 0, 0.5)",
+        sm: "0 2px 10px rgba(0, 0, 0, 0.4)",
+        md: "0 4px 20px rgba(0, 0, 0, 0.5)",
+        lg: "0 8px 30px rgba(0, 0, 0, 0.6)",
+        xl: "0 12px 40px rgba(0, 0, 0, 0.7)",
+        focus: "0 0 0 2px #121212, 0 0 0 4px #c8a25d",
       },
       spacing: {
         "section-gap": "80px",

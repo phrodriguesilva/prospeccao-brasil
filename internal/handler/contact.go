@@ -56,6 +56,12 @@ func (h *ContactHandler) Submit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Hero form: set default message if empty (before validation)
+	isHeroForm := strings.HasPrefix(form.Subject, "Solicitação de apresentação (Home)")
+	if isHeroForm && form.Message == "" {
+		form.Message = "Solicitação de apresentação enviada pelo formulário da home page."
+	}
+
 	// Validate
 	errors := h.validate(form)
 	if hasErrors(errors) {
@@ -92,7 +98,11 @@ func (h *ContactHandler) Submit(w http.ResponseWriter, r *http.Request) {
 
 	// Return success
 	if isHTMX(r) {
-		if err := h.tmpl.ExecuteTemplate(w, "contact_success.html", nil); err != nil {
+		tmplName := "contact_success.html"
+		if isHeroForm {
+			tmplName = "hero_form_success.html"
+		}
+		if err := h.tmpl.ExecuteTemplate(w, tmplName, nil); err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
 		return
@@ -125,7 +135,11 @@ func (h *ContactHandler) renderError(w http.ResponseWriter, r *http.Request, for
 	}
 	if isHTMX(r) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := h.tmpl.ExecuteTemplate(w, "contact_error.html", data); err != nil {
+		tmplName := "contact_error.html"
+		if strings.HasPrefix(form.Subject, "Solicitação de apresentação (Home)") {
+			tmplName = "hero_form_error.html"
+		}
+		if err := h.tmpl.ExecuteTemplate(w, tmplName, data); err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
 		return

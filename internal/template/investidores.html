@@ -1,0 +1,59 @@
+{{define "investidores.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Investidores e Family Offices -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+<script src="/static/js/effects.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
+{{template "nav" .}}
+<main>
+<!-- Hero -->
+<section class="hero-fullbleed hero-internal">
+<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
+<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
+<p class="eyebrow" style="color: #d4af6a;">Para Investidores</p>
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Investidores e <span class="text-gradient">Family Offices</span></h1>
+<p class="text-lg md:text-xl text-white/80 max-w-2xl">Soluções em real estate comercial para investidores e family offices que buscam gestão profissional de ativos imobiliários, estruturação de operações complexas e avaliação estratégica.</p>
+</div>
+</section>
+
+<!-- Investor services -->
+<section class="py-24 md:py-32 bg-surface">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+{{range .InvestorServices}}
+<a href="/servicos/{{.Slug}}" class="service-card-h" data-scroll-reveal>
+<div class="card-body">
+<h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
+<p class="text-base text-on-surface-variant mb-3">{{.Summary}}</p>
+<span class="text-primary font-semibold text-sm">Saiba mais &rarr;</span>
+</div>
+</a>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative" data-scroll-reveal>
+<div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
+<div class="absolute inset-0 bg-primary/80"></div>
+<div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+<h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Otimize seu portfólio <span class="text-gradient">imobiliário</span></h2>
+<p class="text-lg text-primary-on-container mb-8">Entre em contato e descubra como podemos ajudar a maximizar a rentabilidade dos seus ativos.</p>
+<a href="/fale-conosco" class="inline-block bg-gold-brand text-on-primary px-6 py-3 rounded font-semibold text-base hover:bg-opacity-90 transition-colors duration-300">Fale com um especialista</a>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

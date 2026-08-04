@@ -1,58 +1,50 @@
-{{define "footer"}}<div class="footer-divider"></div>
-<footer class="bg-primary text-on-primary">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-10">
-<!-- Col 1: Logo + description -->
-<div class="md:col-span-1">
-<a href="/" class="inline-block mb-4 no-underline">
-<img src="/static/img/logo-full.png" alt="Prospecção Brasil -- Retail & Real Estate" class="brightness-110" width="180" height="131">
+{{define "footer"}}
+<footer class="site-footer bg-surface-container-low border-t border-outline-variant">
+<div class="footer-divider"></div>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+<!-- Col 1: Brand + contato direto -->
+<div>
+<a href="/" class="inline-block mb-5 no-underline" aria-label="Prospecção Brasil -- Início">
+<img src="/static/img/logo-full.png" alt="Prospecção Brasil" class="footer-logo-full">
 </a>
-<p class="text-sm text-on-primary/60 leading-relaxed">Prospecção e expansão imobiliária comercial. Encontramos o ponto ideal para a sua rede expandir.</p>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-3">Inteligência em Real Estate Comercial</p>
+<p class="text-sm text-on-surface-variant mb-4">
+<a href="mailto:contato@prospeccaobrasil.com" class="no-underline hover:text-primary transition-colors">contato@prospeccaobrasil.com</a><br>
++55 21 99842-3232 -- Ipanema, RJ
+</p>
+<!-- Social -->
+<div class="flex items-center gap-4 mb-4">
+<a href="https://www.instagram.com/prospeccaobrasil/" target="_blank" rel="noopener" aria-label="Instagram" class="text-on-surface-variant hover:text-primary transition-colors">
+<i class="ph ph-instagram-logo text-xl"></i>
+</a>
+<a href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn" class="text-on-surface-variant hover:text-primary transition-colors">
+<i class="ph ph-linkedin-logo text-xl"></i>
+</a>
+<a href="https://wa.me/5521998423232" target="_blank" rel="noopener" aria-label="WhatsApp" class="text-on-surface-variant hover:text-primary transition-colors">
+<i class="ph ph-whatsapp-logo text-xl"></i>
+</a>
 </div>
-<!-- Col 2: Navigation -->
-<div>
-<h4 class="eyebrow text-on-primary/50 mb-4">Navegação</h4>
-<ul class="space-y-2 text-sm text-on-primary/70">
-<li><a href="/" class="hover:text-on-primary no-underline">Início</a></li>
-<li><a href="/quem-somos" class="hover:text-on-primary no-underline">Quem somos</a></li>
-<li><a href="/servicos" class="hover:text-on-primary no-underline">Serviços</a></li>
-<li><a href="/nossos-clientes" class="hover:text-on-primary no-underline">Nossos clientes</a></li>
-<li><a href="/fale-conosco" class="hover:text-on-primary no-underline">Fale Conosco</a></li>
-<li><a href="/privacidade" class="hover:text-on-primary no-underline">Política de Privacidade</a></li>
+</div>
+<!-- Col 2: Links essenciais -->
+<div class="md:text-right">
+<ul class="space-y-2 text-sm text-on-surface-variant md:inline-flex md:flex-col">
+<li><a href="/" class="no-underline hover:text-primary transition-colors">Início</a></li>
+<li><a href="/servicos" class="no-underline hover:text-primary transition-colors">Serviços</a></li>
+<li><a href="/segmentos" class="no-underline hover:text-primary transition-colors">Segmentos</a></li>
+<li><a href="/investidores" class="no-underline hover:text-primary transition-colors">Investidores</a></li>
+<li><a href="/equipe" class="no-underline hover:text-primary transition-colors">Equipe</a></li>
+<li><a href="/parceiros" class="no-underline hover:text-primary transition-colors">Parceiros</a></li>
+<li><a href="/responsabilidade-social" class="no-underline hover:text-primary transition-colors">Responsabilidade Social</a></li>
+
+<li><a href="/quem-somos" class="no-underline hover:text-primary transition-colors">Sobre</a></li>
+<li><a href="/fale-conosco" class="no-underline hover:text-primary transition-colors">Contato</a></li>
+<li><a href="/privacidade" class="no-underline hover:text-primary transition-colors">Privacidade</a></li>
 </ul>
 </div>
-<!-- Col 3: Services -->
-<div>
-<h4 class="eyebrow text-on-primary/50 mb-4">Serviços</h4>
-<ul class="space-y-2 text-sm text-on-primary/70">
-<li><a href="/servicos/expansao-de-redes" class="hover:text-on-primary no-underline">Expansão de Redes</a></li>
-<li><a href="/servicos/built-to-suit" class="hover:text-on-primary no-underline">Built to Suit</a></li>
-<li><a href="/servicos/strip-mall" class="hover:text-on-primary no-underline">Strip Mall</a></li>
-<li><a href="/servicos/lajes-comerciais" class="hover:text-on-primary no-underline">Lajes Comerciais</a></li>
-<li><a href="/servicos/prospeccao-de-ponto" class="hover:text-on-primary no-underline">Prospecção de Ponto</a></li>
-</ul>
 </div>
-<!-- Col 4: Contact + Newsletter -->
-<div>
-<h4 class="eyebrow text-on-primary/50 mb-4">Contato</h4>
-<ul class="space-y-2 text-sm text-on-primary/70 mb-6">
-<li>Rua Visconde de Pirajá, 495 -- 5º Andar</li>
-<li>Ipanema -- Rio de Janeiro -- RJ</li>
-<li>+55 21 99842-3232 / 97034-2617 / 3736-3696</li>
-<li><a href="mailto:contato@prospeccaobrasil.com" class="hover:text-on-primary no-underline">contato@prospeccaobrasil.com</a></li>
-</ul>
-<h4 class="eyebrow text-on-primary/50 mb-3">Newsletter</h4>
-<form hx-post="/newsletter" hx-target="#newsletter-result" hx-swap="innerHTML" action="/newsletter" method="POST" id="newsletter-form">
-<div class="flex gap-2">
-<input type="email" name="email" placeholder="Seu email" required class="form-input flex-1 text-slate-900" style="border-radius: 9999px; padding: 0.5rem 1rem;">
-<button type="submit" class="btn btn-secondary btn-pill btn-sm shrink-0">Inscrever</button>
-</div>
-</form>
-<div id="newsletter-result" class="mt-2"></div>
-</div>
-</div>
-<div class="border-t border-white/10 mt-12 pt-6 text-center text-xs text-on-primary/40">
-<p>&copy; 2026 Prospecção Brasil. Todos os direitos reservados. Licenciados pelo CRECI.</p>
+<div class="border-t border-outline-variant mt-10 pt-6 text-center text-xs text-on-surface-variant/60">
+<p>&copy; 2026 Prospecção Brasil -- CRECI-RJ | CNPJ 00.000.000/0001-00</p>
 </div>
 </div>
 </footer>{{end}}

@@ -4,34 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Serviços -- Prospecção Brasil</title>
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
+<script src="/static/js/effects.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans body-nav-offset">
+<body class="bg-surface text-on-surface font-sans">
 {{template "site_gate"}}
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<section class="hero-glow bg-primary text-on-primary py-24 md:py-32 relative">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<!-- Hero with photo -->
+<section class="hero-fullbleed hero-internal">
+<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
+<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
 <p class="eyebrow" style="color: #d4af6a;">Soluções</p>
-<h1 class="font-display text-4xl md:text-5xl lg:text-6xl mb-6 font-extrabold">Nossos <span class="text-gradient">Serviços</span></h1>
-<p class="text-lg text-primary-on-container max-w-2xl">Prospecção e expansão de redes varejistas com mais de uma década de expertise. Encontramos o ponto comercial ideal e entregamos toda a estruturação documental e contratual.</p>
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Nossos <span class="text-gradient">Serviços</span></h1>
+<p class="text-lg md:text-xl text-white/80 max-w-2xl">Prospecção e expansão de redes varejistas com mais de uma década de expertise. Encontramos o ponto comercial ideal e entregamos toda a estruturação documental e contratual.</p>
 </div>
 </section>
 
-<section class="py-24 md:py-32 bg-surface reveal">
+<!-- Services grid -->
+<section class="py-24 md:py-32 bg-surface">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
 {{range .Services}}
-<a href="/servicos/{{.Slug}}" class="service-card-h reveal">
+<a href="/servicos/{{.Slug}}" class="service-card-h" data-scroll-reveal>
 <div class="card-img-side">
-{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/service-expansao.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "lajes-comerciais"}}<img src="/static/img/service-lajes.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/bento-1-custom.jpg" alt="{{.Title}}">{{else if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{else if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{else if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{else if eq .Slug "lajes-comerciais"}}<img src="/static/img/service-lajes.jpg" alt="{{.Title}}">{{end}}
 </div>
 <div class="card-body">
 <h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
@@ -44,13 +46,14 @@
 </div>
 </section>
 
-<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative reveal">
+<!-- CTA with bg image -->
+<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative" data-scroll-reveal>
 <div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
 <div class="absolute inset-0 bg-primary/80"></div>
 <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
 <h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Solicite uma <span class="text-gradient">apresentação</span></h2>
 <p class="text-lg text-primary-on-container mb-8">Entre em contato e descubra como nossa prospecção imobiliária pode acelerar a expansão da sua rede.</p>
-<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Fale Conosco</a>
+<a href="/fale-conosco" class="inline-block bg-gold-brand text-on-primary px-6 py-3 rounded font-semibold text-base hover:bg-opacity-90 transition-colors duration-300">Fale Conosco</a>
 </div>
 </section>
 </main>

@@ -38,3 +38,17 @@ Thumbs.db
 *.pen
 logo-full-v1.png
 logo-symbol.png
+
+# Root reference images / working files (not part of the site)
+50-*.jpg
+ChatGPT Image*.png
+Commercial_real_estate*.jpeg
+Modern_commercial_building*.mp4
+shopping_tijuca*.png
+hero-bg-desk.jpeg
+Imagem do WhatsApp*.jpg
+imoveis.jpg
+lapa-rio-de-janeiro.avif
+o-que-e-a-avaliacao*.jpg
+symbol.png
+REDESIGN_PROMPT.md

@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Verificar 2FA -- Prospecção Brasil</title>
 {{template "brand_icons" .}}
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="admin-shell flex items-center justify-center px-4">
 <div class="w-full max-w-sm">
 <div class="text-center mb-8">
-<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-auth mx-auto mb-3" width="112" height="90">
-<p class="text-sm text-slate-500">Sistema Interno</p>
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-auth mx-auto mb-3 nav-logo-symbol" width="112" height="90">
+<p class="text-sm text-gold-brand uppercase tracking-widest">Sistema Interno</p>
 </div>
 <div class="card shadow-sm">
-<h2 class="font-display text-xl text-slate-900 mb-2">Verificação em duas etapas</h2>
-<p class="text-sm text-slate-500 mb-6">Digite o código de 6 dígitos do seu autenticador.</p>
+<h2 class="font-display text-xl text-white mb-2">Verificação em duas etapas</h2>
+<p class="text-sm text-on-surface-variant mb-6">Digite o código de 6 dígitos do seu autenticador.</p>
 {{if .Error}}<div class="alert alert-error mb-4">{{.Error}}</div>{{end}}
 <form method="POST" action="/2fa/verify" class="space-y-5">
 <div>

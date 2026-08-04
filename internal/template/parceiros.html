@@ -1,0 +1,107 @@
+{{define "parceiros.html"}}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device, initial-scale=1">
+<title>Empresas Parceiras -- Prospecção Brasil</title>
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
+<script src="/static/js/htmx.min.js" defer></script>
+<script src="/static/js/alpine.min.js" defer></script>
+<script src="/static/js/effects.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-sans">
+{{template "site_gate"}}
+{{template "floating_elements"}}
+{{template "nav" .}}
+<main>
+<!-- Hero -->
+<section class="hero-fullbleed hero-internal">
+<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
+<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
+<p class="eyebrow" style="color: #d4af6a;">Quem Faz</p>
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Empresas <span class="text-gradient">Parceiras</span></h1>
+<p class="text-lg md:text-xl text-white/80 max-w-2xl">Ciente de que ninguém faz nada sozinho, a Prospecção Brasil trabalha com parceiros estratégicos que, juntos, formam um sistema que promove a melhoria contínua dos serviços prestados, na busca pela excelência.</p>
+</div>
+</section>
+
+<!-- Client logos grid -->
+<section class="py-24 md:py-32 bg-surface">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="mb-16 text-center" data-scroll-reveal>
+<p class="eyebrow">Nossos Clientes</p>
+<h2 class="font-display text-3xl md:text-4xl text-primary font-extrabold mt-2">Empresas que <span class="text-gradient">confiam</span> em nosso trabalho</h2>
+<span class="metric-line mx-auto mt-4"></span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
+{{range .ClientLogos}}
+<div class="liquid-glass-light p-8 rounded-xl flex items-center justify-center" data-scroll-reveal>
+<img src="{{.Path}}" alt="{{.Name}}" class="max-h-20 max-w-full object-contain">
+</div>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- Work results gallery -->
+<section class="py-24 md:py-32 bg-surface-container-low">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="mb-16 text-center" data-scroll-reveal>
+<p class="eyebrow">Resultados</p>
+<h2 class="font-display text-3xl md:text-4xl text-primary font-extrabold mt-2">Resultados de nossos <span class="text-gradient">trabalhos</span></h2>
+<span class="metric-line mx-auto mt-4"></span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+{{range .Results}}
+<div class="liquid-glass-light rounded-xl overflow-hidden" data-scroll-reveal>
+<img src="{{.Path}}" alt="{{.Name}}" class="w-full h-auto object-cover" loading="lazy">
+<div class="p-4">
+<p class="font-display text-sm text-primary font-bold">{{.Name}}</p>
+</div>
+</div>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- Partner categories -->
+<section class="py-24 md:py-32 bg-surface">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+<div class="text-center" data-scroll-reveal>
+<p class="eyebrow">Parceiros Estratégicos</p>
+<h2 class="font-display text-3xl md:text-4xl text-primary font-extrabold mt-2">Governança e <span class="text-gradient">associacoes</span></h2>
+<span class="metric-line mx-auto mt-4"></span>
+</div>
+{{range .Partners}}
+<div data-scroll-reveal>
+<h3 class="font-display text-xl md:text-2xl text-primary mb-6 font-bold">{{.Title}}</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+{{range .Partners}}
+<div class="liquid-glass-light p-6 rounded-xl flex items-center gap-4">
+<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #765a1a, #d4af6a);">
+<i class="ph ph-building text-xl text-white"></i>
+</div>
+<p class="text-base text-on-surface-variant font-medium">{{.}}</p>
+</div>
+{{end}}
+</div>
+</div>
+{{end}}
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative" data-scroll-reveal>
+<div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
+<div class="absolute inset-0 bg-primary/80"></div>
+<div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+<h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Seja nosso <span class="text-gradient">parceiro</span></h2>
+<p class="text-lg text-primary-on-container mb-8">Buscamos parceiros que compartilhem nosso compromisso com excelência.</p>
+<a href="/fale-conosco" class="inline-block bg-gold-brand text-on-primary px-6 py-3 rounded font-semibold text-base hover:bg-opacity-90 transition-colors duration-300">Fale Conosco</a>
+</div>
+</section>
+</main>
+{{template "footer" .}}
+</body>
+</html>{{end}}

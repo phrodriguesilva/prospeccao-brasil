@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Configurar 2FA -- Prospecção Brasil</title>
 {{template "brand_icons" .}}
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 </head>
 <body class="admin-shell flex items-center justify-center px-4">
 <div class="w-full max-w-sm">
 <div class="text-center mb-8">
-<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-auth mx-auto mb-3" width="112" height="90">
-<p class="text-sm text-slate-500">Sistema Interno</p>
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="logo-auth mx-auto mb-3 nav-logo-symbol" width="112" height="90">
+<p class="text-sm text-gold-brand uppercase tracking-widest">Sistema Interno</p>
 </div>
 <div class="card shadow-sm">
-<h2 class="font-display text-xl text-slate-900 mb-2">Configurar autenticação</h2>
-<p class="text-sm text-slate-500 mb-6">Escaneie o QR code com Google Authenticator, Authy ou similar.</p>
-{{if .QRCode}}<div class="flex justify-center mb-6"><img src="data:image/png;base64,{{.QRCode}}" alt="QR Code" width="200" height="200" class="rounded-lg border border-slate-200"></div>{{end}}
+<h2 class="font-display text-xl text-white mb-2">Configurar autenticação</h2>
+<p class="text-sm text-on-surface-variant mb-6">Escaneie o QR code com Google Authenticator, Authy ou similar.</p>
+{{if .QRCode}}<div class="flex justify-center mb-6"><img src="data:image/png;base64,{{.QRCode}}" alt="QR Code" width="200" height="200" class="rounded-lg border border-outline-variant bg-white p-2"></div>{{end}}
 {{if .Error}}<div class="alert alert-error mb-4">{{.Error}}</div>{{end}}
 <form method="POST" action="/2fa/setup" class="space-y-5">
 <div>

@@ -4,58 +4,65 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nossos Clientes -- Prospecção Brasil</title>
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
+<script src="/static/js/effects.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans body-nav-offset">
+<body class="bg-surface text-on-surface font-sans">
 {{template "site_gate"}}
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<!-- Hero -->
-<section class="hero-glow bg-primary text-on-primary py-24 md:py-32 relative">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<!-- Hero with photo -->
+<section class="hero-fullbleed hero-internal">
+<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
+<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
 <p class="eyebrow" style="color: #d4af6a;">Social Proof</p>
-<h1 class="font-display text-4xl md:text-5xl lg:text-6xl mb-6 font-extrabold">Nossos <span class="text-gradient">Clientes</span></h1>
-<p class="text-lg text-primary-on-container max-w-2xl">A confiança de nossos clientes é o nosso maior patrimônio. Conheça quem já acelerou a expansão de sua rede com a prospecção imobiliária da Prospecção Brasil.</p>
+<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Nossos <span class="text-gradient">Clientes</span></h1>
+<p class="text-lg md:text-xl text-white/80 max-w-2xl">A confiança de nossos clientes é o nosso maior patrimônio. Conheça quem já acelerou a expansão de sua rede com a prospecção imobiliária da Prospecção Brasil.</p>
 </div>
 </section>
 
-<!-- Metrics large cards -->
-<section class="py-24 md:py-32 bg-primary reveal">
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-<div class="metric-card-lg reveal reveal-delay-1">
-<p class="metric-value">500+</p>
-<p class="metric-label">Pontos Comercializados</p>
+<!-- Metrics inline (minimalist, like hero) -->
+<section class="py-16 bg-primary">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" data-scroll-reveal>
+<div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white">
+<div class="text-center">
+<p class="font-display text-3xl md:text-4xl font-bold"><span data-count-up="500" data-suffix="+">500+</span></p>
+<p class="text-xs text-white/60 mt-1">Pontos Comercializados</p>
 </div>
-<div class="metric-card-lg reveal reveal-delay-2">
-<p class="metric-value">50+</p>
-<p class="metric-label">Clientes Atendidos</p>
+<span class="w-px h-10 bg-white/15 hidden md:block"></span>
+<div class="text-center">
+<p class="font-display text-3xl md:text-4xl font-bold"><span data-count-up="50" data-suffix="+">50+</span></p>
+<p class="text-xs text-white/60 mt-1">Clientes Atendidos</p>
 </div>
-<div class="metric-card-lg reveal reveal-delay-3">
-<p class="metric-value">100+</p>
-<p class="metric-label">Cidades Atendidas</p>
+<span class="w-px h-10 bg-white/15 hidden md:block"></span>
+<div class="text-center">
+<p class="font-display text-3xl md:text-4xl font-bold"><span data-count-up="100" data-suffix="+">100+</span></p>
+<p class="text-xs text-white/60 mt-1">Cidades Atendidas</p>
 </div>
-<div class="metric-card-lg reveal reveal-delay-3">
-<p class="metric-value">15+</p>
-<p class="metric-label">Anos de Mercado</p>
+<span class="w-px h-10 bg-white/15 hidden md:block"></span>
+<div class="text-center">
+<p class="font-display text-3xl md:text-4xl font-bold"><span data-count-up="15" data-suffix="+">15+</span></p>
+<p class="text-xs text-white/60 mt-1">Anos de Mercado</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Testimonials carousel -->
-<section class="py-24 md:py-32 bg-surface reveal">
+<!-- Testimonials -->
+<section class="py-24 md:py-32 bg-surface">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
+<div class="text-center mb-16" data-scroll-reveal>
 <p class="eyebrow">Depoimentos</p>
 <h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">O que dizem nossos <span class="text-gradient">clientes</span></h2>
 </div>
 <div class="testimonial-scroll">
 {{range .Testimonials}}
-<div class="premium-card" style="background: #fdfbf7;">
+<div class="liquid-glass-light p-8 rounded-xl" data-scroll-reveal>
 <div class="quote-mark">&ldquo;</div>
 <p class="text-base text-on-surface-variant mb-6 italic">{{.Quote}}</p>
 <div>
@@ -69,13 +76,13 @@
 </section>
 
 <!-- CTA with bg image -->
-<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative reveal">
+<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative" data-scroll-reveal>
 <div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
 <div class="absolute inset-0 bg-primary/80"></div>
 <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
 <h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Junte-se aos nossos <span class="text-gradient">clientes</span></h2>
 <p class="text-lg text-primary-on-container mb-8">Entre em contato e descubra como nossa prospecção imobiliária pode impulsionar a expansão da sua rede.</p>
-<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Solicite uma apresentação</a>
+<a href="/fale-conosco" class="inline-block bg-gold-brand text-on-primary px-6 py-3 rounded font-semibold text-base hover:bg-opacity-90 transition-colors duration-300">Solicite uma apresentação</a>
 </div>
 </section>
 </main>

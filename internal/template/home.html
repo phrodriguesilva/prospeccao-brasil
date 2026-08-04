@@ -4,174 +4,264 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prospecção Brasil -- Prospecção Imobiliária Comercial</title>
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
+<script src="/static/js/effects.js" defer></script>
 </head>
 <body class="bg-surface text-on-surface font-sans">
 {{template "site_gate"}}
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<!-- Hero full-bleed with Ken Burns -->
+<!-- Hero -->
 <section class="hero-fullbleed">
-<div class="hero-img" style="background-image: url('/static/img/hero-comercial.jpg')"></div>
-<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-primary/40"></div>
-<div class="absolute inset-0" style="background: radial-gradient(circle at 70% 50%, rgba(118,90,26,0.15) 0%, transparent 50%);"></div>
-<div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-32 z-10">
-<div class="max-w-3xl">
-<p class="eyebrow text-secondary" style="color: #d4af6a;">PROSPECÇÃO E EXPANSÃO COMERCIAL</p>
-<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-[1.1] font-extrabold">Prospecção de pontos comerciais para <span class="text-gradient">expandir sua rede</span></h1>
-<p class="text-lg md:text-xl text-white/80 mb-10 max-w-[600px]">Inteligência em Real Estate Comercial. Encontramos, estruturamos e comercializamos o ponto ideal para a expansão da sua rede varejista em todo o Brasil.</p>
-<div class="flex flex-wrap gap-4 mb-12">
-<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Solicite uma apresentação</a>
-<a href="/servicos" class="btn btn-pill btn-lg text-white border-2 border-white/40 hover:bg-white hover:text-primary transition-all">Conheça nossos serviços</a>
+<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
+<img src="/static/img/symbol.png" alt="" class="hero-symbol" aria-hidden="true">
+<canvas id="noise-canvas"></canvas>
+<div class="diag-lines"></div>
+<div class="diag-lines-accent"></div>
+<div class="dot-matrix"></div>
+<div class="absolute inset-0 z-5" style="background: linear-gradient(to right, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.62) 50%, rgba(10,10,10,0.35) 100%);"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-32">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left: hero content (7 cols) -->
+<div class="lg:col-span-7 flex flex-col justify-center">
+<p class="section-eyebrow mb-5" data-scroll-reveal>Real Estate Comercial &middot; Retail Service</p>
+<h1 data-split-text class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold uppercase">Prospecção de <span class="text-gradient">pontos comerciais</span> para expandir sua rede</h1>
+<p class="text-lg md:text-xl text-white/75 mb-8 max-w-2xl">Inteligência em Real Estate Comercial para expandir sua rede varejista no Brasil. Arquitetura de negócios e precisão na escolha do seu próximo ponto.</p>
+<a href="/nossos-clientes" class="btn-chamfer self-start"><span class="btn-chamfer-inner">Conheça nossos cases <i class="ph ph-arrow-right"></i></span></a>
+<!-- Minimal inline stats -->
+<div class="flex items-center gap-6 mt-10 text-white">
+<div>
+<span class="font-display text-2xl font-bold" data-count-up="15" data-suffix="+">15+</span>
+<p class="text-xs text-white/60 mt-0.5">Anos</p>
 </div>
-<!-- Metrics inline -->
-<div class="grid grid-cols-4 gap-4 max-w-2xl">
-<div class="hero-metric">
-<p class="hero-metric-value">500+</p>
-<p class="hero-metric-label">Pontos</p>
+<span class="w-px h-8 bg-white/15"></span>
+<div>
+<span class="font-display text-2xl font-bold" data-count-up="100" data-suffix="+">100+</span>
+<p class="text-xs text-white/60 mt-0.5">Cidades</p>
 </div>
-<div class="hero-metric">
-<p class="hero-metric-value">50+</p>
-<p class="hero-metric-label">Clientes</p>
+<span class="w-px h-8 bg-white/15"></span>
+<div>
+<span class="font-display text-2xl font-bold" data-count-up="50" data-suffix="+">50+</span>
+<p class="text-xs text-white/60 mt-0.5">Redes</p>
 </div>
-<div class="hero-metric">
-<p class="hero-metric-value">100+</p>
-<p class="hero-metric-label">Cidades</p>
-</div>
-<div class="hero-metric">
-<p class="hero-metric-value">15+</p>
-<p class="hero-metric-label">Anos</p>
+<span class="w-px h-8 bg-white/15"></span>
+<div>
+<span class="font-display text-2xl font-bold" data-count-up="500" data-suffix="+">500+</span>
+<p class="text-xs text-white/60 mt-0.5">Pontos</p>
 </div>
 </div>
+</div>
+<!-- Right: lead form (5 cols) -->
+<div class="lg:col-span-5 mt-12 lg:mt-0" id="hero-form">
+<div class="liquid-glass p-8 rounded-xl relative">
+<h3 class="font-display text-2xl text-white font-bold mb-2">Agende uma reunião com um especialista</h3>
+<p class="text-sm text-white/70 mb-8">Receba uma análise gratuita da expansão da sua rede.</p>
+<div id="hero-form-container">
+<form hx-post="/fale-conosco" hx-target="#hero-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
+<input type="hidden" name="subject" value="Solicitação de apresentação (Home)">
+<div>
+<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Nome *</label>
+<input type="text" name="name" required minlength="2" maxlength="255" placeholder="Seu nome completo" class="liquid-glass-input">
+</div>
+<div>
+<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Email *</label>
+<input type="email" name="email" required placeholder="seu@email.com" class="liquid-glass-input">
+</div>
+<div>
+<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Telefone</label>
+<input type="tel" name="phone" placeholder="(00) 00000-0000" class="liquid-glass-input">
+</div>
+<button type="submit" class="w-full bg-gold-brand text-on-primary font-semibold text-base py-4 rounded hover:bg-gold-light transition-colors shadow-lg">Quero uma apresentação</button>
+</form>
+</div>
+<p class="text-xs text-white/50 mt-4 text-center">Resposta em até 24h. Sem compromisso.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Scroll indicator inside hero -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10" x-data="{ show: true }" x-show="show" x-transition x-init="window.addEventListener('scroll', () => { show = window.scrollY < 100 }, { passive: true })">
+<div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+</div>
+</section>
+
+<!-- Client logos marquee -->
+<section class="py-16 bg-surface overflow-hidden">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+<p class="text-xs font-semibold text-primary/50 text-center uppercase tracking-widest" data-scroll-reveal>Empresas que confiam em nossa inteligência</p>
+</div>
+<div class="marquee">
+<div class="marquee-track">
+<img src="/static/img/clients/burger-king.png" alt="Burger King" class="marquee-item">
+<img src="/static/img/clients/habibs.png" alt="Habib's" class="marquee-item">
+<img src="/static/img/clients/ragazzo.png" alt="Ragazzo" class="marquee-item">
+<img src="/static/img/clients/drogarias-pacheco.png" alt="Drogarias Pacheco" class="marquee-item">
+<img src="/static/img/clients/casa-video.png" alt="Casa & Video" class="marquee-item">
+<img src="/static/img/clients/american-pet.png" alt="American Pet" class="marquee-item">
+<img src="/static/img/clients/tim.png" alt="TIM" class="marquee-item">
+<img src="/static/img/clients/oticas-carol.png" alt="Opticas Carol" class="marquee-item">
+<img src="/static/img/clients/rio-bel.png" alt="Rio Bel Fidelidade" class="marquee-item">
+<img src="/static/img/clients/o-amigao.jpg" alt="O Amigao" class="marquee-item">
+<img src="/static/img/clients/casa-lazer.png" alt="Casa & Lazer" class="marquee-item">
+<!-- Duplicate for seamless loop -->
+<img src="/static/img/clients/burger-king.png" alt="Burger King" class="marquee-item">
+<img src="/static/img/clients/habibs.png" alt="Habib's" class="marquee-item">
+<img src="/static/img/clients/ragazzo.png" alt="Ragazzo" class="marquee-item">
+<img src="/static/img/clients/drogarias-pacheco.png" alt="Drogarias Pacheco" class="marquee-item">
+<img src="/static/img/clients/casa-video.png" alt="Casa & Video" class="marquee-item">
+<img src="/static/img/clients/american-pet.png" alt="American Pet" class="marquee-item">
+<img src="/static/img/clients/tim.png" alt="TIM" class="marquee-item">
+<img src="/static/img/clients/oticas-carol.png" alt="Opticas Carol" class="marquee-item">
+<img src="/static/img/clients/rio-bel.png" alt="Rio Bel Fidelidade" class="marquee-item">
+<img src="/static/img/clients/o-amigao.jpg" alt="O Amigao" class="marquee-item">
+<img src="/static/img/clients/casa-lazer.png" alt="Casa & Lazer" class="marquee-item">
 </div>
 </div>
 </section>
 
-<!-- Services with photos -->
-<section class="py-24 md:py-32 bg-surface reveal">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
-<p class="eyebrow">O que fazemos</p>
-<h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">Nossos <span class="text-gradient">Serviços</span></h2>
-<p class="text-lg text-on-surface-variant max-w-2xl mx-auto">Da prospecção do ponto à expansão da rede: planejamento, estruturação e implantação em todo o Brasil.</p>
+<!-- Bento Grid Services -->
+<section class="py-24 md:py-32 bg-surface relative overflow-hidden">
+<div class="dot-matrix dot-matrix-br"></div>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="mb-12" data-scroll-reveal>
+<p class="section-eyebrow">O que entregamos</p>
+<h2 class="section-title text-3xl md:text-4xl">Soluções Estratégicas</h2>
+<span class="metric-line"></span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-{{range $i, $svc := .Services}}{{if lt $i 3}}
-<div class="premium-card-img reveal reveal-delay-{{add $i 1}}">
-<div class="card-img-wrap">
-{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/service-expansao.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{end}}
-{{if eq .Slug "lajes-comerciais"}}<img src="/static/img/service-lajes.jpg" alt="{{.Title}}">{{end}}
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[800px]">
+<!-- Card 1: Large Left (5 cols, 2 rows) -->
+<a href="/servicos/expansao-de-redes" data-glare data-scroll-reveal class="md:col-span-5 md:row-span-2 relative rounded-xl overflow-hidden bento-hover group h-[400px] md:h-auto">
+<img src="/static/img/bento-1-custom.jpg" alt="Expansão de Redes" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 glass-panel-bento">
+<span class="font-display text-2xl text-gold-brand mb-2 block">01</span>
+<h3 class="font-display text-xl text-white font-bold mb-2">Expansão de Redes</h3>
+<p class="text-sm text-white/70">Planejamento e execução da expansão de redes varejistas e franquias em todo o Brasil.</p>
 </div>
-<div class="card-body">
-<h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
-<p class="text-base text-on-surface-variant mb-4">{{.Summary}}</p>
-<a href="/servicos/{{.Slug}}" class="text-primary font-semibold text-sm hover:text-secondary transition-colors">Saiba mais &rarr;</a>
+</a>
+<!-- Card 2: Top Right 1 (4 cols, 1 row) -->
+<a href="/servicos/built-to-suit" data-glare data-scroll-reveal class="md:col-span-4 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
+<img src="/static/img/bento-2.jpg" alt="Built to Suit" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
+<span class="font-display text-xl text-gold-brand mb-1 block">02</span>
+<h3 class="font-display text-lg text-white font-bold">Built to Suit</h3>
 </div>
+</a>
+<!-- Card 3: Top Right 2 (3 cols, 1 row) -->
+<a href="/servicos/prospeccao-de-ponto" data-glare data-scroll-reveal class="md:col-span-3 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
+<img src="/static/img/bento-3.jpg" alt="Prospecção de Ponto" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
+<span class="font-display text-xl text-gold-brand mb-1 block">03</span>
+<h3 class="font-display text-lg text-white font-bold">Prospecção de Ponto</h3>
 </div>
-{{end}}{{end}}
+</a>
+<!-- Card 4: Bottom Right 1 (4 cols, 1 row) -->
+<a href="/servicos/strip-mall" data-glare data-scroll-reveal class="md:col-span-4 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
+<img src="/static/img/bento-4.jpg" alt="Strip Mall" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
+<span class="font-display text-xl text-gold-brand mb-1 block">04</span>
+<h3 class="font-display text-lg text-white font-bold">Strip Mall</h3>
+</div>
+</a>
+<!-- Card 5: Bottom Right 2 (3 cols, 1 row) -->
+<a href="/servicos/lajes-comerciais" data-glare data-scroll-reveal class="md:col-span-3 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
+<img src="/static/img/bento-5.jpg" alt="Lajes Comerciais" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
+<span class="font-display text-xl text-gold-brand mb-1 block">05</span>
+<h3 class="font-display text-lg text-white font-bold">Lajes Comerciais</h3>
+</div>
+</a>
 </div>
 <div class="text-center mt-12">
-<a href="/servicos" class="btn btn-outline btn-pill btn-md">Ver todos os serviços</a>
+<a href="/servicos" class="btn-chamfer"><span class="btn-chamfer-inner">Ver todos os serviços <i class="ph ph-arrow-right"></i></span></a>
 </div>
 </div>
 </section>
 
-<!-- Client logos grid -->
-<section class="py-16 md:py-20 bg-surface reveal">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-10">
-<p class="eyebrow">Confiança no mercado</p>
-<h2 class="font-display text-3xl md:text-4xl text-primary font-extrabold">Marcas que confiam em nossa <span class="text-gradient">prospecção</span></h2>
+<!-- Diferenciais (hexagonal icons) -->
+<section class="py-24 md:py-28 bg-surface-section relative overflow-hidden">
+<div class="diag-lines"></div>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="mb-16 text-center" data-scroll-reveal>
+<p class="section-eyebrow">Por que a Prospecção Brasil</p>
+<h2 class="section-title text-3xl md:text-4xl">Foco &middot; Experiência &middot; Resultados</h2>
+<span class="metric-line mx-auto mt-4"></span>
 </div>
-<div class="grid grid-cols-3 md:grid-cols-6 gap-8 items-center">
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">Shell</div>
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">BR Mania</div>
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">O Boticário</div>
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">Cacau Show</div>
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">Havaianas</div>
-<div class="text-center font-display font-bold text-lg text-on-surface-variant opacity-40 hover:opacity-70 transition-opacity">Pague Menos</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+<div class="flex flex-col items-center text-center" data-scroll-reveal>
+<div class="hex-icon mb-5"><i class="ph ph-map-pin-line"></i></div>
+<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Localizações Estratégicas</h3>
+<p class="text-sm text-on-surface-variant">Identificação precisa de pontos com potencial real de desempenho.</p>
 </div>
+<div class="flex flex-col items-center text-center" data-scroll-reveal>
+<div class="hex-icon mb-5"><i class="ph ph-handshake"></i></div>
+<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Negociações Inteligentes</h3>
+<p class="text-sm text-on-surface-variant">Estruturação de acordos que protegem o seu negócio a longo prazo.</p>
 </div>
-</section>
-
-<!-- Why hire us -->
-<section class="py-24 md:py-32 bg-surface-container-low reveal">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
-<p class="eyebrow">Diferenciais</p>
-<h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">Por que nos <span class="text-gradient">contratar</span></h2>
+<div class="flex flex-col items-center text-center" data-scroll-reveal>
+<div class="hex-icon mb-5"><i class="ph ph-chart-line-up"></i></div>
+<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Análise de Mercado</h3>
+<p class="text-sm text-on-surface-variant">Dados e inteligência que sustentam cada decisão de expansão.</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-<div class="premium-card reveal reveal-delay-1" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">01</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Conhecimento profundo do varejo</h3>
-<p class="text-base text-on-surface-variant">15 anos de experiência em expansão de redes, franquias e shopping centers em todo o Brasil.</p>
-</div>
-<div class="premium-card reveal reveal-delay-2" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">02</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Rede de contatos privilegiada</h3>
-<p class="text-base text-on-surface-variant">Relacionamento direto com as principais redes varejistas e investidores do mercado nacional.</p>
-</div>
-<div class="premium-card reveal reveal-delay-3" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">03</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Estruturação completa</h3>
-<p class="text-base text-on-surface-variant">Da prospecção à estruturação jurídica e financeira de contratos atípicicos e operações BTS/SLB.</p>
-</div>
-<div class="premium-card reveal reveal-delay-1" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">04</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Atuação nacional</h3>
-<p class="text-base text-on-surface-variant">Mais de 100 cidades atendidas, com conhecimento regional de zonas primárias e secundárias.</p>
-</div>
-<div class="premium-card reveal reveal-delay-2" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">05</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Foco em rentabilidade</h3>
-<p class="text-base text-on-surface-variant">Avaliação estratégica com foco em maximizar rentabilidade e minimizar investimentos iniciais.</p>
-</div>
-<div class="premium-card reveal reveal-delay-3" style="padding: 2rem;">
-<div class="font-display text-4xl font-extrabold mb-3" style="color: #d4af6a;">06</div>
-<h3 class="font-display text-lg text-primary mb-2 font-bold">Acompanhamento total</h3>
-<p class="text-base text-on-surface-variant">Do planejamento à implantação do ponto, com acompanhamento completo do processo de expansão.</p>
+<div class="flex flex-col items-center text-center" data-scroll-reveal>
+<div class="hex-icon mb-5"><i class="ph ph-buildings"></i></div>
+<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Ativos com Rentabilidade</h3>
+<p class="text-sm text-on-surface-variant">Lajes e comerciais com retorno consistente para o investidor.</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Testimonials carousel -->
-<section class="py-24 md:py-32 bg-surface-container-low reveal">
+<!-- Testimonials -->
+<section class="py-24 bg-surface">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-16">
-<p class="eyebrow">Depoimentos</p>
-<h2 class="font-display text-4xl md:text-5xl text-primary mb-4 font-extrabold">O que nossos <span class="text-gradient">clientes</span> dizem</h2>
+<div class="mb-16 text-center" data-scroll-reveal>
+<p class="section-eyebrow">Quem confia</p>
+<h2 class="section-title text-3xl md:text-4xl">Depoimentos</h2>
+<span class="metric-line mx-auto mt-4"></span>
 </div>
-<div class="testimonial-scroll">
-{{range .Testimonials}}
-<div class="premium-card" style="background: #fdfbf7;">
-<div class="quote-mark">&ldquo;</div>
-<p class="text-base text-on-surface-variant mb-6 italic">{{.Quote}}</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
+<div class="flex items-center gap-4 mb-4">
+<img src="/static/img/testimonials/avatar-1.jpg" alt="Ricardo Santos" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
 <div>
-<p class="font-bold text-on-surface">{{.Name}}</p>
-<p class="text-sm text-on-surface-variant">{{.Company}}</p>
+<p class="font-bold text-primary leading-tight">Ricardo Santos</p>
+<p class="text-sm text-primary/60">Diretor de Expansão, Varejo S.A.</p>
 </div>
 </div>
-{{end}}
+<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
+<p class="text-base text-primary/80 italic">A precisão na escolha dos pontos foi fundamental para o sucesso da nossa expansão no Sudeste.</p>
+</div>
+<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
+<div class="flex items-center gap-4 mb-4">
+<img src="/static/img/testimonials/avatar-2.jpg" alt="Ana Oliveira" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
+<div>
+<p class="font-bold text-primary leading-tight">Ana Oliveira</p>
+<p class="text-sm text-primary/60">COO, Fashion Group</p>
 </div>
 </div>
-</section>
-
-<!-- CTA with bg image -->
-<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative reveal">
-<div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
-<div class="absolute inset-0 bg-primary/80"></div>
-<div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-<h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Pronto para <span class="text-gradient">expandir</span> sua rede?</h2>
-<p class="text-lg text-primary-on-container mb-8">Prospecção, estruturação e comercialização de pontos comerciais. Entre em contato e acelere a expansão da sua rede.</p>
-<a href="/fale-conosco" class="btn btn-secondary btn-pill btn-lg btn-glow">Solicite uma apresentação</a>
+<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
+<p class="text-base text-primary/80 italic">Inteligência de mercado real. Encurtaram nosso tempo de prospecção em meses.</p>
+</div>
+<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
+<div class="flex items-center gap-4 mb-4">
+<img src="/static/img/testimonials/avatar-3.jpg" alt="Marcos Lima" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
+<div>
+<p class="font-bold text-primary leading-tight">Marcos Lima</p>
+<p class="text-sm text-primary/60">Gerente de Real Estate, TechLog</p>
+</div>
+</div>
+<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
+<p class="text-base text-primary/80 italic">O modelo Built to Suit entregue superou todas as nossas expectativas técnicas e de prazo.</p>
+</div>
+</div>
 </div>
 </section>
 </main>

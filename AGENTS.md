@@ -140,6 +140,20 @@ small files (~92KB total).
 - Add `static/js/` to the static file server in `cmd/prospeccao/main.go`
 - Update files when a new version is needed (document the version in a comment)
 
+### Self-host icon font (Phosphor Icons, no CDN)
+
+Phosphor Icons web font is self-hosted in `static/css/phosphor.css` and
+`static/fonts/`. Use `<i class="ph ph-icon-name"></i>` in templates.
+Do NOT use inline SVGs for icons -- use Phosphor classes instead.
+
+- `static/css/phosphor.css` -- Phosphor regular style CSS (78KB)
+- `static/fonts/Phosphor.woff2` -- web font (147KB, woff2 preferred)
+- `static/fonts/Phosphor.woff` -- web font fallback (489KB)
+- `static/fonts/Phosphor.ttf` -- web font fallback (489KB)
+- npm package: `@phosphor-icons/web@2.1.1` (build-time only)
+- Pin to a specific version (do not use `@latest`)
+- Loaded via `<link rel="stylesheet" href="/static/css/phosphor.css">` in all pages
+
 ### Focus trap (no Alpine.js trap plugin)
 
 The `@alpinejs/trap` plugin depends on `focus-trap` (another npm package)
