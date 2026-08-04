@@ -33,7 +33,7 @@
 {{range .Services}}
 <a href="/servicos/{{.Slug}}" class="service-card-h" data-scroll-reveal>
 <div class="card-img-side">
-{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/bento-1-custom.jpg" alt="{{.Title}}">{{else if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{else if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{else if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{else}}<img src="/static/img/hero-custom.jpg" alt="{{.Title}}">{{end}}
+{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/service-expansao.jpg" alt="{{.Title}}">{{else if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{else if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{else if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{else}}<img src="/static/img/hero-custom.jpg" alt="{{.Title}}">{{end}}
 </div>
 <div class="card-body">
 <h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
