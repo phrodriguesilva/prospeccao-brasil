@@ -34,6 +34,6 @@ rule:
 constraints:
   NAME:
     not:
-      regex: (?i)(health|ready|live|ping|login|logout|totp|2fa|admin)
+      regex: (?i)(health|ready|live|ping|login|logout|totp|2fa|admin|handler)
 message: "HTTP handler without auth context access. Every handler must be auth-gated or explicitly excluded."
 severity: error
