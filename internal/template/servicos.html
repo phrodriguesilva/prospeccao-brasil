@@ -4,56 +4,72 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Serviços -- Prospecção Brasil</title>
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804g">
+<meta name="description" content="Consultoria em geomarketing, análise de macro e microlocalização, expansão de redes e prospecção de pontos comerciais para varejo e franquias.">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260912a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
-{{template "site_gate"}}
+<body class="site-light font-sans">
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<!-- Hero with photo -->
-<section class="hero-fullbleed hero-internal">
-<div class="hero-img" data-parallax="0.1" style="background-image: url('/static/img/hero-custom.jpg')"></div>
-<img src="/static/img/hero-watermark.png" alt="" class="hero-symbol" aria-hidden="true">
-<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
-<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
-<p class="eyebrow" style="color: #d4af6a;">Soluções</p>
-<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Nossos <span class="text-gradient">Serviços</span></h1>
-<p class="text-lg md:text-xl text-white/80 max-w-2xl">Prospecção e expansão de redes varejistas com mais de uma década de expertise. Encontramos o ponto comercial ideal e entregamos toda a estruturação documental e contratual.</p>
+<!-- Page hero -->
+<section class="mk-page-hero">
+<div class="mk-container">
+<p class="mk-eyebrow">Soluções</p>
+<h1>Nossos Serviços</h1>
+<p>Metodologia aplicada há mais de uma década. Avaliação de mercado, análise de dados e pesquisa — identificando o que precisa ser feito no imóvel e a documentação necessária para abertura e funcionamento do ponto.</p>
 </div>
 </section>
 
 <!-- Services grid -->
-<section class="py-24 md:py-32 bg-surface">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10" data-stagger>
+<section class="mk-section bg-paper-white" style="padding-top:64px;">
+<div class="mk-container">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5" data-stagger>
 {{range .Services}}
-<a href="/servicos/{{.Slug}}" class="service-card-h" data-scroll-reveal>
-<div class="card-img-side">
-{{if eq .Slug "expansao-de-redes"}}<img src="/static/img/service-expansao.jpg" alt="{{.Title}}">{{else if eq .Slug "built-to-suit"}}<img src="/static/img/service-bts.jpg" alt="{{.Title}}">{{else if eq .Slug "prospeccao-de-ponto"}}<img src="/static/img/service-prospeccao.jpg" alt="{{.Title}}">{{else if eq .Slug "strip-mall"}}<img src="/static/img/service-strip-mall.jpg" alt="{{.Title}}">{{else}}<img src="/static/img/hero-custom.jpg" alt="{{.Title}}">{{end}}
-</div>
-<div class="card-body">
-<h3 class="font-display text-xl text-primary mb-2 font-bold">{{.Title}}</h3>
-<p class="text-base text-on-surface-variant mb-3">{{.Summary}}</p>
-<span class="text-primary font-semibold text-sm">Saiba mais &rarr;</span>
-</div>
+<a href="/servicos/{{.Slug}}" class="mk-service-card" data-scroll-reveal>
+<div class="mk-icon-circle"><i class="ph ph-map-pin"></i></div>
+<h3>{{.Title}}</h3>
+<p>{{.Summary}}</p>
+<span class="more">Saiba mais <i class="ph ph-arrow-right"></i></span>
 </a>
 {{end}}
 </div>
 </div>
 </section>
 
-<!-- CTA with bg image -->
-<section class="cta-bg-section bg-primary text-on-primary py-24 md:py-32 relative" data-scroll-reveal>
-<div class="cta-bg-img" style="background-image: url('/static/img/cta-bg.jpg')"></div>
-<div class="absolute inset-0 bg-primary/80"></div>
-<div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-<h2 class="font-display text-4xl md:text-5xl mb-6 font-extrabold">Solicite uma <span class="text-gradient">apresentação</span></h2>
-<p class="text-lg text-primary-on-container mb-8">Entre em contato e descubra como nossa prospecção imobiliária pode acelerar a expansão da sua rede.</p>
-<a href="/fale-conosco" class="inline-block bg-gold-brand text-on-primary px-6 py-3 rounded font-semibold text-base hover:bg-opacity-90 transition-colors duration-300">Fale Conosco</a>
+<!-- Investor services -->
+<section class="mk-section" id="investidores" style="background:#f2f4f5;padding-top:64px;">
+<div class="mk-container">
+<header class="mk-section-head" data-scroll-reveal>
+<p class="mk-eyebrow justify-center mx-auto">Investidores e family offices</p>
+<h2>Gestão e estruturação de ativos imobiliários</h2>
+<p>Serviços dedicados a investidores, proprietários e fundos que buscam maximizar a rentabilidade dos seus ativos comerciais.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-stagger>
+{{range .InvestorServices}}
+<a href="/servicos/{{.Slug}}" class="mk-service-card" data-scroll-reveal>
+<div class="mk-icon-circle mk-icon-circle--gold"><i class="ph ph-chart-pie-slice"></i></div>
+<h3>{{.Title}}</h3>
+<p>{{.Summary}}</p>
+<span class="more">Saiba mais <i class="ph ph-arrow-right"></i></span>
+</a>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- Final CTA -->
+<section class="mk-section bg-paper-white">
+<div class="mk-container">
+<div class="mk-final-cta" data-scroll-reveal>
+<div>
+<h2>Solicite uma apresentação</h2>
+<p>Entre em contato e descubra como nossa prospecção imobiliária pode acelerar a expansão da sua rede.</p>
+</div>
+<a href="/fale-conosco" class="mk-btn mk-btn--gold">Fale Conosco</a>
+</div>
 </div>
 </section>
 </main>

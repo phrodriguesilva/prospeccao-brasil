@@ -261,18 +261,26 @@ func buildPublicRouter(
 	r.Handle("/static/*", staticFileServer())
 	r.Get("/healthz", healthHandler)
 	r.Get("/", instHandler.Home)
-	r.Get("/quem-somos", instHandler.QuemSomos)
 	r.Get("/servicos", instHandler.Servicos)
 	r.Get("/servicos/{slug}", instHandler.ServicoDetalhe)
-	r.Get("/nossos-clientes", instHandler.NossosClientes)
-	r.Get("/segmentos", instHandler.Segmentos)
 	r.Get("/equipe", instHandler.Equipe)
-	r.Get("/parceiros", instHandler.Parceiros)
-	r.Get("/investidores", instHandler.Investidores)
 	r.Get("/fale-conosco", instHandler.FaleConosco)
 	r.Post("/fale-conosco", contactHandler.Submit)
 	r.Post("/newsletter", newsletterHandler.Subscribe)
 	r.Get("/privacidade", instHandler.Privacidade)
+	// Legacy pages folded into the consolidated home -- redirect to anchors.
+	for path, target := range map[string]string{
+		"/quem-somos":      "/#quem-somos",
+		"/segmentos":       "/#segmentos",
+		"/nossos-clientes": "/#clientes",
+		"/parceiros":       "/#clientes",
+		"/investidores":    "/servicos",
+	} {
+		target := target
+		r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, target, http.StatusMovedPermanently)
+		})
+	}
 	r.NotFound(instHandler.NotFound)
 	return r
 }
@@ -369,18 +377,26 @@ func buildDevRouter(
 	r.Group(func(r chi.Router) {
 		r.Get("/healthz", healthHandler)
 		r.Get("/", instHandler.Home)
-		r.Get("/quem-somos", instHandler.QuemSomos)
 		r.Get("/servicos", instHandler.Servicos)
 		r.Get("/servicos/{slug}", instHandler.ServicoDetalhe)
-		r.Get("/nossos-clientes", instHandler.NossosClientes)
-		r.Get("/segmentos", instHandler.Segmentos)
 		r.Get("/equipe", instHandler.Equipe)
-		r.Get("/parceiros", instHandler.Parceiros)
-		r.Get("/investidores", instHandler.Investidores)
 		r.Get("/fale-conosco", instHandler.FaleConosco)
 		r.Post("/fale-conosco", contactHandler.Submit)
 		r.Post("/newsletter", newsletterHandler.Subscribe)
 		r.Get("/privacidade", instHandler.Privacidade)
+		// Legacy pages folded into the consolidated home -- redirect to anchors.
+		for path, target := range map[string]string{
+			"/quem-somos":      "/#quem-somos",
+			"/segmentos":       "/#segmentos",
+			"/nossos-clientes": "/#clientes",
+			"/parceiros":       "/#clientes",
+			"/investidores":    "/servicos",
+		} {
+			target := target
+			r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+				http.Redirect(w, r, target, http.StatusMovedPermanently)
+			})
+		}
 
 		r.Get("/login", authHandler.LoginGET)
 		r.Post("/login", authHandler.LoginPOST)

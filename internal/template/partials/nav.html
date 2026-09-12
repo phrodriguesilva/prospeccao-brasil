@@ -1,96 +1,72 @@
 {{define "nav"}}
-<div class="top-contact-bar">
-<div class="flex items-center">
-<span class="tcb-item">
-<i class="ph ph-phone text-xs"></i>
-+55 21 99842-3232
-</span>
-<span class="tcb-divider"></span>
-<span class="tcb-item">
-<i class="ph ph-envelope-simple text-xs"></i>
-contato@prospeccaobrasil.com
-</span>
-<span class="tcb-divider"></span>
-<span class="tcb-item">CRECI-RJ</span>
+<div class="mk-topbar">
+<div class="mk-container mk-topbar-inner">
+<div class="mk-topbar-group">
+<span class="mk-topbar-item"><i class="ph ph-phone"></i>+55 21 99842-3232</span>
+<a class="mk-topbar-item" href="mailto:contato@prospeccaobrasil.com"><i class="ph ph-envelope-simple"></i>contato@prospeccaobrasil.com</a>
 </div>
-<div class="tcb-social">
-<a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
-<i class="ph ph-instagram-logo"></i>
-</a>
-<a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-<i class="ph ph-linkedin-logo"></i>
-</a>
+<div class="mk-topbar-group">
+<span class="mk-topbar-creci">CRECI-RJ</span>
+<a href="https://www.instagram.com/prospeccaobrasil/" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+<a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
 </div>
 </div>
-<nav class="glass-nav" x-data="{ open: false, servicesOpen: false, quemFazOpen: false, scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 }, { passive: true })" :class="{ 'scrolled': scrolled }">
-<div class="glass-nav-inner">
+</div>
+<nav class="mk-nav" x-data="{ open: false, servicesOpen: false, scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 40 }, { passive: true })" :class="{ 'scrolled': scrolled }">
+<div class="mk-container mk-nav-inner">
 <a href="/" class="flex items-center no-underline shrink-0" aria-label="Prospecção Brasil -- Início">
-<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="nav-logo-symbol">
+<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="mk-nav-logo">
 </a>
-<div class="hidden md:flex items-center gap-1 relative">
-<a href="/" class="glass-nav-link {{if eq .ActivePage "home"}}active{{end}}">Início</a>
-<div @click.away="servicesOpen = false" class="relative">
-<button type="button" class="glass-nav-link {{if eq .ActivePage "servicos"}}active{{end}}" @click="servicesOpen = !servicesOpen" aria-expanded="false" :aria-expanded="servicesOpen.toString()">
+<div class="hidden md:flex items-center gap-1 relative mk-nav-links">
+<a href="/" class="mk-nav-link {{if eq .ActivePage "home"}}active{{end}}">Institucional</a>
+<div class="mk-dropdown" @click.away="servicesOpen = false">
+<button type="button" class="mk-nav-link {{if eq .ActivePage "servicos"}}active{{end}}" @click="servicesOpen = !servicesOpen" aria-expanded="false" :aria-expanded="servicesOpen.toString()">
 Serviços
-<i class="ph ph-caret-down text-xs ml-0.5"></i>
+<i class="ph ph-caret-down text-xs"></i>
 </button>
-<div class="glass-nav-dropdown" x-show="servicesOpen" x-transition x-cloak style="display: none; min-width: 380px;">
-<a href="/servicos/prospeccao-de-ponto" class="glass-nav-dropdown-item">
+<div class="mk-dropdown-menu" x-show="servicesOpen" x-transition x-cloak style="display: none;">
+<a href="/servicos/prospeccao-de-ponto" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-map-pin"></i></div>
 <div><div class="dd-title">Prospecção de Ponto</div><div class="dd-desc">Identificação de locais estratégicos</div></div>
 </a>
-<a href="/servicos/expansao-de-redes" class="glass-nav-dropdown-item">
+<a href="/servicos/expansao-de-redes" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-trend-up"></i></div>
 <div><div class="dd-title">Expansão de Redes</div><div class="dd-desc">Prospecção e estruturação para varejistas</div></div>
 </a>
-<a href="/servicos/strip-mall" class="glass-nav-dropdown-item">
+<a href="/servicos/strip-mall" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-storefront"></i></div>
 <div><div class="dd-title">Strip Mall</div><div class="dd-desc">Centros comerciais de bairro</div></div>
 </a>
-<a href="/servicos/built-to-suit" class="glass-nav-dropdown-item">
+<a href="/servicos/built-to-suit" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-building"></i></div>
 <div><div class="dd-title">Built to Suit (BTS)</div><div class="dd-desc">Construção sob medida para o tenant</div></div>
 </a>
-<a href="/servicos/conselho-consultivo" class="glass-nav-dropdown-item">
+<a href="/servicos/conselho-consultivo" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-users-three"></i></div>
 <div><div class="dd-title">Conselho Consultivo</div><div class="dd-desc">Assessoria estratégica para expansão</div></div>
 </a>
-<a href="/servicos/sale-leaseback" class="glass-nav-dropdown-item">
+<a href="/servicos/sale-leaseback" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-arrows-left-right"></i></div>
-<div><div class="dd-title">Sale & Leaseback</div><div class="dd-desc">Venda com locação de volta ao proprietário</div></div>
+<div><div class="dd-title">Sale &amp; Leaseback</div><div class="dd-desc">Venda com locação de volta ao proprietário</div></div>
 </a>
-<a href="/servicos/transferencia-de-pontos" class="glass-nav-dropdown-item">
+<a href="/servicos/transferencia-de-pontos" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-swap"></i></div>
 <div><div class="dd-title">Transferência de Pontos</div><div class="dd-desc">Repasse e desmobilização de ativos</div></div>
 </a>
-<a href="/servicos/ingresso-em-mercados" class="glass-nav-dropdown-item">
+<a href="/servicos/ingresso-em-mercados" class="mk-dropdown-item">
 <div class="dd-icon"><i class="ph ph-globe-hemisphere-west"></i></div>
 <div><div class="dd-title">Ingresso em Mercados</div><div class="dd-desc">Entrada em novas praças e regiões</div></div>
 </a>
-</div>
-</div>
-<a href="/segmentos" class="glass-nav-link {{if eq .ActivePage "segmentos"}}active{{end}}">Segmentos</a>
-<a href="/investidores" class="glass-nav-link {{if eq .ActivePage "investidores"}}active{{end}}">Investidores</a>
-<div @click.away="quemFazOpen = false" class="relative">
-<button type="button" class="glass-nav-link {{if eq .ActivePage "equipe"}}active{{end}}{{if eq .ActivePage "parceiros"}}active{{end}}" @click="quemFazOpen = !quemFazOpen" aria-expanded="false" :aria-expanded="quemFazOpen.toString()">
-Quem Faz
-<i class="ph ph-caret-down text-xs ml-0.5"></i>
-</button>
-<div class="glass-nav-dropdown" x-show="quemFazOpen" x-transition x-cloak style="display: none; min-width: 280px;">
-<a href="/equipe" class="glass-nav-dropdown-item">
-<div class="dd-icon"><i class="ph ph-users"></i></div>
-<div><div class="dd-title">Equipe</div><div class="dd-desc">Quem está por trás da empresa</div></div>
-</a>
-<a href="/parceiros" class="glass-nav-dropdown-item">
-<div class="dd-icon"><i class="ph ph-handshake"></i></div>
-<div><div class="dd-title">Empresas Parceiras</div><div class="dd-desc">Parceiros estratégicos e associações</div></div>
+<a href="/servicos" class="mk-dropdown-item">
+<div class="dd-icon"><i class="ph ph-squares-four"></i></div>
+<div><div class="dd-title">Todos os serviços</div><div class="dd-desc">Metodologia completa de prospecção</div></div>
 </a>
 </div>
 </div>
-<a href="/quem-somos" class="glass-nav-link {{if eq .ActivePage "quem-somos"}}active{{end}}">Sobre</a>
-<a href="/fale-conosco" class="btn btn-filled btn-sm ml-2">Contato</a>
+<a href="/equipe" class="mk-nav-link {{if eq .ActivePage "equipe"}}active{{end}}">Quem Faz</a>
+<a href="/fale-conosco" class="mk-btn mk-btn--gold mk-btn--sm ml-2">Contato</a>
 </div>
-<button type="button" class="md:hidden p-2 rounded text-white" @click="open = true" aria-label="Abrir menu" aria-expanded="false" :aria-expanded="open.toString()">
+<button type="button" class="md:hidden p-2 rounded" @click="open = true" aria-label="Abrir menu" aria-expanded="false" :aria-expanded="open.toString()">
 <i class="ph ph-list text-2xl"></i>
 </button>
 </div>
@@ -104,13 +80,9 @@ Quem Faz
 </button>
 </div>
 <div class="mobile-drawer-body">
-<a href="/" class="mobile-drawer-link {{if eq .ActivePage "home"}}active{{end}}" @click="open = false">Início</a>
+<a href="/" class="mobile-drawer-link {{if eq .ActivePage "home"}}active{{end}}" @click="open = false">Institucional</a>
 <a href="/servicos" class="mobile-drawer-link {{if eq .ActivePage "servicos"}}active{{end}}" @click="open = false">Serviços</a>
-<a href="/segmentos" class="mobile-drawer-link {{if eq .ActivePage "segmentos"}}active{{end}}" @click="open = false">Segmentos</a>
-<a href="/investidores" class="mobile-drawer-link {{if eq .ActivePage "investidores"}}active{{end}}" @click="open = false">Investidores</a>
-<a href="/equipe" class="mobile-drawer-link {{if eq .ActivePage "equipe"}}active{{end}}" @click="open = false">Equipe</a>
-<a href="/parceiros" class="mobile-drawer-link {{if eq .ActivePage "parceiros"}}active{{end}}" @click="open = false">Empresas Parceiras</a>
-<a href="/quem-somos" class="mobile-drawer-link {{if eq .ActivePage "quem-somos"}}active{{end}}" @click="open = false">Sobre</a>
+<a href="/equipe" class="mobile-drawer-link {{if eq .ActivePage "equipe"}}active{{end}}" @click="open = false">Quem Faz</a>
 <a href="/fale-conosco" class="mobile-drawer-link {{if eq .ActivePage "fale-conosco"}}active{{end}}" @click="open = false">Contato</a>
 </div>
 <div class="mobile-drawer-footer">

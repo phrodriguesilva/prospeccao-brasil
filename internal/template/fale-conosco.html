@@ -4,31 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fale Conosco -- Prospecção Brasil</title>
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804g">
+<meta name="description" content="Fale com a Prospecção Brasil: consultoria em prospecção de pontos comerciais e expansão de redes de varejo e franquias.">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260912a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
-{{template "site_gate"}}
+<body class="site-light font-sans">
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
-<!-- Hero with photo -->
-<section class="hero-fullbleed hero-internal">
-<div class="hero-img" style="background-image: url('/static/img/hero-custom.jpg')"></div>
-<img src="/static/img/hero-watermark.png" alt="" class="hero-symbol" aria-hidden="true">
-<div class="absolute inset-0" style="background: linear-gradient(to right, rgba(3,22,54,0.85) 0%, rgba(3,22,54,0.65) 60%, rgba(3,22,54,0.40) 100%);"></div>
-<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-36">
-<p class="eyebrow" style="color: #d4af6a;">Contato</p>
-<h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold mt-4">Fale <span class="text-gradient">Conosco</span></h1>
-<p class="text-lg md:text-xl text-white/80 max-w-2xl">Conte sobre o seu projeto de expansão. Retornamos em breve com a melhor estratégia de prospecção imobiliária para o seu negócio.</p>
+<!-- Page hero -->
+<section class="mk-page-hero">
+<div class="mk-container">
+<p class="mk-eyebrow">Contato</p>
+<h1>Fale Conosco</h1>
+<p>Conte sobre o seu projeto de expansão. Retornamos em breve com a melhor estratégia de prospecção imobiliária para o seu negócio.</p>
 </div>
 </section>
 
 <!-- Two-column: form + contact info -->
-<section class="py-24 md:py-32 bg-surface">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="mk-section bg-paper-white" style="padding-top:64px;">
+<div class="mk-container">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
 <!-- Form column -->
@@ -36,80 +33,72 @@
 {{if .Success}}
 <div class="alert alert-success mb-6">Mensagem enviada com sucesso! Entraremos em contato em breve.</div>
 {{end}}
-<div id="contact-form-container" class="form-glass">
-<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-6">
+<div id="contact-form-container" class="mk-form-card" style="padding:34px;">
+<form hx-post="/fale-conosco" hx-target="#contact-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
 <div>
-<label for="company" class="form-label">Empresa (opcional)</label>
-<input type="text" id="company" name="company" maxlength="255" class="form-input-premium" value="{{.Form.Company}}" placeholder="Nome da empresa">
+<label for="company">Empresa (opcional)</label>
+<input type="text" id="company" name="company" maxlength="255" class="mk-input" value="{{.Form.Company}}" placeholder="Nome da empresa">
 </div>
 <div>
-<label for="name" class="form-label">Nome *</label>
-<input type="text" id="name" name="name" required minlength="2" maxlength="255" class="form-input-premium" value="{{.Form.Name}}">
+<label for="name">Nome *</label>
+<input type="text" id="name" name="name" required minlength="2" maxlength="255" class="mk-input" value="{{.Form.Name}}">
 {{if .Errors.Name}}<p class="form-error">{{.Errors.Name}}</p>{{end}}
 </div>
 <div>
-<label for="email" class="form-label">Email *</label>
-<input type="email" id="email" name="email" required class="form-input-premium" value="{{.Form.Email}}">
+<label for="email">E-mail *</label>
+<input type="email" id="email" name="email" required class="mk-input" value="{{.Form.Email}}">
 {{if .Errors.Email}}<p class="form-error">{{.Errors.Email}}</p>{{end}}
 </div>
 <div>
-<label for="phone" class="form-label">Telefone (opcional)</label>
-<input type="tel" id="phone" name="phone" placeholder="+55 21 99999-9999" class="form-input-premium" value="{{.Form.Phone}}">
+<label for="phone">Telefone (opcional)</label>
+<input type="tel" id="phone" name="phone" placeholder="+55 21 99999-9999" class="mk-input" value="{{.Form.Phone}}">
 </div>
 <div>
-<label for="subject" class="form-label">Assunto *</label>
-<input type="text" id="subject" name="subject" required minlength="2" maxlength="255" class="form-input-premium" value="{{.Form.Subject}}">
+<label for="subject">Assunto *</label>
+<input type="text" id="subject" name="subject" required minlength="2" maxlength="255" class="mk-input" value="{{.Form.Subject}}">
 {{if .Errors.Subject}}<p class="form-error">{{.Errors.Subject}}</p>{{end}}
 </div>
 <div>
-<label for="message" class="form-label">Mensagem *</label>
-<textarea id="message" name="message" required minlength="10" maxlength="5000" rows="4" class="form-input-premium">{{.Form.Message}}</textarea>
+<label for="message">Mensagem *</label>
+<textarea id="message" name="message" required minlength="10" maxlength="5000" rows="4" class="mk-input">{{.Form.Message}}</textarea>
 {{if .Errors.Message}}<p class="form-error">{{.Errors.Message}}</p>{{end}}
 </div>
-<button type="submit" class="w-full bg-gold-brand text-on-primary font-semibold text-base py-4 rounded hover:bg-opacity-90 transition-colors shadow-lg">Enviar Mensagem</button>
+<button type="submit" class="mk-btn mk-btn--gold w-full">Solicitar contato</button>
 </form>
 </div>
 </div>
 
 <!-- Contact info column -->
-<div class="space-y-8" data-scroll-reveal>
+<div class="space-y-7" data-scroll-reveal>
 <div class="flex items-start gap-4">
-<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #765a1a, #d4af6a);">
-<i class="ph ph-map-pin text-xl text-white"></i>
-</div>
+<div class="mk-icon-circle shrink-0"><i class="ph ph-map-pin"></i></div>
 <div>
-<h3 class="font-display text-lg text-primary mb-1 font-bold">Endereço</h3>
-<p class="text-base text-on-surface-variant">Rua Visconde de Pirajá, 495 -- 5º Andar<br>Ipanema -- Rio de Janeiro -- RJ</p>
+<h3 style="font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:#0d212e;margin:0 0 4px;">Endereço</h3>
+<p style="font-size:15px;color:#3e4949;margin:0;">Rua Visconde de Pirajá, 495 -- 5º Andar<br>Ipanema -- Rio de Janeiro -- RJ</p>
 </div>
 </div>
 <div class="flex items-start gap-4">
-<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #765a1a, #d4af6a);">
-<i class="ph ph-phone text-xl text-white"></i>
-</div>
+<div class="mk-icon-circle shrink-0"><i class="ph ph-phone"></i></div>
 <div>
-<h3 class="font-display text-lg text-primary mb-1 font-bold">Telefones</h3>
-<ul class="text-base text-on-surface-variant space-y-0.5">
+<h3 style="font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:#0d212e;margin:0 0 4px;">Telefones</h3>
+<ul style="font-size:15px;color:#3e4949;margin:0;padding:0;list-style:none;">
 <li>+55 21 99842-3232</li>
 <li>+55 21 97034-2617</li>
 </ul>
 </div>
 </div>
 <div class="flex items-start gap-4">
-<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #765a1a, #d4af6a);">
-<i class="ph ph-envelope-simple text-xl text-white"></i>
-</div>
+<div class="mk-icon-circle shrink-0"><i class="ph ph-envelope-simple"></i></div>
 <div>
-<h3 class="font-display text-lg text-primary mb-1 font-bold">E-mail</h3>
-<p class="text-base text-on-surface-variant">contato@prospeccaobrasil.com</p>
+<h3 style="font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:#0d212e;margin:0 0 4px;">E-mail</h3>
+<p style="font-size:15px;color:#3e4949;margin:0;">contato@prospeccaobrasil.com</p>
 </div>
 </div>
 <div class="flex items-start gap-4">
-<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: #031636; border: 2px solid rgba(212,175,106,0.3);">
-<i class="ph ph-whatsapp-logo text-xl" style="color: #d4af6a;"></i>
-</div>
+<div class="mk-icon-circle mk-icon-circle--gold shrink-0"><i class="ph ph-whatsapp-logo"></i></div>
 <div>
-<h3 class="font-display text-lg text-primary mb-1 font-bold">WhatsApp</h3>
-<a href="https://wa.me/5521998423232" class="inline-block border-2 border-primary/20 text-primary px-4 py-2 rounded font-semibold text-sm hover:bg-primary hover:text-white transition-colors" target="_blank" rel="noopener">Conversar no WhatsApp</a>
+<h3 style="font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:#0d212e;margin:0 0 6px;">WhatsApp</h3>
+<a href="https://wa.me/5521998423232" class="mk-btn mk-btn--outline mk-btn--sm" target="_blank" rel="noopener">Conversar no WhatsApp</a>
 </div>
 </div>
 </div>

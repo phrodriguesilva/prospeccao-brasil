@@ -93,6 +93,33 @@ module.exports = {
         "slate-gray": "#a0a0a0",
         "whatsapp-green": "#25D366",
 
+        // ========================================
+        // Institutional site v2 -- clean light theme.
+        // White/gray surfaces, teal ("verde agua") structure,
+        // gold kept as the primary accent. Used only by the
+        // public marketing pages; admin keeps the dark theme above.
+        // ========================================
+        paper: {
+          DEFAULT: "#f8fafb",
+          soft: "#f2f4f5",
+          white: "#ffffff",
+        },
+        ink: {
+          DEFAULT: "#0d212e",
+          body: "#3e4949",
+          muted: "#667575",
+        },
+        line: "#dde5e6",
+        teal: {
+          DEFAULT: "#087d80",
+          900: "#004f50",
+          800: "#006262",
+          700: "#087d80",
+          600: "#137c7d",
+          200: "#99f1f2",
+          100: "#dff7f5",
+        },
+
         // Neutral aliases for admin data tables (dark-on-dark borders)
         neutral: {
           border: "#2e2e2e",

@@ -21,7 +21,19 @@ func TemplateFuncs() template.FuncMap {
 		"sub":              subInt,
 		"add":              addInt,
 		"joinPhotos":       joinPhotos,
+		"initials":         initials,
 	}
+}
+
+// initials returns the first letters of the first and last name, uppercased.
+func initials(name string) string {
+	parts := strings.Fields(name)
+	if len(parts) == 0 {
+		return ""
+	}
+	first := parts[0]
+	last := parts[len(parts)-1]
+	return strings.ToUpper(first[:1] + last[:1])
 }
 
 func uuidToString(u pgtype.UUID) string {

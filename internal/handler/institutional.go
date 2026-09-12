@@ -39,9 +39,7 @@ type pageData struct {
 	Service          *serviceDetail
 	Segments         []segmentDetail
 	TeamMembers      []teamMember
-	Partners         []partnerCategory
 	ClientLogos      []clientLogo
-	Results          []workResult
 	InvestorServices []serviceDetail
 }
 
@@ -97,17 +95,7 @@ type teamMember struct {
 	Initials string
 }
 
-type partnerCategory struct {
-	Title    string
-	Partners []string
-}
-
 type clientLogo struct {
-	Name string
-	Path string
-}
-
-type workResult struct {
 	Name string
 	Path string
 }
@@ -324,29 +312,22 @@ func investorServicesList() []serviceDetail {
 	}
 }
 
-// segmentsList returns all segments of activity.
+// segmentsList returns all segments of activity. Icon is a Phosphor class name.
 var segmentsList = []segmentDetail{
-	{Slug: "fast-food", Title: "Fast Food", Icon: "burger", Description: "Redes de alimentação rápida e QSR, com foco em fluxo de pessoas e acessibilidade."},
-	{Slug: "supermercados", Title: "Supermercados e Atacarejos", Icon: "cart", Description: "Grandes superfícies varejistas de alimentação, com requisitos de estacionamento e logística."},
-	{Slug: "farmacias", Title: "Farmácias", Icon: "health", Description: "Redes de farmácias e drogarias, com foco em densidade demográfica e competição local."},
-	{Slug: "eletro-moveis", Title: "Eletroeletrônicos e Móveis", Icon: "tv", Description: "Redes de eletrônicos, móveis e eletrodomésticos, com requisitos de área e visibilidade."},
-	{Slug: "petshops", Title: "Petshops", Icon: "pet", Description: "Redes de pet shops e veterinárias, em expansão acelerada no varejo brasileiro."},
-	{Slug: "bazar", Title: "Bazar e Varejo Geral", Icon: "store", Description: "Redes de bazar, variedades e varejo geral, com mix diversificado de produtos."},
-	{Slug: "servicos-financeiros", Title: "Serviços Financeiros", Icon: "bank", Description: "Bancos, financeiras e correspondentes, com foco em segurança e fluxo de clientes."},
-	{Slug: "cafeterias", Title: "Cafeterias", Icon: "coffee", Description: "Redes de cafeterias e coffee shops, com foco em localização premium e público qualificado."},
-	{Slug: "outros", Title: "Outros Segmentos", Icon: "grid", Description: "Moda, beleza, serviços, academias e demais segmentos do varejo e serviços."},
+	{Slug: "fast-food", Title: "Fast Food", Icon: "ph-hamburger", Description: "Redes de alimentação rápida e QSR, com foco em fluxo de pessoas e acessibilidade."},
+	{Slug: "supermercados", Title: "Supermercados e Atacarejos", Icon: "ph-shopping-cart", Description: "Grandes superfícies varejistas de alimentação, com requisitos de estacionamento e logística."},
+	{Slug: "farmacias", Title: "Farmácias", Icon: "ph-pill", Description: "Redes de farmácias e drogarias, com foco em densidade demográfica e competição local."},
+	{Slug: "eletro-moveis", Title: "Eletroeletrônicos e Móveis", Icon: "ph-television", Description: "Redes de eletrônicos, móveis e eletrodomésticos, com requisitos de área e visibilidade."},
+	{Slug: "petshops", Title: "Petshops", Icon: "ph-paw-print", Description: "Redes de pet shops e veterinárias, em expansão acelerada no varejo brasileiro."},
+	{Slug: "bazar", Title: "Bazar e Varejo Geral", Icon: "ph-storefront", Description: "Redes de bazar, variedades e varejo geral, com mix diversificado de produtos."},
+	{Slug: "servicos-financeiros", Title: "Serviços Financeiros", Icon: "ph-bank", Description: "Bancos, financeiras e correspondentes, com foco em segurança e fluxo de clientes."},
+	{Slug: "cafeterias", Title: "Cafeterias", Icon: "ph-coffee", Description: "Redes de cafeterias e coffee shops, com foco em localização premium e público qualificado."},
+	{Slug: "outros", Title: "Outros Segmentos", Icon: "ph-squares-four", Description: "Moda, beleza, serviços, academias e demais segmentos do varejo e serviços."},
 }
 
 // defaultTeamMembers contains the team members for the Equipe page.
 var defaultTeamMembers = []teamMember{
 	{Name: "Luiz Claudio P. André", Role: "CEO e Fundador", Bio: "15 anos de experiência na área administrativa, tributária e comercial da Shell Brasil. Especialista em redes de franquias e varejo, com expertise em prospecção de pontos comerciais em todo o Brasil.", Initials: "LC"},
-}
-
-// defaultPartners contains partner categories for the Parceiros page.
-var defaultPartners = []partnerCategory{
-	{Title: "Governança e Gestão", Partners: []string{"Associações e conselhos profissionais", "Escritórios de advocacia imobiliária", "Contabilidade e tributação"}},
-	{Title: "Associacoes", Partners: []string{"CRECI-RJ", "Associação do mercado imobiliário", "Fóruns de real estate e varejo"}},
-	{Title: "Parceiros Comerciais", Partners: []string{"Arquitetos e engenheiros", "Empresas de geomarketing", "Consultorias de varejo"}},
 }
 
 // defaultClientLogos contains the client logos for the Parceiros page.
@@ -364,21 +345,7 @@ var defaultClientLogos = []clientLogo{
 	{Name: "Casa & Lazer", Path: "/static/img/clients/casa-lazer.png"},
 }
 
-// defaultResults contains work result images for the Parceiros page.
-var defaultResults = []workResult{
-	{Name: "American Pet", Path: "/static/img/results/american-pet-1.png"},
-	{Name: "Drogaria Moderna", Path: "/static/img/results/drogaria-moderna.png"},
-	{Name: "Pernambucanas", Path: "/static/img/results/pernambucanas.png"},
-	{Name: "Della & Delle", Path: "/static/img/results/della-delle.png"},
-	{Name: "American Pet", Path: "/static/img/results/american-pet-2.png"},
-	{Name: "Drogarias Pacheco", Path: "/static/img/results/drogarias-pacheco.png"},
-	{Name: "Monamie Cosmeticos", Path: "/static/img/results/monamie-cosmeticos.png"},
-	{Name: "Loja TIM", Path: "/static/img/results/loja-tim.png"},
-	{Name: "Casa & Lazer", Path: "/static/img/results/casa-lazer.png"},
-	{Name: "RiHappy", Path: "/static/img/results/rihappy.png"},
-}
-
-// Home renders the home page at GET /.
+// Home renders the consolidated institutional page at GET /.
 func (h *InstitutionalHandler) Home(w http.ResponseWriter, r *http.Request) {
 	h.renderPage(w, "home.html", pageData{
 		ActivePage:   "home",
@@ -386,19 +353,16 @@ func (h *InstitutionalHandler) Home(w http.ResponseWriter, r *http.Request) {
 		Metrics:      defaultMetrics,
 		Services:     servicesList(),
 		Segments:     segmentsList,
+		ClientLogos:  defaultClientLogos,
 	})
-}
-
-// QuemSomos renders the "Quem somos" page at GET /quem-somos.
-func (h *InstitutionalHandler) QuemSomos(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "quem-somos.html", pageData{ActivePage: "quem-somos"})
 }
 
 // Servicos renders the "Servicos" index page at GET /servicos.
 func (h *InstitutionalHandler) Servicos(w http.ResponseWriter, r *http.Request) {
 	h.renderPage(w, "servicos.html", pageData{
-		ActivePage: "servicos",
-		Services:   servicesList(),
+		ActivePage:       "servicos",
+		Services:         servicesList(),
+		InvestorServices: investorServicesList(),
 	})
 }
 
@@ -413,15 +377,6 @@ func (h *InstitutionalHandler) ServicoDetalhe(w http.ResponseWriter, r *http.Req
 	h.renderPage(w, "servico-detalhe.html", pageData{
 		ActivePage: "servicos",
 		Service:    &detail,
-	})
-}
-
-// NossosClientes renders the "Nossos clientes" page at GET /nossos-clientes.
-func (h *InstitutionalHandler) NossosClientes(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "nossos-clientes.html", pageData{
-		ActivePage:   "nossos-clientes",
-		Testimonials: defaultTestimonials,
-		Metrics:      defaultMetrics,
 	})
 }
 
@@ -445,37 +400,11 @@ func (h *InstitutionalHandler) Privacidade(w http.ResponseWriter, r *http.Reques
 	h.renderPage(w, "privacidade.html", pageData{ActivePage: "privacidade"})
 }
 
-// Segmentos renders the "Segmentos de Atuacao" page at GET /segmentos.
-func (h *InstitutionalHandler) Segmentos(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "segmentos.html", pageData{
-		ActivePage: "segmentos",
-		Segments:   segmentsList,
-	})
-}
-
-// Equipe renders the "Equipe" page at GET /equipe.
+// Equipe renders the "Quem Faz" (equipe) page at GET /equipe.
 func (h *InstitutionalHandler) Equipe(w http.ResponseWriter, r *http.Request) {
 	h.renderPage(w, "equipe.html", pageData{
 		ActivePage:  "equipe",
 		TeamMembers: defaultTeamMembers,
-	})
-}
-
-// Parceiros renders the "Empresas Parceiras" page at GET /parceiros.
-func (h *InstitutionalHandler) Parceiros(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "parceiros.html", pageData{
-		ActivePage:  "parceiros",
-		Partners:    defaultPartners,
-		ClientLogos: defaultClientLogos,
-		Results:     defaultResults,
-	})
-}
-
-// Investidores renders the "Investidores e Family Offices" page at GET /investidores.
-func (h *InstitutionalHandler) Investidores(w http.ResponseWriter, r *http.Request) {
-	h.renderPage(w, "investidores.html", pageData{
-		ActivePage:       "investidores",
-		InvestorServices: investorServicesList(),
 	})
 }
 

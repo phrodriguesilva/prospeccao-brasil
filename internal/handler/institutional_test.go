@@ -104,17 +104,25 @@ func loadTestTemplates(t *testing.T) (*template.Template, error) {
 func newInstRouter(td *instTestDB) *chi.Mux {
 	r := chi.NewRouter()
 	r.Get("/", td.instHandler.Home)
-	r.Get("/quem-somos", td.instHandler.QuemSomos)
 	r.Get("/servicos", td.instHandler.Servicos)
 	r.Get("/servicos/{slug}", td.instHandler.ServicoDetalhe)
-	r.Get("/nossos-clientes", td.instHandler.NossosClientes)
-	r.Get("/segmentos", td.instHandler.Segmentos)
 	r.Get("/equipe", td.instHandler.Equipe)
-	r.Get("/parceiros", td.instHandler.Parceiros)
-	r.Get("/investidores", td.instHandler.Investidores)
 	r.Get("/fale-conosco", td.instHandler.FaleConosco)
 	r.Post("/fale-conosco", td.contactHandler.Submit)
 	r.Post("/newsletter", td.newsHandler.Subscribe)
+	// Legacy pages folded into the consolidated home -- redirect to anchors.
+	for path, target := range map[string]string{
+		"/quem-somos":      "/#quem-somos",
+		"/segmentos":       "/#segmentos",
+		"/nossos-clientes": "/#clientes",
+		"/parceiros":       "/#clientes",
+		"/investidores":    "/servicos",
+	} {
+		target := target
+		r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, target, http.StatusMovedPermanently)
+		})
+	}
 	r.NotFound(td.instHandler.NotFound)
 	return r
 }
@@ -146,51 +154,49 @@ func TestHomeGET(t *testing.T) {
 	if !strings.Contains(body, "Servi") {
 		t.Error("expected services section in body")
 	}
-	if !strings.Contains(body, "Soluções Estratégicas") {
-		t.Error("expected services preview heading 'Soluções Estratégicas'")
+	if !strings.Contains(body, "Frentes de atuação") {
+		t.Error("expected services preview heading 'Frentes de atuação'")
 	}
 	// Verify metrics labels present (hero inline metrics)
 	if !strings.Contains(body, "Pontos") {
 		t.Error("expected metric label 'Pontos' in hero")
 	}
-	// Verify at least one hardcoded testimonial name present
-	if !strings.Contains(body, "Ricardo Santos") {
-		t.Error("expected testimonial from 'Ricardo Santos'")
+	// Verify consolidated sections are present on the home page
+	for _, section := range []string{"quem-somos", "segmentos", "clientes", "metodologia"} {
+		if !strings.Contains(body, `id="`+section+`"`) {
+			t.Errorf("expected consolidated section #%s on home", section)
+		}
+	}
+	if !strings.Contains(body, "Larissa Mello") {
+		t.Error("expected testimonial from 'Larissa Mello'")
+	}
+	if !strings.Contains(body, "CRECI") {
+		t.Error("expected 'CRECI' mention on home")
 	}
 }
 
-func TestQuemSomosGET(t *testing.T) {
+func TestLegacyPagesRedirect(t *testing.T) {
 	td := setupInstTestDB(t)
 	defer td.teardown(t)
 
-	req := httptest.NewRequest("GET", "/quem-somos", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
+	tests := map[string]string{
+		"/quem-somos":      "/#quem-somos",
+		"/segmentos":       "/#segmentos",
+		"/nossos-clientes": "/#clientes",
+		"/parceiros":       "/#clientes",
+		"/investidores":    "/servicos",
+	}
+	for path, want := range tests {
+		req := httptest.NewRequest("GET", path, nil)
+		rr := httptest.NewRecorder()
+		newInstRouter(td).ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	if !strings.Contains(body, "Quem Somos") {
-		t.Error("expected 'Quem Somos' in body")
-	}
-	if !strings.Contains(body, "Luiz Cl") {
-		t.Error("expected founder 'Luiz Cl'")
-	}
-	if !strings.Contains(body, "Shell") {
-		t.Error("expected 'Shell' in founder bio")
-	}
-	if !strings.Contains(body, "Missão") {
-		t.Error("expected 'Missão' section")
-	}
-	if !strings.Contains(body, "CRECI") {
-		t.Error("expected 'CRECI' mention")
-	}
-	if strings.Contains(body, "carga cognitiva") {
-		t.Error("forbidden copy 'carga cognitiva' found in quem-somos")
-	}
-	if strings.Contains(body, "plataforma") {
-		t.Error("forbidden copy 'plataforma' found in quem-somos")
+		if rr.Code != http.StatusMovedPermanently {
+			t.Errorf("%s: expected 301, got %d", path, rr.Code)
+		}
+		if loc := rr.Header().Get("Location"); loc != want {
+			t.Errorf("%s: expected redirect to %s, got %s", path, want, loc)
+		}
 	}
 }
 
@@ -283,29 +289,6 @@ func TestServicoDetalheAll(t *testing.T) {
 	}
 }
 
-func TestSegmentosGET(t *testing.T) {
-	td := setupInstTestDB(t)
-	defer td.teardown(t)
-
-	req := httptest.NewRequest("GET", "/segmentos", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	if !strings.Contains(body, "Segmentos") {
-		t.Error("expected 'Segmentos' in body")
-	}
-	if !strings.Contains(body, "Fast Food") {
-		t.Error("expected segment 'Fast Food' in body")
-	}
-	if !strings.Contains(body, "Farmácias") {
-		t.Error("expected segment 'Farmácias' in body")
-	}
-}
-
 func TestEquipeGET(t *testing.T) {
 	td := setupInstTestDB(t)
 	defer td.teardown(t)
@@ -323,79 +306,6 @@ func TestEquipeGET(t *testing.T) {
 	}
 	if !strings.Contains(body, "Luiz Claudio") {
 		t.Error("expected team member 'Luiz Claudio' in body")
-	}
-}
-
-func TestParceirosGET(t *testing.T) {
-	td := setupInstTestDB(t)
-	defer td.teardown(t)
-
-	req := httptest.NewRequest("GET", "/parceiros", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	if !strings.Contains(body, "Parceiras") {
-		t.Error("expected 'Parceiras' in body")
-	}
-	if !strings.Contains(body, "Burger King") {
-		t.Error("expected client logo 'Burger King' in body")
-	}
-	if !strings.Contains(body, "burger-king.png") {
-		t.Error("expected client logo path 'burger-king.png' in body")
-	}
-	if !strings.Contains(body, "Resultados") {
-		t.Error("expected 'Resultados' section in body")
-	}
-	if !strings.Contains(body, "rihappy.png") {
-		t.Error("expected result image 'rihappy.png' in body")
-	}
-}
-
-func TestInvestidoresGET(t *testing.T) {
-	td := setupInstTestDB(t)
-	defer td.teardown(t)
-
-	req := httptest.NewRequest("GET", "/investidores", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	if !strings.Contains(body, "Investidores") {
-		t.Error("expected 'Investidores' in body")
-	}
-	if !strings.Contains(body, "Portfólios") {
-		t.Error("expected investor service 'Portfólios' in body")
-	}
-}
-
-func TestNossosClientesGET(t *testing.T) {
-	td := setupInstTestDB(t)
-	defer td.teardown(t)
-
-	req := httptest.NewRequest("GET", "/nossos-clientes", nil)
-	rr := httptest.NewRecorder()
-	newInstRouter(td).ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rr.Code)
-	}
-	body := rr.Body.String()
-	// Should show testimonials, not empty state
-	if strings.Contains(body, "Em breve") {
-		t.Error("should not show empty state 'Em breve' -- testimonials are static")
-	}
-	if !strings.Contains(body, "Larissa Mello") && !strings.Contains(body, "Roberto Andrade") {
-		t.Error("expected at least one testimonial name in body")
-	}
-	if !strings.Contains(body, "Pontos Comercializados") {
-		t.Error("expected metrics strip on nossos-clientes")
 	}
 }
 
@@ -460,9 +370,8 @@ func TestNavActiveState(t *testing.T) {
 		activePage string
 	}{
 		{"/", "home"},
-		{"/quem-somos", "quem-somos"},
 		{"/servicos", "servicos"},
-		{"/nossos-clientes", "nossos-clientes"},
+		{"/equipe", "equipe"},
 	}
 
 	for _, tt := range tests {

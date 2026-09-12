@@ -3,293 +3,287 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prospecção Brasil -- Prospecção Imobiliária Comercial</title>
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260804g">
+<title>Prospecção Brasil | Consultoria em Expansão de Redes e Ponto Comercial</title>
+<meta name="description" content="Consultoria especializada em prospecção de pontos comerciais, geomarketing e expansão de redes de varejo e franquias no Brasil. Estudo de viabilidade, análise de macro e microlocalização.">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260912a">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface font-sans">
-{{template "site_gate"}}
+<body class="site-light font-sans">
 {{template "floating_elements"}}
 {{template "nav" .}}
 <main>
 <!-- Hero -->
-<section class="hero-fullbleed">
-<div class="hero-img" data-parallax="0.12" style="background-image: url('/static/img/hero-custom.jpg')"></div>
-<img src="/static/img/hero-watermark.png" alt="" class="hero-symbol" aria-hidden="true">
-<canvas id="noise-canvas"></canvas>
-<div class="diag-lines"></div>
-<div class="diag-lines-accent"></div>
-<div class="dot-matrix"></div>
-<div class="absolute inset-0 z-5" style="background: linear-gradient(to right, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.62) 50%, rgba(10,10,10,0.35) 100%);"></div>
-<div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-28 md:py-32">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-<!-- Left: hero content (7 cols) -->
-<div class="lg:col-span-7 flex flex-col justify-center">
-<p class="section-eyebrow mb-5" data-scroll-reveal>Real Estate Comercial &middot; Retail Service</p>
-<h1 data-split-text class="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.1] font-extrabold uppercase">Prospecção de <span class="text-gradient">pontos comerciais</span> para expandir sua rede</h1>
-<p class="text-lg md:text-xl text-white/75 mb-8 max-w-2xl">Inteligência em Real Estate Comercial para expandir sua rede varejista no Brasil. Arquitetura de negócios e precisão na escolha do seu próximo ponto.</p>
-<a href="/nossos-clientes" class="btn-chamfer self-start" data-magnet data-magnet-strength="0.15"><span class="btn-chamfer-inner">Conheça nossos cases <i class="ph ph-arrow-right"></i></span></a>
-<!-- Minimal inline stats -->
-<div class="flex items-center gap-6 mt-10 text-white">
-<div>
-<span class="font-display text-2xl font-bold" data-count-up="405">405</span>
-<p class="text-xs text-white/60 mt-0.5">Pontos Comercializados</p>
+<section class="mk-hero" id="inicio">
+<div class="mk-hero-orb mk-hero-orb--one"></div>
+<div class="mk-hero-orb mk-hero-orb--two"></div>
+<div class="mk-container mk-hero-grid">
+<div data-scroll-reveal>
+<p class="mk-eyebrow">Retail Service &middot; Geomarketing &middot; Expansão</p>
+<h1>Inteligência de mercado para decisões de <em>expansão no varejo</em></h1>
+<p class="mk-hero-sub">Retail service especializado em localização comercial para redes de franquias e varejo. Combinamos geomarketing, estudos de viabilidade técnica e análise de dados para reduzir o risco na escolha do seu próximo ponto.</p>
+<div class="mk-hero-actions">
+<a href="#contato" class="mk-btn mk-btn--gold">Solicitar diagnóstico de expansão</a>
+<a href="/servicos" class="mk-btn mk-btn--outline">Ver metodologia completa</a>
 </div>
-<span class="w-px h-8 bg-white/15"></span>
-<div>
-<span class="font-display text-2xl font-bold" data-count-up="92">92</span>
-<p class="text-xs text-white/60 mt-0.5">Clientes Atendidos</p>
-</div>
-<span class="w-px h-8 bg-white/15"></span>
-<div>
-<span class="font-display text-2xl font-bold" data-count-up="5">5</span>
-<p class="text-xs text-white/60 mt-0.5">Cidades Atendidas</p>
-</div>
-<span class="w-px h-8 bg-white/15"></span>
-<div>
-<span class="font-display text-2xl font-bold" data-count-up="15">15</span>
-<p class="text-xs text-white/60 mt-0.5">Anos de Mercado</p>
+<div class="mk-hero-stats">
+{{range $i, $m := .Metrics}}{{if $i}}<span class="mk-hero-stat-divider"></span>{{end}}<div class="mk-hero-stat"><strong>{{$m.Value}}</strong><span>{{$m.Label}}</span></div>{{end}}
 </div>
 </div>
-</div>
-<!-- Right: lead form (5 cols) -->
-<div class="lg:col-span-5 mt-12 lg:mt-0" id="hero-form">
-<div class="liquid-glass p-8 rounded-xl relative">
-<h3 class="font-display text-2xl text-white font-bold mb-2">Agende uma reunião com um especialista</h3>
-<p class="text-sm text-white/70 mb-8">Receba uma análise gratuita da expansão da sua rede.</p>
+<div id="contato">
+<div class="mk-form-card" data-scroll-reveal>
+<h3>Solicite um diagnóstico de expansão</h3>
+<p>Preencha os dados e um especialista entra em contato para entender o momento da sua rede.</p>
 <div id="hero-form-container">
-<form hx-post="/fale-conosco" hx-target="#hero-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-5">
-<input type="hidden" name="subject" value="Solicitação de apresentação (Home)">
+<form hx-post="/fale-conosco" hx-target="#hero-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-4">
+<input type="hidden" name="subject" value="Solicitação de diagnóstico de expansão (Home)">
 <div>
-<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Nome *</label>
-<input type="text" name="name" required minlength="2" maxlength="255" placeholder="Seu nome completo" class="liquid-glass-input">
+<label for="hero-company">Empresa</label>
+<input type="text" id="hero-company" name="company" maxlength="255" placeholder="Nome da empresa" class="mk-input">
 </div>
 <div>
-<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Email *</label>
-<input type="email" name="email" required placeholder="seu@email.com" class="liquid-glass-input">
+<label for="hero-name">Nome *</label>
+<input type="text" id="hero-name" name="name" required minlength="2" maxlength="255" placeholder="Seu nome completo" class="mk-input">
 </div>
 <div>
-<label class="block text-xs font-semibold text-white/80 mb-2 uppercase tracking-widest">Telefone</label>
-<input type="tel" name="phone" placeholder="(00) 00000-0000" class="liquid-glass-input">
+<label for="hero-email">E-mail *</label>
+<input type="email" id="hero-email" name="email" required placeholder="seu@email.com" class="mk-input">
 </div>
-<button type="submit" class="w-full bg-gold-brand text-on-primary font-semibold text-base py-4 rounded hover:bg-gold-light transition-colors shadow-lg">Quero uma apresentação</button>
+<div>
+<label for="hero-phone">Telefone</label>
+<input type="tel" id="hero-phone" name="phone" placeholder="(00) 00000-0000" class="mk-input">
+</div>
+<button type="submit" class="mk-btn mk-btn--gold w-full">Solicitar contato</button>
 </form>
 </div>
-<p class="text-xs text-white/50 mt-4 text-center">Resposta em até 24h. Sem compromisso.</p>
+<p class="mk-form-note">Resposta em até 24h. Sem compromisso.</p>
 </div>
 </div>
-</div>
-</div>
-<!-- Scroll indicator inside hero -->
-<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10" x-data="{ show: true }" x-show="show" x-transition x-init="window.addEventListener('scroll', () => { show = window.scrollY < 100 }, { passive: true })">
-<div class="scroll-mouse"><div class="scroll-wheel"></div></div>
 </div>
 </section>
 
 <!-- Client logos marquee -->
-<section class="py-16 bg-surface overflow-hidden">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-<p class="text-xs font-semibold text-primary/50 text-center uppercase tracking-widest" data-scroll-reveal>Empresas que confiam em nossa inteligência</p>
+<section class="py-14 bg-paper-white" id="clientes">
+<div class="mk-container mb-8">
+<p class="text-xs font-bold text-ink-muted text-center uppercase tracking-widest" data-scroll-reveal>Empresas que confiam em nossa inteligência</p>
 </div>
 <div class="marquee">
 <div class="marquee-track">
-<img src="/static/img/clients/burger-king.png" alt="Burger King" class="marquee-item">
-<img src="/static/img/clients/habibs.png" alt="Habib's" class="marquee-item">
-<img src="/static/img/clients/ragazzo.png" alt="Ragazzo" class="marquee-item">
-<img src="/static/img/clients/drogarias-pacheco.png" alt="Drogarias Pacheco" class="marquee-item">
-<img src="/static/img/clients/casa-video.png" alt="Casa & Video" class="marquee-item">
-<img src="/static/img/clients/american-pet.png" alt="American Pet" class="marquee-item">
-<img src="/static/img/clients/tim.png" alt="TIM" class="marquee-item">
-<img src="/static/img/clients/oticas-carol.png" alt="Opticas Carol" class="marquee-item">
-<img src="/static/img/clients/rio-bel.png" alt="Rio Bel Fidelidade" class="marquee-item">
-<img src="/static/img/clients/o-amigao.jpg" alt="O Amigao" class="marquee-item">
-<img src="/static/img/clients/casa-lazer.png" alt="Casa & Lazer" class="marquee-item">
-<!-- Duplicate for seamless loop -->
-<img src="/static/img/clients/burger-king.png" alt="Burger King" class="marquee-item">
-<img src="/static/img/clients/habibs.png" alt="Habib's" class="marquee-item">
-<img src="/static/img/clients/ragazzo.png" alt="Ragazzo" class="marquee-item">
-<img src="/static/img/clients/drogarias-pacheco.png" alt="Drogarias Pacheco" class="marquee-item">
-<img src="/static/img/clients/casa-video.png" alt="Casa & Video" class="marquee-item">
-<img src="/static/img/clients/american-pet.png" alt="American Pet" class="marquee-item">
-<img src="/static/img/clients/tim.png" alt="TIM" class="marquee-item">
-<img src="/static/img/clients/oticas-carol.png" alt="Opticas Carol" class="marquee-item">
-<img src="/static/img/clients/rio-bel.png" alt="Rio Bel Fidelidade" class="marquee-item">
-<img src="/static/img/clients/o-amigao.jpg" alt="O Amigao" class="marquee-item">
-<img src="/static/img/clients/casa-lazer.png" alt="Casa & Lazer" class="marquee-item">
+{{range .ClientLogos}}<img src="{{.Path}}" alt="{{.Name}}" class="marquee-item">
+{{end}}{{range .ClientLogos}}<img src="{{.Path}}" alt="{{.Name}}" class="marquee-item">
+{{end}}
 </div>
 </div>
 </section>
 
-<!-- Bento Grid Services -->
-<section class="py-24 md:py-32 bg-surface relative overflow-hidden">
-<div class="dot-matrix dot-matrix-br"></div>
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-<div class="mb-12" data-scroll-reveal>
-<p class="section-eyebrow">O que entregamos</p>
-<h2 class="section-title text-3xl md:text-4xl">Soluções Estratégicas</h2>
-<span class="metric-line"></span>
+<!-- Pilares -->
+<section class="mk-section bg-paper-white">
+<div class="mk-container">
+<header class="mk-section-head" data-scroll-reveal>
+<p class="mk-eyebrow justify-center mx-auto">Os dois lados da equação</p>
+<h2>O ponto certo para o seu negócio, o negócio certo para o seu ponto</h2>
+<p>Trabalhamos o perfil de consumidor da região e o fit da marca com aquele mercado.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-stagger>
+<div class="mk-card" data-scroll-reveal>
+<div class="mk-icon-circle"><i class="ph ph-chart-line-up"></i></div>
+<h3>Planejamento Comercial</h3>
+<p>Definição de metas de vendas, crescimento e rentabilidade por meio de objetivos, estratégias e táticas de expansão.</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[800px]" data-stagger>
-<!-- Card 1: Large Left (5 cols, 2 rows) -->
-<a href="/servicos/prospeccao-de-ponto" data-glare data-scroll-reveal class="md:col-span-5 md:row-span-2 relative rounded-xl overflow-hidden bento-hover group h-[400px] md:h-auto">
-<img src="/static/img/service-prospeccao.jpg" alt="Prospecção de Ponto" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-<div class="absolute bottom-0 left-0 w-full p-8 glass-panel-bento">
-<span class="font-display text-2xl text-gold-brand mb-2 block">01</span>
-<h3 class="font-display text-xl text-white font-bold mb-2">Prospecção de Ponto</h3>
-<p class="text-sm text-white/70">Identificação e negociação do ponto comercial ideal para o seu negócio.</p>
+<div class="mk-card" data-scroll-reveal>
+<div class="mk-icon-circle mk-icon-circle--gold"><i class="ph ph-buildings"></i></div>
+<h3>Seleção de Ativos Comerciais</h3>
+<p>Critérios técnicos de seleção de imóveis comerciais para reduzir custo de ocupação e aumentar a eficiência operacional no longo prazo.</p>
 </div>
-</a>
-<!-- Card 2: Top Right 1 (4 cols, 1 row) -->
-<a href="/servicos/expansao-de-redes" data-glare data-scroll-reveal class="md:col-span-4 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
-<img src="/static/img/service-expansao.jpg" alt="Expansão de Redes" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
-<span class="font-display text-xl text-gold-brand mb-1 block">02</span>
-<h3 class="font-display text-lg text-white font-bold">Expansão de Redes</h3>
+<div class="mk-card" data-scroll-reveal>
+<div class="mk-icon-circle"><i class="ph ph-users-three"></i></div>
+<h3>Consultoria Especializada</h3>
+<p>Suporte de especialistas com histórico em redes de franquias e varejo para apoiar decisões de expansão com menor margem de erro.</p>
 </div>
-</a>
-<!-- Card 3: Top Right 2 (3 cols, 1 row) -->
-<a href="/servicos/strip-mall" data-glare data-scroll-reveal class="md:col-span-3 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
-<img src="/static/img/service-strip-mall.jpg" alt="Strip Mall" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
-<span class="font-display text-xl text-gold-brand mb-1 block">03</span>
-<h3 class="font-display text-lg text-white font-bold">Strip Mall</h3>
 </div>
-</a>
-<!-- Card 4: Bottom Right (7 cols, 1 row) -->
-<a href="/servicos/built-to-suit" data-glare data-scroll-reveal class="md:col-span-7 md:row-span-1 relative rounded-xl overflow-hidden bento-hover group h-[300px] md:h-auto">
-<img src="/static/img/service-bts.jpg" alt="Built to Suit" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-<div class="absolute bottom-0 left-0 w-full p-6 glass-panel-bento">
-<span class="font-display text-xl text-gold-brand mb-1 block">04</span>
-<h3 class="font-display text-lg text-white font-bold">Built to Suit</h3>
 </div>
-</a>
+</section>
+
+<!-- Frentes de atuação -->
+<section class="mk-section" style="background: linear-gradient(135deg, #eef9f8 0%, #f8fafb 55%, #ffffff 100%);">
+<div class="mk-container">
+<header class="mk-section-head" data-scroll-reveal>
+<p class="mk-eyebrow justify-center mx-auto">Frentes de atuação</p>
+<h2>Metodologia aplicada há mais de uma década</h2>
+<p>Cuidamos de toda a parte documental do processo — normas contratuais, plantas com quadro de áreas, arquivos em PDF e DWG — para agilizar a implantação do lojista com rapidez e integridade.</p>
+</header>
+<div class="mk-num-grid" data-stagger>
+<article class="mk-num-card mk-num-card--wide" data-scroll-reveal>
+<span class="num">01 · IMPLANTAÇÃO</span>
+<h3>Consultoria para Implantação do Negócio</h3>
+<p>Suporte em aquisição ou venda de terrenos, shopping centers, pontos comerciais e empreendimentos imobiliários — incluindo operações de permuta e desenvolvimento — para embasar a decisão de empresários, executivos, empreendedores e lojistas.</p>
+</article>
+<article class="mk-num-card mk-num-card--medium mk-num-card--gold" data-scroll-reveal>
+<span class="num">02 · CRESCIMENTO</span>
+<h3>Expansão de Redes</h3>
+<p>Acompanhamento de empresas varejistas do planejamento à implantação: definição de mercado-alvo, precificação e estudo de rentabilidade da expansão.</p>
+</article>
+<article class="mk-num-card mk-num-card--medium" data-scroll-reveal>
+<span class="num">03 · LOCALIZAÇÃO</span>
+<h3>Ponto Comercial</h3>
+<p>Planejamento de comercialização considerando o cenário mercadológico, o comportamento do consumidor local e o mix de lojas adequado ao empreendimento.</p>
+</article>
+<article class="mk-num-card mk-num-card--wide mk-num-card--gold" data-scroll-reveal>
+<span class="num">04 · INVESTIDORES</span>
+<h3>Ativos para Investidores e Family Offices</h3>
+<p>Administração de portfólios imobiliários, estruturação de contratos atípicos e avaliação estratégica de ativos — com foco em rentabilidade e segurança jurídica.</p>
+</article>
 </div>
 <div class="text-center mt-12">
-<a href="/servicos" class="btn-chamfer"><span class="btn-chamfer-inner">Ver todos os serviços <i class="ph ph-arrow-right"></i></span></a>
+<a href="/servicos" class="mk-btn mk-btn--outline">Ver todos os serviços <i class="ph ph-arrow-right"></i></a>
 </div>
 </div>
 </section>
 
-<!-- Scroll-driven video section -->
-<section class="scroll-video-section">
-<div class="scroll-video-sticky">
-<video preload="auto" playsinline muted loop="false" data-scroll-video>
-<source src="/static/video/building-scroll.mp4" type="video/mp4">
-</video>
-<div class="scroll-video-overlay"></div>
-<div class="scroll-video-content">
-<div class="scroll-video-step">
-<p class="step-eyebrow">Real Estate Comercial</p>
-<h3 class="step-title">Do terreno ao ponto ideal</h3>
-<p class="step-desc">Cada edificio comeca com uma visao. Identificamos o potencial de cada endereco antes que ele se torne evidente para o mercado.</p>
+<!-- Metodologia + métricas (dark teal) -->
+<section class="mk-section mk-dark" id="metodologia">
+<div class="mk-container">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+<div data-scroll-reveal>
+<p class="mk-eyebrow mk-eyebrow--light">Como atingimos resultado</p>
+<h2 class="mk-copy" style="font-family:'Montserrat',sans-serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:800;letter-spacing:-0.02em;margin:10px 0 14px;">Dados, campo e negociação no mesmo processo</h2>
+<p class="mb-2" style="color:#bdc9c8;font-size:16px;">Nossos serviços cobrem avaliação de mercado, análise de dados e pesquisa, identificando o que precisa ser feito no imóvel e qual a documentação necessária para abertura e funcionamento do ponto.</p>
+<ul class="mk-check-list">
+<li><i class="ph ph-check"></i>Estudos de viabilidade técnica</li>
+<li><i class="ph ph-check"></i>Avaliação de pontos comerciais</li>
+<li><i class="ph ph-check"></i>Inteligência de mercado via georreferenciamento</li>
+<li><i class="ph ph-check"></i>Renegociação de valores locatícios</li>
+<li><i class="ph ph-check"></i>Prospecção de imóveis, incluindo Fundos de Investimento</li>
+<li><i class="ph ph-check"></i>Cobertura em qualquer formato: rua, calçadão e shopping</li>
+</ul>
+<a href="/servicos" class="mk-btn mk-btn--ghost-light">Conhecer a metodologia</a>
 </div>
-<div class="scroll-video-step">
-<p class="step-eyebrow">Prospeccao</p>
-<h3 class="step-title">Localizacao e estrategica</h3>
-<p class="step-desc">Analisamos fluxo, acessibilidade, visibilidade e perfil de consumo para encontrar o ponto que acelera a sua expansao.</p>
+<div data-scroll-reveal>
+<div class="mk-dark-metrics">
+{{range .Metrics}}<div class="mk-dark-metric"><strong>{{.Value}}</strong><span>{{.Label}}</span></div>{{end}}
 </div>
-<div class="scroll-video-step">
-<p class="step-eyebrow">Negociacao</p>
-<h3 class="step-title">Acordos que protegem o seu negocio</h3>
-<p class="step-desc">Estruturamos contratos e condicoes que maximizam retorno e minimizam risco, do CDU ao custo locaticio.</p>
+<div class="mk-dark-cards">
+<article><strong>Macro e microlocalização</strong><span>População, renda, polos geradores, fluxo, visibilidade e concorrência.</span></article>
+<article><strong>Área de influência</strong><span>Isócronas, isócotas e base de clientes para dimensionar o potencial real.</span></article>
+<article><strong>Whitespace analysis</strong><span>Identificação de vácuos de atuação e prevenção de canibalização.</span></article>
+<article><strong>Suporte documental</strong><span>Contratos, plantas e quadro de áreas para agilizar a implantação.</span></article>
 </div>
-<div class="scroll-video-step">
-<p class="step-eyebrow">Resultado</p>
-<h3 class="step-title">Expansao com precisao</h3>
-<p class="step-desc">Mais de 405 pontos comercializados, 92 clientes atendidos e 15 anos de mercado. A sua proxima loja comeca aqui.</p>
-</div>
-</div>
-<div class="scroll-video-progress">
-<span class="active"></span>
-<span></span>
-<span></span>
-<span></span>
-</div>
-</div>
-</section>
-
-<!-- Diferenciais (hexagonal icons) -->
-<section class="py-24 md:py-28 bg-surface-section relative overflow-hidden">
-<div class="diag-lines"></div>
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-<div class="mb-16 text-center" data-scroll-reveal>
-<p class="section-eyebrow">Por que a Prospecção Brasil</p>
-<h2 class="section-title text-3xl md:text-4xl">Foco &middot; Experiência &middot; Resultados</h2>
-<span class="metric-line mx-auto mt-4"></span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6" data-stagger>
-<div class="flex flex-col items-center text-center" data-scroll-reveal>
-<div class="hex-icon mb-5"><i class="ph ph-map-pin-line"></i></div>
-<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Localizações Estratégicas</h3>
-<p class="text-sm text-on-surface-variant">Identificação precisa de pontos com potencial real de desempenho.</p>
-</div>
-<div class="flex flex-col items-center text-center" data-scroll-reveal>
-<div class="hex-icon mb-5"><i class="ph ph-handshake"></i></div>
-<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Negociações Inteligentes</h3>
-<p class="text-sm text-on-surface-variant">Estruturação de acordos que protegem o seu negócio a longo prazo.</p>
-</div>
-<div class="flex flex-col items-center text-center" data-scroll-reveal>
-<div class="hex-icon mb-5"><i class="ph ph-chart-line-up"></i></div>
-<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Análise de Mercado</h3>
-<p class="text-sm text-on-surface-variant">Dados e inteligência que sustentam cada decisão de expansão.</p>
-</div>
-<div class="flex flex-col items-center text-center" data-scroll-reveal>
-<div class="hex-icon mb-5"><i class="ph ph-buildings"></i></div>
-<h3 class="font-display text-base font-bold text-white uppercase tracking-wide mb-2">Ativos com Rentabilidade</h3>
-<p class="text-sm text-on-surface-variant">Comerciais com retorno consistente para o investidor.</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Testimonials -->
-<section class="py-24 bg-surface">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="mb-16 text-center" data-scroll-reveal>
-<p class="section-eyebrow">Quem confia</p>
-<h2 class="section-title text-3xl md:text-4xl">Depoimentos</h2>
-<span class="metric-line mx-auto mt-4"></span>
+<!-- Quem somos -->
+<section class="mk-section bg-paper-white" id="quem-somos">
+<div class="mk-container">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
+<div data-scroll-reveal>
+<p class="mk-eyebrow">Quem somos</p>
+<div class="mk-copy">
+<h2>Consultoria técnica em localização comercial</h2>
+<p style="color:#3e4949;font-size:16px;line-height:1.7;margin-bottom:16px;">A Prospecção Brasil planeja, estrutura e executa processos de prospecção de pontos comerciais para redes de varejo e franquias. Selecionamos o imóvel com melhor aderência à operação do cliente, equilibrando os interesses do lojista e do proprietário, com foco em maximizar a rentabilidade do ponto no longo prazo.</p>
+<p style="color:#3e4949;font-size:16px;line-height:1.7;margin-bottom:22px;">A consultoria cobre todo o ciclo de decisão de um novo ponto comercial:</p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
-<div class="flex items-center gap-4 mb-4">
-<img src="/static/img/testimonials/avatar-1.jpg" alt="Ricardo Santos" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
+<ul class="space-y-3" style="list-style:none;padding:0;margin:0;">
+<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Pesquisa e estudo de viabilidade para identificação do melhor local</span></li>
+<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Análise de fluxo — volume de pessoas que circulam pelo local diariamente</span></li>
+<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Diagnóstico do imóvel: o que precisa ser adaptado ou reformado</span></li>
+<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Levantamento da documentação exigida para abertura do ponto</span></li>
+</ul>
+<div class="mt-8">
+<a href="/equipe" class="mk-btn mk-btn--outline">Conhecer quem faz <i class="ph ph-arrow-right"></i></a>
+</div>
+</div>
+<div data-scroll-reveal>
+<div class="mk-card" style="padding:32px;">
+<div class="flex items-center gap-4 mb-5">
+<div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #006262, #087d80);">
+<span class="font-display text-xl font-extrabold text-white">LC</span>
+</div>
 <div>
-<p class="font-bold text-primary leading-tight">Ricardo Santos</p>
-<p class="text-sm text-primary/60">Diretor de Expansão, Varejo S.A.</p>
+<h3 style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:#0d212e;margin:0;">Luiz Claudio P. André</h3>
+<p style="color:#b8924d;font-size:13px;font-weight:700;margin:2px 0 0;">Fundador e CEO</p>
 </div>
 </div>
-<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
-<p class="text-base text-primary/80 italic">A precisão na escolha dos pontos foi fundamental para o sucesso da nossa expansão no Sudeste.</p>
+<p style="color:#3e4949;font-size:15px;line-height:1.7;margin:0 0 16px;">Especialista em prospecção de pontos comerciais, com 15 anos de atuação nas áreas administrativa, tributária e comercial da Shell do Brasil antes de fundar a Prospecção Brasil.</p>
+<p style="color:#3e4949;font-size:15px;line-height:1.7;margin:0;">Atua na estruturação e expansão de redes de franquias e varejo em todo o Brasil, com abrangência em lojas de rua, calçadões de bairro, centros comerciais e shopping centers — com foco na minimização de investimentos iniciais como CDU e custos locatícios.</p>
 </div>
-<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
-<div class="flex items-center gap-4 mb-4">
-<img src="/static/img/testimonials/avatar-2.jpg" alt="Ana Oliveira" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+<div class="mk-card" style="padding:20px;">
+<h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#087d80;text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;">Missão</h4>
+<p style="color:#3e4949;font-size:13px;margin:0;">Consultoria com dados precisos e insights aplicáveis, conectando o cliente certo ao negócio certo.</p>
+</div>
+<div class="mk-card" style="padding:20px;">
+<h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#087d80;text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;">Visão</h4>
+<p style="color:#3e4949;font-size:13px;margin:0;">Referência em prospecção de pontos comerciais no Rio de Janeiro, pela excelência técnica.</p>
+</div>
+<div class="mk-card" style="padding:20px;">
+<h4 style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:#087d80;text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;">Valores</h4>
+<p style="color:#3e4949;font-size:13px;margin:0;">Transparência · Profissionalismo · Ética · Comprometimento · Agilidade</p>
+</div>
+</div>
+<div class="mk-card mt-4" style="padding:18px 22px;display:flex;align-items:center;gap:14px;background:#dff7f5;border-color:#99f1f2;">
+<i class="ph ph-certificate" style="font-size:26px;color:#006262;"></i>
+<p style="color:#0d212e;font-size:13.5px;margin:0;"><strong>Licenciada pelo CRECI e COFECI</strong>, com Certificado de Inscrição de Pessoa Jurídica.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Segmentos -->
+<section class="mk-section" id="segmentos" style="background:#f2f4f5;">
+<div class="mk-container">
+<header class="mk-section-head" data-scroll-reveal>
+<p class="mk-eyebrow justify-center mx-auto">Onde atuamos</p>
+<h2>Segmentos do varejo que atendemos</h2>
+<p>Expertise comprovada nos principais segmentos do varejo e serviços brasileiros.</p>
+</header>
+<div class="mk-seg-grid" data-stagger>
+{{range .Segments}}<article class="mk-seg-card" data-scroll-reveal>
+<i class="ph {{.Icon}}"></i>
+<h3>{{.Title}}</h3>
+<p>{{.Description}}</p>
+</article>
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- Depoimentos -->
+<section class="mk-section bg-paper-white">
+<div class="mk-container">
+<header class="mk-section-head" data-scroll-reveal>
+<p class="mk-eyebrow justify-center mx-auto">Quem confia</p>
+<h2>Resultados que sustentam a nossa metodologia</h2>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-stagger>
+{{range .Testimonials}}<div class="mk-quote" data-scroll-reveal>
+<span class="quote-mark-big">&ldquo;</span>
+<p>{{.Quote}}</p>
+<div class="mk-quote-author">
+<div class="mk-quote-avatar">{{.Name | initials}}</div>
 <div>
-<p class="font-bold text-primary leading-tight">Ana Oliveira</p>
-<p class="text-sm text-primary/60">COO, Fashion Group</p>
+<strong>{{.Name}}</strong>
+<span>{{.Company}}</span>
 </div>
 </div>
-<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
-<p class="text-base text-primary/80 italic">Inteligência de mercado real. Encurtaram nosso tempo de prospecção em meses.</p>
 </div>
-<div data-scroll-reveal class="p-8 rounded-xl liquid-glass-light">
-<div class="flex items-center gap-4 mb-4">
-<img src="/static/img/testimonials/avatar-3.jpg" alt="Marcos Lima" class="w-14 h-14 rounded-full object-cover ring-2 ring-gold-brand/30">
+{{end}}
+</div>
+</div>
+</section>
+
+<!-- Final CTA -->
+<section class="mk-section bg-paper-white" style="padding-top:24px;">
+<div class="mk-container">
+<div class="mk-final-cta" data-scroll-reveal>
 <div>
-<p class="font-bold text-primary leading-tight">Marcos Lima</p>
-<p class="text-sm text-primary/60">Gerente de Real Estate, TechLog</p>
+<h2>Solicite um diagnóstico de expansão</h2>
+<p>Um especialista da Prospecção Brasil entra em contato para entender o momento da sua rede e o tipo de ponto comercial que você procura.</p>
 </div>
-</div>
-<div class="text-gold-brand text-3xl mb-2">&ldquo;</div>
-<p class="text-base text-primary/80 italic">O modelo Built to Suit entregue superou todas as nossas expectativas técnicas e de prazo.</p>
-</div>
+<a href="/fale-conosco" class="mk-btn mk-btn--gold">Falar com um especialista</a>
 </div>
 </div>
 </section>
