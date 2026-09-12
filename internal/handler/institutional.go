@@ -322,7 +322,14 @@ var segmentsList = []segmentDetail{
 	{Slug: "bazar", Title: "Bazar e Varejo Geral", Icon: "ph-storefront", Description: "Redes de bazar, variedades e varejo geral, com mix diversificado de produtos."},
 	{Slug: "servicos-financeiros", Title: "Serviços Financeiros", Icon: "ph-bank", Description: "Bancos, financeiras e correspondentes, com foco em segurança e fluxo de clientes."},
 	{Slug: "cafeterias", Title: "Cafeterias", Icon: "ph-coffee", Description: "Redes de cafeterias e coffee shops, com foco em localização premium e público qualificado."},
-	{Slug: "outros", Title: "Outros Segmentos", Icon: "ph-squares-four", Description: "Moda, beleza, serviços, academias e demais segmentos do varejo e serviços."},
+	{Slug: "moda", Title: "Moda e Acessórios", Icon: "ph-t-shirt", Description: "Redes de vestuário, calçados e acessórios, com estudos de perfil de consumidor por região."},
+	{Slug: "beleza", Title: "Beleza e Cosméticos", Icon: "ph-sparkle", Description: "Franquias de cosméticos, perfumarias e serviços de beleza em shoppings e ruas de alto fluxo."},
+	{Slug: "oticas", Title: "Óticas", Icon: "ph-eyeglasses", Description: "Redes de óticas e óculos de sol em centros comerciais e pontos de conveniência."},
+	{Slug: "construcao", Title: "Materiais de Construção", Icon: "ph-wall", Description: "Lojas de material de construção e acabamento, com análise de acesso para carga e profissionais."},
+	{Slug: "automotivo", Title: "Automotivo e Pneus", Icon: "ph-car", Description: "Centros automotivos, lojas de pneus e acessórios com foco em estacionamento e tráfego."},
+	{Slug: "papelaria", Title: "Livrarias e Papelaria", Icon: "ph-book", Description: "Papelarias, livrarias e produtos de escritório em regiões com alta densidade escolar."},
+	{Slug: "academias", Title: "Academias e Fitness", Icon: "ph-barbell", Description: "Redes de academias e boxes de crossfit, considerando acessibilidade e concentração do público-alvo."},
+	{Slug: "conveniencia", Title: "Conveniência", Icon: "ph-gas-pump", Description: "Minimercados e lojas de conveniência em postos, condomínios e regiões residenciais."},
 }
 
 // defaultTeamMembers contains the team members for the Equipe page.

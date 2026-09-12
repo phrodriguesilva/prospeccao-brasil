@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prospecção Brasil | Consultoria em Expansão de Redes e Ponto Comercial</title>
 <meta name="description" content="Consultoria especializada em prospecção de pontos comerciais, geomarketing e expansão de redes de varejo e franquias no Brasil. Estudo de viabilidade, análise de macro e microlocalização.">
-<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260912a">
+<link rel="stylesheet" href="/static/css/phosphor.css"><link rel="stylesheet" href="/static/css/app.css?v=20260912e">
 <script src="/static/js/htmx.min.js" defer></script>
 <script src="/static/js/alpine.min.js" defer></script>
 <script src="/static/js/effects.js" defer></script>
@@ -26,38 +26,6 @@
 <div class="mk-hero-actions">
 <a href="#contato" class="mk-btn mk-btn--gold">Solicitar diagnóstico de expansão</a>
 <a href="/servicos" class="mk-btn mk-btn--outline">Ver metodologia completa</a>
-</div>
-<div class="mk-hero-stats">
-{{range $i, $m := .Metrics}}{{if $i}}<span class="mk-hero-stat-divider"></span>{{end}}<div class="mk-hero-stat"><strong>{{$m.Value}}</strong><span>{{$m.Label}}</span></div>{{end}}
-</div>
-</div>
-<div id="contato">
-<div class="mk-form-card" data-scroll-reveal>
-<h3>Solicite um diagnóstico de expansão</h3>
-<p>Preencha os dados e um especialista entra em contato para entender o momento da sua rede.</p>
-<div id="hero-form-container">
-<form hx-post="/fale-conosco" hx-target="#hero-form-container" hx-swap="outerHTML" action="/fale-conosco" method="POST" class="space-y-4">
-<input type="hidden" name="subject" value="Solicitação de diagnóstico de expansão (Home)">
-<div>
-<label for="hero-company">Empresa</label>
-<input type="text" id="hero-company" name="company" maxlength="255" placeholder="Nome da empresa" class="mk-input">
-</div>
-<div>
-<label for="hero-name">Nome *</label>
-<input type="text" id="hero-name" name="name" required minlength="2" maxlength="255" placeholder="Seu nome completo" class="mk-input">
-</div>
-<div>
-<label for="hero-email">E-mail *</label>
-<input type="email" id="hero-email" name="email" required placeholder="seu@email.com" class="mk-input">
-</div>
-<div>
-<label for="hero-phone">Telefone</label>
-<input type="tel" id="hero-phone" name="phone" placeholder="(00) 00000-0000" class="mk-input">
-</div>
-<button type="submit" class="mk-btn mk-btn--gold w-full">Solicitar contato</button>
-</form>
-</div>
-<p class="mk-form-note">Resposta em até 24h. Sem compromisso.</p>
 </div>
 </div>
 </div>
@@ -174,40 +142,23 @@
 </div>
 </section>
 
-<!-- Quem somos -->
+<!-- Quem somos / Quem faz -->
 <section class="mk-section bg-paper-white" id="quem-somos">
 <div class="mk-container">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
-<div data-scroll-reveal>
+<div class="mk-founder" data-scroll-reveal>
+<div class="mk-founder-copy">
 <p class="mk-eyebrow">Quem somos</p>
-<div class="mk-copy">
-<h2>Consultoria técnica em localização comercial</h2>
-<p style="color:#3e4949;font-size:16px;line-height:1.7;margin-bottom:16px;">A Prospecção Brasil planeja, estrutura e executa processos de prospecção de pontos comerciais para redes de varejo e franquias. Selecionamos o imóvel com melhor aderência à operação do cliente, equilibrando os interesses do lojista e do proprietário, com foco em maximizar a rentabilidade do ponto no longo prazo.</p>
-<p style="color:#3e4949;font-size:16px;line-height:1.7;margin-bottom:22px;">A consultoria cobre todo o ciclo de decisão de um novo ponto comercial:</p>
+<h2>Luiz Cláudio Poeta André</h2>
+<p class="mk-founder-role">CEO e Fundador da Prospecção Brasil<br>Expansão de redes e Real Estate comercial</p>
+<p>Ex-executivo da Shell Brasil, Luiz Cláudio Poeta André fundou a Prospecção Brasil. Com ampla experiência, especializou-se no segmento de redes de franquias e varejo, atuando no planejamento de expansão, na prospecção e na negociação de pontos comerciais.</p>
+<p>Seu trabalho abrange lojas de rua, calçadões de bairros, centros comerciais e shopping centers, identificando localizações estratégicas para o posicionamento das marcas e contribuindo para a redução de investimentos iniciais, como CDU — Cessão de Direito de Uso — e custos de ocupação.</p>
+<div class="mk-founder-meta">
+<span><i class="ph ph-identification-badge"></i>CRECI-RJ</span>
+<span><i class="ph ph-seal-check"></i>COFECI</span>
 </div>
-<ul class="space-y-3" style="list-style:none;padding:0;margin:0;">
-<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Pesquisa e estudo de viabilidade para identificação do melhor local</span></li>
-<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Análise de fluxo — volume de pessoas que circulam pelo local diariamente</span></li>
-<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Diagnóstico do imóvel: o que precisa ser adaptado ou reformado</span></li>
-<li class="flex items-start gap-3"><i class="ph ph-check-circle text-lg" style="color:#087d80;margin-top:2px;"></i><span style="color:#3e4949;font-size:15px;">Levantamento da documentação exigida para abertura do ponto</span></li>
-</ul>
-<div class="mt-8">
-<a href="/equipe" class="mk-btn mk-btn--outline">Conhecer quem faz <i class="ph ph-arrow-right"></i></a>
-</div>
-</div>
-<div data-scroll-reveal>
-<div class="mk-card" style="padding:32px;">
-<div class="flex items-center gap-4 mb-5">
-<div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, #006262, #087d80);">
-<span class="font-display text-xl font-extrabold text-white">LC</span>
-</div>
-<div>
-<h3 style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:#0d212e;margin:0;">Luiz Claudio P. André</h3>
-<p style="color:#b8924d;font-size:13px;font-weight:700;margin:2px 0 0;">Fundador e CEO</p>
-</div>
-</div>
-<p style="color:#3e4949;font-size:15px;line-height:1.7;margin:0 0 16px;">Especialista em prospecção de pontos comerciais, com 15 anos de atuação nas áreas administrativa, tributária e comercial da Shell do Brasil antes de fundar a Prospecção Brasil.</p>
-<p style="color:#3e4949;font-size:15px;line-height:1.7;margin:0;">Atua na estruturação e expansão de redes de franquias e varejo em todo o Brasil, com abrangência em lojas de rua, calçadões de bairro, centros comerciais e shopping centers — com foco na minimização de investimentos iniciais como CDU e custos locatícios.</p>
+<div class="mk-founder-quote">
+<strong>Atuação estratégica</strong>
+<p>Inteligência para identificar oportunidades, reduzir riscos e gerar valor para cada operação.</p>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
 <div class="mk-card" style="padding:20px;">
@@ -223,10 +174,9 @@
 <p style="color:#3e4949;font-size:13px;margin:0;">Transparência · Profissionalismo · Ética · Comprometimento · Agilidade</p>
 </div>
 </div>
-<div class="mk-card mt-4" style="padding:18px 22px;display:flex;align-items:center;gap:14px;background:#dff7f5;border-color:#99f1f2;">
-<i class="ph ph-certificate" style="font-size:26px;color:#006262;"></i>
-<p style="color:#0d212e;font-size:13.5px;margin:0;"><strong>Licenciada pelo CRECI e COFECI</strong>, com Certificado de Inscrição de Pessoa Jurídica.</p>
 </div>
+<div class="mk-founder-photo">
+<img src="/static/img/team/luiz-claudio.png" alt="Luiz Claudio P. André">
 </div>
 </div>
 </div>
@@ -252,7 +202,7 @@
 </section>
 
 <!-- Depoimentos -->
-<section class="mk-section bg-paper-white">
+<section class="mk-section" style="background:#f2f4f5;">
 <div class="mk-container">
 <header class="mk-section-head" data-scroll-reveal>
 <p class="mk-eyebrow justify-center mx-auto">Quem confia</p>

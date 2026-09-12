@@ -15,7 +15,7 @@
 <nav class="mk-nav" x-data="{ open: false, servicesOpen: false, scrolled: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 40 }, { passive: true })" :class="{ 'scrolled': scrolled }">
 <div class="mk-container mk-nav-inner">
 <a href="/" class="flex items-center no-underline shrink-0" aria-label="Prospecção Brasil -- Início">
-<img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="mk-nav-logo">
+<span class="mk-nav-logo-wrap"><img src="/static/img/logo-symbol.png" alt="Prospecção Brasil" class="mk-nav-logo"></span>
 </a>
 <div class="hidden md:flex items-center gap-1 relative mk-nav-links">
 <a href="/" class="mk-nav-link {{if eq .ActivePage "home"}}active{{end}}">Institucional</a>
